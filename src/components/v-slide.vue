@@ -1,5 +1,5 @@
 <template>
-  <div class="slide" @mouseenter="clear" @mouseleave="auto">
+  <div class="slide" @mouseenter="clear" @mouseleave="autoPlay">
     <ul class="slide-list">
       <li :class="slideCLS[index]" v-for="(item, index) in slideList">
         <a 
@@ -39,7 +39,9 @@
       }
     },
     created () {
-      this.auto()
+      if (this.slideList) {
+        this.autoPlay()
+      }
     },
     methods: {
       prevSlide () {
@@ -65,17 +67,14 @@
       },
       clear () {
         clearInterval(this.timer)
-      },
-      auto () {
-        this.autoPlay()
       }
     },
     watch: {
-      $route (to, from) {
+      '$route' (to, from) {
         if (from.name === 'selected') {
           this.clear()
         } else if (to.name === 'selected') {
-          this.auto()
+          this.autoPlay()
         }
       }
     }
@@ -86,6 +85,7 @@
   @import '~@/assets/scss/variable';
   .slide {
     position: relative;
+    overflow: hidden;
     &:hover {
       .slide-btn {
         opacity: 1

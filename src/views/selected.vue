@@ -1,8 +1,15 @@
 <template>
   <div class="selected-wrap">
-    <v-scroll>
-      <div class="slide-wrap" v-if="selectedList.focus">
+    <v-scroll v-if="selectedList.focus">
+      <div class="slide-wrap">
         <v-slide :slideList="selectedList.focus"></v-slide>
+      </div>
+      <div class="hot-wrap">
+        <div v-for="items in selectedList.hotdiss">
+          <div v-for="(item, index) in items" v-if="index < 5">
+            {{ item.dissname }}
+          </div>
+        </div>
       </div>
     </v-scroll>
   </div>
@@ -51,7 +58,11 @@
     overflow: hidden;
   }
   .slide-wrap {
-    overflow: hidden;
+    padding: $module-padding;
     background-color: $white;
+  }
+  .hot-wrap {
+    padding: 0 $module-padding;
+    background-color: $section-bg-color;
   }
 </style>

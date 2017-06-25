@@ -11,8 +11,4 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '~@/assets/scss/variable';
-  .scroll {
-    padding: $module-padding;
-  }
 </style>
