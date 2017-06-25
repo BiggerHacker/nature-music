@@ -4,6 +4,11 @@
       <div class="slide-wrap" v-if="selectedList.focus">
         <v-slide :slideList="selectedList.focus"></v-slide>
       </div>
+      <div v-for="item in selectedList.hotdiss">
+        <div v-for="(item, index) in item" v-if="index < 5">
+          {{ item.dissname }}
+        </div>
+      </div>
     </v-scroll>
   </div>
 </template>
