@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <div class="search-config">section</div>
+    <div class="search-config">控制台</div>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
