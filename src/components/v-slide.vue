@@ -154,21 +154,25 @@
       width: 525px;
       height: 210px;
       transition: all 300ms ease-out;
+      opacity: 0;
       &.item-1 {
         transform: translateX(-$slide-margin) scale(.8);
       }
       &.item-2 {
         transform: translateX(0) scale(.8);
         transform-origin: 0 50%;
+        opacity: 0.5;
       }
       &.item-3 {
         transform: translateX($slide-margin) scale(1);
         z-index: 12;
+        opacity: 1;
       }
       &.item-4 {
         transform: translateX($slide-margin*2) scale(.8);
         transform-origin: 100% 50%;
         z-index: 11;
+        opacity: 0.5;
       }
       &.item-5 {
         transform: translateX($slide-margin*3) scale(.8);

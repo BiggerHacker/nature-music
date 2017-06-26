@@ -87,6 +87,7 @@
     right: 0;
     bottom: 0;
     top: 128px;
+    padding: $module-padding;
     width: 100%;
     overflow-y: scroll;
   }
