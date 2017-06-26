@@ -1,6 +1,6 @@
 <template>
-  <div class="selected-wrap">
-    <v-scroll v-if="selectedList.focus">
+  <div class="selected-wrap" ref="selectedWrap">
+    <v-scroll v-if="selectedList.focus" ref="scrollWrap">
       <div class="slide-wrap">
         <v-slide :slideList="selectedList.focus"></v-slide>
       </div>
@@ -17,20 +17,36 @@
           </li>
         </ul>
       </div>
+      <div class="hot-wrap">
+        <h2 class="title">热门推荐</h2>
+        <ul class="hot-list">
+          <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
+            <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
+              <div class="player">
+                <i class="iconfont icon-player"></i>
+              </div>
+            </div>
+            <div class="name">{{ item.dissname }}</div>
+          </li>
+        </ul>
+      </div>
     </v-scroll>
+    <v-drag class="selected-drag" @dragDown="dragDown" ref="drag"></v-drag>
   </div>
 </template>
 
 <script>
   import VScroll from '@/components/v-scroll'
   import VSlide from '@/components/v-slide'
+  import VDrag from '@/components/v-drag'
   import { getSelected } from '@/api/selected'
   import { ERR_OK } from '@/util/config'
   export default {
     name: 'selected',
     components: {
       VScroll,
-      VSlide
+      VSlide,
+      VDrag
     },
     data () {
       return {
@@ -47,6 +63,29 @@
             this.selectedList = res.data
           }
         })
+      },
+      dragDown (ev) {
+        ev.preventDefault()
+        let dragY = ev.clientY - this.$refs.drag.$el.offsetTop
+        document.onmousemove = (ev) => {
+          let top = ev.clientY - dragY
+          let selectedWrapH = this.$refs.selectedWrap.clientHeight
+          let dragH = this.$refs.drag.$el.clientHeight
+          let scrollH = this.$refs.scrollWrap.$el.clientHeight
+          let pix = selectedWrapH - dragH
+          if (top <= 0) {
+            top = 0
+          } else if (top >= pix) {
+            top = pix
+          }
+          let scale = top / (selectedWrapH - dragH)
+          let cony = scale * (scrollH - selectedWrapH)
+          this.$refs.drag.$el.style.transform = `translateY(${top}px)`
+          this.$refs.scrollWrap.$el.style.transform = `translateY(-${cony}px)`
+        }
+        document.onmouseup = () => {
+          document.onmousemove = null
+        }
       }
     }
   }

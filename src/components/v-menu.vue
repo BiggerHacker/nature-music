@@ -10,6 +10,7 @@
       <v-scroll>
         <v-nav :typeTitle="'音乐馆'" :typeName="musicHall"></v-nav>
       </v-scroll>
+      <v-drag class="nav-drag"></v-drag>
     </div>
   </div>
 </template>
@@ -17,11 +18,13 @@
 <script>
   import VNav from '@/components/v-nav'
   import VScroll from '@/components/v-scroll'
+  import VDrag from '@/components/v-drag'
   export default {
     name: 'menu',
     components: {
       VNav,
-      VScroll
+      VScroll,
+      VDrag
     },
     created () {
       this.musicHall = [
@@ -89,6 +92,5 @@
     top: 128px;
     padding: $module-padding;
     width: 100%;
-    overflow-y: scroll;
   }
 </style>
