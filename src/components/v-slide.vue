@@ -34,12 +34,16 @@
     },
     data () {
       return {
-        slideCLS: ['item-1', 'item-2', 'item-3', 'item-4', 'item-5', 'item-6', 'item-7', 'item-8', 'item-9'],
+        slideCLS: [],
         currentIndex: 0
       }
     },
     created () {
       if (this.slideList) {
+        this.slideList.forEach((k, i) => {
+          let count = i + 1
+          this.slideCLS.push(`item-${count}`)
+        })
         this.autoPlay()
       }
     },
