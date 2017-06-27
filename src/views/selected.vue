@@ -1,60 +1,86 @@
 <template>
-  <div class="selected-wrap" ref="selectedWrap">
-    <v-scroll v-if="selectedList.focus" ref="scrollWrap">
-      <div class="slide-wrap">
-        <v-slide :slideList="selectedList.focus"></v-slide>
-      </div>
-      <div class="hot-wrap">
-        <h2 class="title">热门推荐</h2>
-        <ul class="hot-list">
-          <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
-            <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
-              <div class="player">
-                <i class="iconfont icon-player"></i>
+  <div class="selected-wrap">
+    <div ref="scrollWrap">
+      <div v-if="selectedList.focus">
+        <div class="slide-wrap">
+          <v-slide :slideList="selectedList.focus"></v-slide>
+        </div>
+        <div class="hot-wrap">
+          <h2 class="title">热门推荐</h2>
+          <ul class="hot-list">
+            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
+              <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
+                <div class="player">
+                  <i class="iconfont icon-player"></i>
+                </div>
               </div>
-            </div>
-            <div class="name">{{ item.dissname }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="hot-wrap">
-        <h2 class="title">热门推荐</h2>
-        <ul class="hot-list">
-          <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
-            <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
-              <div class="player">
-                <i class="iconfont icon-player"></i>
+              <div class="name">{{ item.dissname }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="hot-wrap">
+          <h2 class="title">热门推荐</h2>
+          <ul class="hot-list">
+            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
+              <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
+                <div class="player">
+                  <i class="iconfont icon-player"></i>
+                </div>
               </div>
-            </div>
-            <div class="name">{{ item.dissname }}</div>
-          </li>
-        </ul>
+              <div class="name">{{ item.dissname }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="hot-wrap">
+          <h2 class="title">热门推荐</h2>
+          <ul class="hot-list">
+            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
+              <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
+                <div class="player">
+                  <i class="iconfont icon-player"></i>
+                </div>
+              </div>
+              <div class="name">{{ item.dissname }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="hot-wrap">
+          <h2 class="title">热门推荐</h2>
+          <ul class="hot-list">
+            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
+              <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
+                <div class="player">
+                  <i class="iconfont icon-player"></i>
+                </div>
+              </div>
+              <div class="name">{{ item.dissname }}</div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </v-scroll>
-    <v-drag class="selected-drag" @dragDown="dragDown" ref="drag"></v-drag>
+    </div>
   </div>
 </template>
 
 <script>
-  import VScroll from '@/components/v-scroll'
   import VSlide from '@/components/v-slide'
-  import VDrag from '@/components/v-drag'
   import { getSelected } from '@/api/selected'
   import { ERR_OK } from '@/util/config'
   export default {
     name: 'selected',
     components: {
-      VScroll,
-      VSlide,
-      VDrag
+      VSlide
     },
     data () {
       return {
-        selectedList: []
+        selectedList: [],
+        top: 0
       }
     },
     created () {
       this.getSelected()
+    },
+    mounted () {
     },
     methods: {
       getSelected () {
@@ -63,30 +89,88 @@
             this.selectedList = res.data
           }
         })
-      },
-      dragDown (ev) {
-        ev.preventDefault()
-        let dragY = ev.clientY - this.$refs.drag.$el.offsetTop
-        document.onmousemove = (ev) => {
-          let top = ev.clientY - dragY
-          let selectedWrapH = this.$refs.selectedWrap.clientHeight
-          let dragH = this.$refs.drag.$el.clientHeight
-          let scrollH = this.$refs.scrollWrap.$el.clientHeight
-          let pix = selectedWrapH - dragH
-          if (top <= 0) {
-            top = 0
-          } else if (top >= pix) {
-            top = pix
-          }
-          let scale = top / (selectedWrapH - dragH)
-          let cony = scale * (scrollH - selectedWrapH)
-          this.$refs.drag.$el.style.transform = `translateY(${top}px)`
-          this.$refs.scrollWrap.$el.style.transform = `translateY(-${cony}px)`
-        }
-        document.onmouseup = () => {
-          document.onmousemove = null
-        }
       }
+      // dragDown (ev) {
+      //   ev.preventDefault()
+      //   let dragY = ev.clientY - this.$refs.drag.$el.offsetTop
+      //   document.onmousemove = (ev) => {
+      //     let top = ev.clientY - dragY
+      //     let selectedWrapH = this.$refs.selectedWrap.clientHeight
+      //     let dragH = this.$refs.drag.$el.clientHeight
+      //     let scrollH = this.$refs.scrollWrap.$el.clientHeight
+      //     let pix = selectedWrapH - dragH
+      //     if (top <= 0) {
+      //       top = 0
+      //     } else if (top >= pix) {
+      //       top = pix
+      //     }
+      //     let scale = top / (selectedWrapH - dragH)
+      //     let cony = scale * (scrollH - selectedWrapH)
+      //     prefix(this.$refs.drag.$el, `translateY(${top}px)`)
+      //     prefix(this.$refs.scrollWrap.$el, `translateY(${-cony}px)`)
+      //   }
+      //   document.onmouseup = () => {
+      //     document.onmousemove = null
+      //   }
+      // },
+      // wheelScroll () {
+      //   let browser = window.navigator.userAgent.toLowerCase()
+      //   if (browser.indexOf('firefox') !== -1) {
+      //     this.$refs.selectedWrap.addEventListener('DOMMouseScroll', (ev) => {
+      //       ev.preventDefault()
+      //       if (ev.detail < 0) {
+      //         this.top = this.top + 20
+      //         if (this.top >= 0) {
+      //           this.top = 0
+      //         } else if (this.top <= -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)) {
+      //           this.top = -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         }
+      //         let scale = this.top / (this.$refs.scrollWrap.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         let scaleTop = scale * (this.$refs.scrollWrap.$el.clientHeight - this.$refs.drag.$el.clientHeight)
+      //         prefix(this.$refs.scrollWrap.$el, `translateY(${this.top}px)`)
+      //         prefix(this.$refs.drag.$el, `translateY(${-scaleTop}px)`)
+      //       } else if (ev.detail > 0) {
+      //         this.top = this.top - 20
+      //         if (this.top >= 0) {
+      //           this.top = 0
+      //         } else if (this.top <= -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)) {
+      //           this.top = -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         }
+      //         let scale = this.top / (this.$refs.scrollWrap.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         let scaleTop = scale * (this.$refs.scrollWrap.$el.clientHeight - this.$refs.drag.$el.clientHeight)
+      //         prefix(this.$refs.scrollWrap.$el, `translateY(${this.top}px)`)
+      //         prefix(this.$refs.drag.$el, `translateY(${-scaleTop}px)`)
+      //       }
+      //     }, false)
+      //   } else {
+      //     this.$refs.selectedWrap.onmousewheel = (ev) => {
+      //       ev.preventDefault()
+      //       if (ev.wheelDelta > 0) {
+      //         this.top = this.top + 20
+      //         if (this.top >= 0) {
+      //           this.top = 0
+      //         } else if (this.top <= -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)) {
+      //           this.top = -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         }
+      //         let scale = this.top / (this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         let scaleTop = scale * (this.$refs.scrollWrap.$el.clientHeight - this.$refs.drag.$el.clientHeight)
+      //         prefix(this.$refs.scrollWrap.$el, `translateY(${this.top}px)`)
+      //         prefix(this.$refs.drag.$el, `translateY(${-scaleTop}px)`)
+      //       } else if (ev.wheelDelta < 0) {
+      //         this.top = this.top - 20
+      //         if (this.top >= 0) {
+      //           this.top = 0
+      //         } else if (this.top <= -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)) {
+      //           this.top = -(this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         }
+      //         let scale = this.top / (this.$refs.scrollWrap.$el.clientHeight - this.$refs.selectedWrap.clientHeight)
+      //         let scaleTop = scale * (this.$refs.selectedWrap.clientHeight - this.$refs.drag.$el.clientHeight)
+      //         prefix(this.$refs.scrollWrap.$el, `translateY(${this.top}px)`)
+      //         prefix(this.$refs.drag.$el, `translateY(${-scaleTop}px)`)
+      //       }
+      //     }
+      //   }
+      // }
     }
   }
 </script>

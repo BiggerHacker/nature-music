@@ -7,24 +7,19 @@
       </div>
     </div>
     <div class="nav-wrap">
-      <v-scroll>
+      <div>
         <v-nav :typeTitle="'音乐馆'" :typeName="musicHall"></v-nav>
-      </v-scroll>
-      <v-drag class="nav-drag"></v-drag>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import VNav from '@/components/v-nav'
-  import VScroll from '@/components/v-scroll'
-  import VDrag from '@/components/v-drag'
   export default {
     name: 'menu',
     components: {
-      VNav,
-      VScroll,
-      VDrag
+      VNav
     },
     created () {
       this.musicHall = [
@@ -83,14 +78,5 @@
       font-size: $font-size-base;
       color: $black;
     }
-  }
-  .nav-wrap {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 128px;
-    padding: $module-padding;
-    width: 100%;
   }
 </style>
