@@ -9,10 +9,27 @@ export function getSelected () {
     page: 'other',
     rnd: 8826040522372292,
     loginUin: 0,
+    hostUin: 0
+  })
+  return jsonp(url, data, options)
+}
+
+export function getAlbum (page, pageSize, language) {
+  let url = 'https://c.y.qq.com/v8/fcg-bin/album_library'
+  let data = Object.assign({}, commonParams, {
+    outCharset: 'utf-8',
+    loginUin: 0,
     hostUin: 0,
-    notice: 0,
-    platform: 'yqq',
-    needNewCode: 0
+    cmd: 'get_album_info',
+    page: page,
+    pagesize: pageSize,
+    sort: 1,
+    language: language,
+    genre: 0,
+    year: 1,
+    pay: 0,
+    type: -1,
+    company: -1
   })
   return jsonp(url, data, options)
 }

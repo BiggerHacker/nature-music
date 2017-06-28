@@ -2,7 +2,10 @@ export const commonParams = {
   format: 'jsonp',
   g_tk: 5381,
   inCharset: 'utf8',
-  outCharset: 'GB2312'
+  outCharset: 'GB2312',
+  notice: 0,
+  platform: 'yqq',
+  needNewCode: 0
 }
 
 export const options = {

@@ -8,7 +8,7 @@
         <div class="hot-wrap">
           <h2 class="title">热门推荐</h2>
           <ul class="hot-list">
-            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5" @click="a">
+            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
               <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}">
                 <div class="player">
                   <i class="iconfont icon-player"></i>
@@ -18,6 +18,19 @@
             </li>
           </ul>
         </div>
+        <div class="album-wrap" v-if="albums.albumlist">
+          <div class="title">
+            <h2 class="name">新歌首发</h2>
+            <ul class="album-title-list">
+              <li v-for="(item, index) in albumTitle" :class="{active: albumIndex === index}">
+                {{ item.name }}
+              </li>
+            </ul>
+          </div>
+          <div class="album-body">
+            <v-album></v-album>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -25,21 +38,47 @@
 
 <script>
   import VSlide from '@/components/v-slide'
-  import { getSelected } from '@/api/selected'
+  import VAlbum from '@/components/v-album'
+  import { getSelected, getAlbum } from '@/api/selected'
   import { ERR_OK } from '@/util/config'
   export default {
     name: 'selected',
     components: {
-      VSlide
+      VSlide,
+      VAlbum
     },
     data () {
       return {
         selectedList: [],
-        top: 0
+        albums: [],
+        albumIndex: 0
       }
     },
     created () {
+      this.albumTitle = [
+        {
+          name: '内地',
+          language: 0
+        },
+        {
+          name: '港台',
+          language: 1
+        },
+        {
+          name: '欧美',
+          language: 5
+        },
+        {
+          name: '韩国',
+          language: 4
+        },
+        {
+          name: '日本',
+          language: 3
+        }
+      ]
       this.getSelected()
+      this.getAlbum()
     },
     methods: {
       getSelected () {
@@ -49,8 +88,13 @@
           }
         })
       },
-      a () {
-        alert(1)
+      getAlbum (language = 0) {
+        getAlbum(0, 36, language).then(res => {
+          if (res.code === ERR_OK) {
+            this.albums = res.data
+            console.log(this.albums)
+          }
+        })
       }
     }
   }
@@ -77,8 +121,8 @@
     .title {
       margin: 0;
       font-weight: normal;
-      height: 55px;
-      line-height: 55px;
+      height: $module-title-height;
+      line-height: $module-title-height;
       font-size: $font-size-bg;
       color: $black;
     }
@@ -140,5 +184,47 @@
         color: $select-bg-color;
       }
     }
+  }
+  .album-wrap {
+    padding: $module-padding;
+    background-color: $white;
+    .title {
+      height: $module-title-height;
+      overflow: hidden;
+    }
+    .name {
+      float: left;
+      margin: 0;
+      font-weight: normal;
+      height: $module-title-height;
+      line-height: $module-title-height;
+      font-size: $font-size-bg;
+      color: $black;
+    }
+  }
+  .album-title-list {
+    float: left;
+    margin: 0 0 0 $module-margin;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    li {
+      float: left;
+      height: $module-title-height;
+      line-height: $module-title-height;
+      margin-right: $module-margin;
+      cursor: pointer;
+      font-size: $font-size-base;
+      color: #6c757b;
+      &:hover {
+        color: $select-bg-color;
+      }
+      &.active {
+        color: $select-bg-color;
+      }
+    }
+  }
+  .album-body {
+    background-color: $section-bg-color;
   }
 </style>
