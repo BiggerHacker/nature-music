@@ -41,6 +41,7 @@
       border: 1px solid $select-bg-color;
       color: $select-bg-color;
       &.active {
+        cursor: default;
         border: 1px solid #e9e9e9;
         color: #e9e9e9;
       }
