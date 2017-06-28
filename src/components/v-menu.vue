@@ -6,7 +6,7 @@
         <div class="name">何遇™</div>
       </div>
     </div>
-    <div class="nav-wrap">
+    <div class="nav-wrap" v-iscroll>
       <div>
         <v-nav :typeTitle="'音乐馆'" :typeName="musicHall"></v-nav>
       </div>
@@ -50,6 +50,15 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
+  .nav-wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 128px;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+  }
   .menu {
     position: relative;
     float: left;

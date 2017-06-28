@@ -31,6 +31,7 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
   .nav {
+    padding: $module-padding;
     font-size: $font-size-base;
     .title {
       margin: 0 0 $module-sm-margin;
