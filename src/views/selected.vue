@@ -18,17 +18,21 @@
             </li>
           </ul>
         </div>
-        <div class="album-wrap" v-if="albums.albumlist">
+        <div class="album-wrap" v-if="albums[0]">
           <div class="title">
             <h2 class="name">新歌首发</h2>
             <ul class="album-title-list">
-              <li v-for="(item, index) in albumTitle" :class="{active: albumIndex === index}">
+              <li 
+                v-for="(item, index) in albumTitle" 
+                :class="{active: albumIndex === index}"
+                @click="getAlbum(item.language); refresh(); setCurrent(index);"
+              >
                 {{ item.name }}
               </li>
             </ul>
           </div>
           <div class="album-body">
-            <v-album></v-album>
+            <v-album :albumList="albums" :refresh="albumRefresh"></v-album>
           </div>
         </div>
       </div>
@@ -51,7 +55,8 @@
       return {
         selectedList: [],
         albums: [],
-        albumIndex: 0
+        albumIndex: 0,
+        albumRefresh: false
       }
     },
     created () {
@@ -77,24 +82,48 @@
           language: 3
         }
       ]
-      this.getSelected()
+      this._getSelected()
       this.getAlbum()
     },
     methods: {
-      getSelected () {
+      getAlbum (language = 0) {
+        getAlbum(0, 36, language).then(res => {
+          if (res.code === ERR_OK) {
+            this.albums = this._filterAlbums(res.data)
+          }
+        })
+      },
+      refresh () {
+        this.albumRefresh = true
+        setTimeout(() => {
+          this.albumRefresh = false
+        })
+      },
+      setCurrent (index) {
+        this.albumIndex = index
+      },
+      _getSelected () {
         getSelected().then(res => {
           if (res.code === ERR_OK) {
             this.selectedList = res.data
           }
         })
       },
-      getAlbum (language = 0) {
-        getAlbum(0, 36, language).then(res => {
-          if (res.code === ERR_OK) {
-            this.albums = res.data
-            console.log(this.albums)
+      _filterAlbums (list) {
+        let albums = list.albumlist
+        let result = [[], [], [], []]
+        albums.forEach((k, i) => {
+          if (i < 9) {
+            result[0].push(k)
+          } else if (i >= 9 && i < 18) {
+            result[1].push(k)
+          } else if (i >= 18 && i < 27) {
+            result[2].push(k)
+          } else if (i >= 27) {
+            result[3].push(k)
           }
         })
+        return result
       }
     }
   }
