@@ -185,6 +185,8 @@
     }
     .singer {
       margin-top: $module-sm-margin;
+      height: 18px;
+      overflow: hidden;
       span {
         margin-left: $module-sm-margin;
         cursor: pointer;
