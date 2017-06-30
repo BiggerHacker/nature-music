@@ -25,14 +25,14 @@
               <li 
                 v-for="(item, index) in albumTitle" 
                 :class="{active: albumIndex === index}"
-                @click="getAlbum(item.language); refresh(); setCurrent(index);"
+                @click="getAlbum(item.language); setCurrent(index);"
               >
                 {{ item.name }}
               </li>
             </ul>
           </div>
           <div class="album-body">
-            <v-album :albumList="albums" :refresh="albumRefresh"></v-album>
+            <v-album :albumList="albums" :refresh="albumIndex"></v-album>
           </div>
         </div>
       </div>
@@ -55,8 +55,7 @@
       return {
         selectedList: [],
         albums: [],
-        albumIndex: 0,
-        albumRefresh: false
+        albumIndex: 0
       }
     },
     created () {
@@ -91,12 +90,6 @@
           if (res.code === ERR_OK) {
             this.albums = this._filterAlbums(res.data)
           }
-        })
-      },
-      refresh () {
-        this.albumRefresh = true
-        setTimeout(() => {
-          this.albumRefresh = false
         })
       },
       setCurrent (index) {
