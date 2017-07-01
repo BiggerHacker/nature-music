@@ -18,7 +18,11 @@
       <i class="iconfont icon-next"></i>
     </div>
     <div class="slide-mod">
-      <span class="item" :class="{active: index === currentIndex}" v-for="(item, index) in slideList"></span>
+      <span 
+        class="item" 
+        :class="{active: index === currentIndex}" 
+        v-for="(item, index) in slideList"
+      ></span>
     </div>
   </div>
 </template>
@@ -114,8 +118,8 @@
       }
     }
     .iconfont {
-      color: $white;
-      font-size: 24px;
+      color: rgba(0, 0, 0, .44);
+      font-size: 36px;
     }
     .slide-mod {
       position: absolute;
