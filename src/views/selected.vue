@@ -33,6 +33,22 @@
           </div>
           <v-album :albumList="albums" :refresh="albumIndex"></v-album>
         </div>
+        <div class="singer-wrap" v-if="hotSingers.length">
+          <div class="title">
+            <h2 class="name">热门歌手</h2>
+            <router-link to="selected" class="more">更多 &gt;</router-link>
+          </div>
+          <ul class="singer-hot">
+            <li v-for="item in hotSingers">
+              <router-link 
+                to="selected" 
+                class="thrum" 
+                :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ item.Fsinger_mid +'.jpg?max_age=2592000)'}"
+              ></router-link>
+              <router-link to="selected" class="singer-name">{{ item.Fsinger_name }}</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -42,6 +58,7 @@
   import VSlide from '@/components/v-slide'
   import VAlbum from '@/components/v-album'
   import { getSelected, getAlbum } from '@/api/selected'
+  import { getSingers } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   export default {
     name: 'selected',
@@ -53,6 +70,7 @@
       return {
         selectedList: [],
         albums: [],
+        hotSingers: [],
         albumIndex: 0
       }
     },
@@ -81,6 +99,7 @@
       ]
       this.getSelected()
       this.getAlbum()
+      this.getSingers(1, 50)
     },
     methods: {
       getAlbum (language = 0) {
@@ -103,6 +122,13 @@
           }
         })
       },
+      getSingers (pagenum = 1, pagesize = 100) {
+        getSingers(pagenum, pagesize).then(res => {
+          if (res.code === ERR_OK) {
+            this.hotSingers = this._filterSingers(res.data)
+          }
+        })
+      },
       _filterAlbums (list) {
         let albums = list.albumlist
         let result = [[], [], [], []]
@@ -115,6 +141,16 @@
             result[2].push(k)
           } else if (i >= 27) {
             result[3].push(k)
+          }
+        })
+        return result
+      },
+      _filterSingers (list) {
+        let singers = list.list
+        let result = []
+        singers.forEach((k, i) => {
+          if (i < 5) {
+            result.push(k)
           }
         })
         return result
@@ -248,6 +284,63 @@
         color: $select-bg-color;
       }
       &.active {
+        color: $select-bg-color;
+      }
+    }
+  }
+  .singer-wrap {
+    padding: 0 $module-padding $module-padding;
+    background-color: $section-bg-color;
+    .title {
+      height: 55px;
+      overflow: hidden;
+    }
+    .name {
+      float: left;
+      margin: 0;
+      font-weight: normal;
+      height: 55px;
+      line-height: 55px;
+      font-size: $font-size-bg;
+      color: $black;
+    }
+    .more {
+      float: right;
+      height: 55px;
+      line-height: 55px;
+      text-decoration: none;
+      font-size: $font-size-base;
+      color: $gray-color;
+      &:hover {
+        color: $select-bg-color;
+      }
+    }
+  }
+  .singer-hot {
+    margin: 0;
+    padding: 0 0 $module-padding;
+    list-style: none;
+    overflow: hidden;
+    li {
+      float: left;
+      padding: 0 $module-sm-padding*2;
+      width: 20%;
+      text-align: center;
+    }
+    .thrum {
+      display: block;
+      width: 100%;
+      padding-top: 100%;
+      border-radius: 50%;
+      background-size: cover;
+    }
+    .singer-name {
+      display: inline-block;
+      margin-top: $module-margin;
+      text-decoration: none;
+      font-size: $font-size-base;
+      color: $black;
+      &:hover {
         color: $select-bg-color;
       }
     }

@@ -9,6 +9,7 @@ import '@/assets/scss/index.scss'
 Vue.use(VIscroll, {
   mouseWheel: true,
   scrollbars: true,
+  fadeScrollbars: true,
   interactiveScrollbars: true,
   preventDefault: true,
   tap: false,
