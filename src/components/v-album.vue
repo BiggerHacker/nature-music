@@ -101,6 +101,7 @@
   @import '~@/assets/scss/variable';
   @import '~@/assets/scss/mixin';
   .album {
+    background-color: $section-bg-color;
     .title {
       padding: $module-padding;
       border-bottom: 1px solid $border-color;

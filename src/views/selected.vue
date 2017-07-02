@@ -25,15 +25,13 @@
               <li 
                 v-for="(item, index) in albumTitle" 
                 :class="{active: albumIndex === index}"
-                @click="getAlbum(item.language); setCurrent(index);"
+                @click="setCurrent(index);"
               >
                 {{ item.name }}
               </li>
             </ul>
           </div>
-          <div class="album-body">
-            <v-album :albumList="albums" :refresh="albumIndex"></v-album>
-          </div>
+          <v-album :albumList="albums" :refresh="albumIndex"></v-album>
         </div>
       </div>
     </div>
@@ -81,7 +79,7 @@
           language: 3
         }
       ]
-      this._getSelected()
+      this.getSelected()
       this.getAlbum()
     },
     methods: {
@@ -92,10 +90,13 @@
           }
         })
       },
+      getCurrentAlbum (language) {
+        this.getAlbum(language)
+      },
       setCurrent (index) {
         this.albumIndex = index
       },
-      _getSelected () {
+      getSelected () {
         getSelected().then(res => {
           if (res.code === ERR_OK) {
             this.selectedList = res.data
@@ -117,6 +118,11 @@
           }
         })
         return result
+      }
+    },
+    watch: {
+      albumIndex (newIndex) {
+        this.getCurrentAlbum(this.albumTitle[newIndex].language)
       }
     }
   }
@@ -245,8 +251,5 @@
         color: $select-bg-color;
       }
     }
-  }
-  .album-body {
-    background-color: $section-bg-color;
   }
 </style>
