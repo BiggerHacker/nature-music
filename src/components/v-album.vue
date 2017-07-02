@@ -22,6 +22,10 @@
                 <div class="name">{{ item.album_name }}</div>
                 <div class="singer" v-for="item in item.singers">
                   <span>{{ item.singer_name }}</span>
+                  <div class="player-contro">
+                    <i class="iconfont icon-i-player" title="播放"></i>
+                    <i class="iconfont icon-not-collection" title="收藏"></i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -157,6 +161,9 @@
         .cover {
           opacity: 1;
         }
+        .player-contro {
+          display: block;
+        }
       }
     }
     .thumb {
@@ -190,6 +197,7 @@
       }
     }
     .singer {
+      position: relative;
       margin-top: $module-sm-margin;
       height: 18px;
       overflow: hidden;
@@ -201,6 +209,24 @@
         &:first-child {
           margin-left: 0;
         }
+        &:hover {
+          color: $select-bg-color;
+        }
+      }
+      .player-contro {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: $section-bg-color;
+      }
+      .iconfont {
+        margin-left: $module-sm-margin;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: $font-size-base;
+        color: $black;
         &:hover {
           color: $select-bg-color;
         }

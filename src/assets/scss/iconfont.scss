@@ -15,16 +15,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-player:before { content: "\e601"; }
+
 .icon-singer:before { content: "\e600"; }
 
 .icon-selected:before { content: "\e656"; }
+
+.icon-collection:before { content: "\e616"; }
 
 .icon-sheet:before { content: "\e61d"; }
 
 .icon-rank:before { content: "\e74b"; }
 
+.icon-pause:before { content: "\e79f"; }
+
+.icon-not-collection:before { content: "\e620"; }
+
+.icon-i-player:before { content: "\e608"; }
+
 .icon-next:before { content: "\e62a"; }
 
 .icon-prev:before { content: "\e62b"; }
-
-.icon-player:before { content: "\e601"; }
