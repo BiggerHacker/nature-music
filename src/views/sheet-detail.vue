@@ -1,32 +1,40 @@
 <template>
-  <div class="sheet-detail" v-iscroll>
+  <div class="sheet-detail" v-iscroll="getIscroll">
     <div>
-      detail
+      <v-detail :list="sheetDetailList"></v-detail>
     </div>
   </div>  
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import { getSheetList } from '@/api/sheet'
+  import { ERR_OK } from '@/util/config'
+  import VDetail from '@/components/v-detail'
   export default {
     name: 'sheet-detail',
-    computed: {
-      ...mapGetters({
-        sheetId: 'sheetId'
-      })
+    components: {
+      VDetail
     },
     activated () {
-      if (this.sheetId !== '') {
-        this.getSheetDetail(this.sheetId)
-      } else {
-        this.getSheetDetail(this.$route.params.id)
+      this.getSheetDetail(this.$route.params.id)
+    },
+    data () {
+      return {
+        sheetDetailList: {}
       }
     },
     methods: {
       getSheetDetail (disstid) {
         getSheetList(disstid).then(res => {
-          console.log(res.cdlist[0])
+          if (res.code === ERR_OK) {
+            this.sheetDetailList = res.cdlist[0]
+            console.log(this.sheetDetailList)
+          }
+        })
+      },
+      getIscroll (scroll) {
+        scroll.on('scrollStart', () => {
+          scroll.refresh()
         })
       }
     }
