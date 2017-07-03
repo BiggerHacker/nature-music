@@ -14,7 +14,7 @@
                   <i class="iconfont icon-player"></i>
                 </div>
               </div>
-              <div class="name">{{ item.dissname }}</div>
+              <div class="name" @click="selectSheet(item.dissid)">{{ item.dissname }}</div>
             </li>
           </ul>
         </div>
@@ -60,6 +60,7 @@
   import { getSelected, getAlbum } from '@/api/selected'
   import { getSingers } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
+  import { mapMutations } from 'vuex'
   export default {
     name: 'selected',
     components: {
@@ -102,6 +103,9 @@
       this.getSingers(1, 50)
     },
     methods: {
+      ...mapMutations({
+        setSheetId: 'SET_SHEET_ID'
+      }),
       getAlbum (language = 0) {
         getAlbum(0, 36, language).then(res => {
           if (res.code === ERR_OK) {
@@ -128,6 +132,12 @@
             this.hotSingers = this._filterSingers(res.data)
           }
         })
+      },
+      selectSheet (disstid) {
+        this.$router.push({
+          path: `/sheet/${disstid}`
+        })
+        this.setSheetId(disstid)
       },
       _filterAlbums (list) {
         let albums = list.albumlist

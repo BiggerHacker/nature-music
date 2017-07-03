@@ -1,6 +1,7 @@
 <template>
   <div class="sheet">
     歌单
+    <router-view></router-view>
   </div>
 </template>
 

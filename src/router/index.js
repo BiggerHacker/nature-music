@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Selected from '@/views/selected'
 import Rank from '@/views/rank'
 import Sheet from '@/views/sheet'
+import SheetDetail from '@/views/sheet-detail'
 import Singer from '@/views/singer'
 import Notfound from '@/views/notfound'
 
@@ -28,7 +29,14 @@ export default new Router({
     {
       path: '/sheet',
       name: 'sheet',
-      component: Sheet
+      component: Sheet,
+      children: [
+        {
+          path: ':id',
+          name: 'sheet-detail',
+          component: SheetDetail
+        }
+      ]
     },
     {
       path: '/singer',
