@@ -1,6 +1,6 @@
 <template>
   <div class="module-detail">
-    <div v-html="list.desc"></div>
+    <div>{{ list }}</div>
   </div>
 </template>
 
