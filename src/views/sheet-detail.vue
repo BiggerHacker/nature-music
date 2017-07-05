@@ -28,7 +28,10 @@
         getSheetList(disstid).then(res => {
           if (res.code === ERR_OK) {
             this.sheetDetailList = res.cdlist[0]
-            console.log(this.sheetDetailList)
+          } else {
+            this.$router.push({
+              path: '/notfound'
+            })
           }
         })
       },

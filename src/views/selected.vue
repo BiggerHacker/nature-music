@@ -1,5 +1,5 @@
 <template>
-  <div class="selected-wrap" v-iscroll>
+  <div class="selected-wrap" v-iscroll="getIscroll">
     <div>
       <div v-if="selectedList.focus">
         <div class="slide-wrap">
@@ -132,6 +132,11 @@
       selectSheet (disstid) {
         this.$router.push({
           path: `/sheet/${disstid}`
+        })
+      },
+      getIscroll (scroll) {
+        scroll.on('scrollStart', () => {
+          scroll.refresh()
         })
       },
       _filterAlbums (list) {
