@@ -164,7 +164,7 @@
         border-radius: $border-radius-base;
         box-shadow: 0 0 10px rgba(0, 0, 0, .4);
         .text {
-          padding: $module-padding $module-padding $module-padding*2;
+          padding: $module-padding 0 $module-padding*2 $module-padding;
           height: auto;
           overflow: auto;
         }
