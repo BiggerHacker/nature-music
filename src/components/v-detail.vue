@@ -22,7 +22,17 @@
           <div class="up" v-show="!descShow" @click="showDesc">[展开]</div>
         </div>
         <div class="config">
-          
+          <span class="config-btn config-play-all">
+            <i class="iconfont icon-i-player"></i>
+            播放全部
+          </span>
+          <span class="config-btn">
+            <i 
+              class="iconfont" 
+              :class="{'icon-not-collection': !isCollection, 'icon-collection': isCollection}"
+            ></i>
+            {{ collectionText }}
+          </span>
         </div>
       </div>
     </div>
@@ -40,7 +50,9 @@
     },
     data () {
       return {
-        descShow: false
+        descShow: false,
+        collectionText: '收藏',
+        isCollection: false
       }
     },
     activated () {
@@ -183,6 +195,39 @@
     }
     .config {
       margin-top: $module-sm-margin;
+      .config-btn {
+        display: inline-block;
+        margin-right: $module-margin;
+        padding: $module-sm-padding 0;
+        width: 102px;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-base;
+        transition: all .18s ease-out;
+        color: $black;
+        font-size: $font-size-base;
+        &:hover {
+          color: $select-bg-color;
+        }
+        &.config-play-all {
+          border: 1px solid $select-bg-color;
+          background-color: $select-bg-color;
+          color: $white;
+          .iconfont {
+            color: $white;
+          }
+          &:hover {
+            background-color: $select-depth-color;
+            border: 1px solid $select-depth-color;
+          }
+        }
+      }
+      .iconfont {
+        color: $select-bg-color;
+        font-size: $font-size-base;
+        margin-right: $module-sm-margin;
+      }
     }
   }
 </style>
