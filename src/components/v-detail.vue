@@ -26,12 +26,9 @@
             <i class="iconfont icon-i-player"></i>
             播放全部
           </span>
-          <span class="config-btn">
-            <i 
-              class="iconfont" 
-              :class="{'icon-not-collection': !isCollection, 'icon-collection': isCollection}"
-            ></i>
-            {{ collectionText }}
+          <span class="config-btn" @click="coll">
+            <i class="iconfont icon-not-collection"></i>
+            收藏
           </span>
         </div>
       </div>
@@ -50,9 +47,7 @@
     },
     data () {
       return {
-        descShow: false,
-        collectionText: '收藏',
-        isCollection: false
+        descShow: false
       }
     },
     activated () {
@@ -139,9 +134,13 @@
       cursor: pointer;
       height: 20px;
       line-height: 20px;
+      transition: all .18s ease-out;
       border-radius: $border-radius-base;
       background-color: $select-bg-color;
       color: $white;
+      &:hover {
+        background-color: $select-depth-color;
+      }
     }
     .desc {
       position: relative;
