@@ -261,7 +261,7 @@
     }
   }
   .detail-body {
-    padding: 0 $module-padding;
+    padding: 0 $module-padding $module-padding;
     .song-count {
       height: $module-title-height;
       line-height: $module-title-height;
