@@ -48,11 +48,13 @@
           <tr v-for="item in list.songlist">
             <td>{{ item.songname }}</td>
             <td>
-              <span v-for="item in item.singer">
+              <span v-for="item in item.singer" class="singer-name">
                 {{ item.name }}
               </span>
             </td>
-            <td>{{ item.albumname }}</td>
+            <td>
+              <span class="album-name">{{ item.albumname }}</span>
+            </td>
             <td class="time">{{ filterTime(item.interval) }}</td>
           </tr>
         </tbody>
@@ -272,6 +274,13 @@
       width: 100%;
       text-align: left;
       border-collapse: collapse;
+      .singer-name,
+      .album-name {
+        cursor: pointer;
+        &:hover {
+          color: $select-bg-color;
+        }
+      }
       td,
       th {
         margin: 0;
