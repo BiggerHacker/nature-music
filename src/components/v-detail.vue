@@ -26,12 +26,37 @@
             <i class="iconfont icon-i-player"></i>
             播放全部
           </span>
-          <span class="config-btn" @click="coll">
+          <span class="config-btn">
             <i class="iconfont icon-not-collection"></i>
             收藏
           </span>
         </div>
       </div>
+    </div>
+    <div class="detail-body">
+      <div class="song-count">歌 曲 ( {{ list.total_song_num }} )</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>歌曲名</th>
+            <th>歌手</th>
+            <th>专辑</th>
+            <th>时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in list.songlist">
+            <td>{{ item.songname }}</td>
+            <td>
+              <span v-for="item in item.singer">
+                {{ item.name }}
+              </span>
+            </td>
+            <td>{{ item.albumname }}</td>
+            <td>{{ item.interval }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -226,6 +251,41 @@
         color: $select-bg-color;
         font-size: $font-size-base;
         margin-right: $module-sm-margin;
+      }
+    }
+  }
+  .detail-body {
+    padding: 0 $module-padding;
+    .song-count {
+      height: $module-title-height;
+      line-height: $module-title-height;
+      font-family: "Microsoft YaHei";
+      font-weight: 100;
+    }
+    .table {
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;
+      td,
+      th {
+        margin: 0;
+        padding: 0 0 0 $module-padding;
+        height: 42px;
+        border-bottom: 1px solid $border-color;
+        font-size: $font-size-base;
+      }
+      td:last-child,
+      th:last-child {
+        padding-right: $module-padding;
+      }
+      th {
+        font-weight: normal;
+        background-color: $section-bg-color;
+        color: $gray-color;
+      }
+      td {
+        line-height: $nav-height;
+        color: $black;
       }
     }
   }
