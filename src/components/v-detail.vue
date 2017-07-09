@@ -53,7 +53,7 @@
               </span>
             </td>
             <td>{{ item.albumname }}</td>
-            <td>{{ item.interval }}</td>
+            <td class="time">{{ filterTime(item.interval) }}</td>
           </tr>
         </tbody>
       </table>
@@ -84,13 +84,13 @@
         let year = date.getFullYear()
         let month = date.getMonth() + 1
         let day = date.getDate()
-        return `${year}-${this.getzero(month)}-${this.getzero(day)}`
+        return `${year}-${this._getzero(month)}-${this._getzero(day)}`
       },
-      getzero (time) {
-        if (parseInt(time) < 10) {
-          time = `0${time}`
-        }
-        return time
+      filterTime (time) {
+        time = time | 0
+        let minute = time / 60 | 0
+        let second = this._getzero(time % 60)
+        return `${minute}:${second}`
       },
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
@@ -102,6 +102,12 @@
       },
       hideDesc () {
         this.descShow = false
+      },
+      _getzero (time) {
+        if (parseInt(time) < 10) {
+          time = `0${time}`
+        }
+        return time
       }
     }
   }
@@ -286,6 +292,12 @@
       td {
         line-height: $nav-height;
         color: $black;
+      }
+      .time {
+        color: $gray-color;
+      }
+      tbody tr:hover {
+        background-color: #fff1f1;
       }
     }
   }
