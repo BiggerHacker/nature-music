@@ -8,7 +8,7 @@
         <div class="hot-wrap">
           <h2 class="title">热门推荐</h2>
           <ul class="hot-list">
-            <li v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
+            <li class="pull-left" v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
               <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}" @click="selectSheet(item.dissid)">
                 <div class="player">
                   <i class="iconfont icon-player"></i>
@@ -20,10 +20,11 @@
         </div>
         <div class="album-wrap" v-if="albums[0]">
           <div class="title">
-            <h2 class="name">新歌首发</h2>
-            <ul class="album-title-list">
+            <h2 class="name pull-left">新歌首发</h2>
+            <ul class="album-title-list pull-left">
               <li 
                 v-for="(item, index) in albumTitle" 
+                class="pull-left" 
                 :class="{active: albumIndex === index}"
                 @click="setCurrent(index);"
               >
@@ -35,11 +36,11 @@
         </div>
         <div class="singer-wrap" v-if="hotSingers.length">
           <div class="title">
-            <h2 class="name">热门歌手</h2>
-            <router-link to="selected" class="more">更多 &gt;</router-link>
+            <h2 class="name pull-left">热门歌手</h2>
+            <router-link to="selected" class="more pull-right">更多 &gt;</router-link>
           </div>
           <ul class="singer-hot">
-            <li v-for="item in hotSingers">
+            <li class="pull-left" v-for="item in hotSingers">
               <router-link 
                 to="selected" 
                 class="thrum" 
@@ -208,7 +209,6 @@
     list-style: none;
     overflow: hidden;
     li {
-      float: left;
       width: 182px;
       overflow: hidden;
       margin-left: $module-margin;
@@ -267,7 +267,6 @@
       overflow: hidden;
     }
     .name {
-      float: left;
       margin: 0;
       font-weight: normal;
       height: $module-title-height;
@@ -277,13 +276,11 @@
     }
   }
   .album-title-list {
-    float: left;
     margin: 0 0 0 $module-margin;
     padding: 0;
     list-style: none;
     overflow: hidden;
     li {
-      float: left;
       height: $module-title-height;
       line-height: $module-title-height;
       margin-right: $module-margin;
@@ -306,7 +303,6 @@
       overflow: hidden;
     }
     .name {
-      float: left;
       margin: 0;
       font-weight: normal;
       height: 55px;
@@ -315,7 +311,6 @@
       color: $black;
     }
     .more {
-      float: right;
       height: 55px;
       line-height: 55px;
       text-decoration: none;
@@ -332,7 +327,6 @@
     list-style: none;
     overflow: hidden;
     li {
-      float: left;
       padding: 0 $module-sm-padding*2;
       width: 20%;
       text-align: center;
