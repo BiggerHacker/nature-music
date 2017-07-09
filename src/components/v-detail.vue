@@ -13,10 +13,8 @@
         </div>
         <div class="desc">
           <div class="text" v-html="list.desc"></div>
-          <div class="desc all-desc" v-show="descShow" v-iscroll="getIscroll">
-            <div>
-              <div class="text" v-html="list.desc"></div>
-            </div>
+          <div class="desc all-desc" v-show="descShow">
+            <div class="text" v-html="list.desc"></div>
             <div class="hide-desc" @click="hideDesc">[收起]</div>
           </div>
           <div class="up" v-show="!descShow" @click="showDesc">[展开]</div>
@@ -93,11 +91,6 @@
         let minute = time / 60 | 0
         let second = this._getzero(time % 60)
         return `${minute}:${second}`
-      },
-      getIscroll (scroll) {
-        scroll.on('scrollStart', () => {
-          scroll.refresh()
-        })
       },
       showDesc () {
         this.descShow = true
@@ -202,7 +195,6 @@
         left: -$module-margin;
         top: -($module-padding + $module-sm-margin);
         width: 100%;
-        max-height: 300px;
         overflow: hidden;
         background-color: $white;
         border-radius: $border-radius-base;
