@@ -1,1 +1,11 @@
-export const SET_SHEET_ID = 'SET_SHEET_ID'
+export const SET_PLAYING_STATE = 'SET_PLAYING_STATE'
+
+export const SET_FULL_SCREEN_STATE = 'SET_FULL_SCREEN_STATE'
+
+export const SET_PLAY_LIST = 'SET_PLAY_LIST'
+
+export const SET_SEQUENCE_LIST = 'SET_SEQUENCE_LIST'
+
+export const SET_MODE = 'SET_MODE'
+
+export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX'

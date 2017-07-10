@@ -3,11 +3,11 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import setSheetID from './modules/setSheetID'
+import Player from './modules/player'
 
 export default new Vuex.Store({
   modules: {
-    setSheetID
+    Player
   },
   strict: process.env.NODE_ENV !== 'production'
 })
