@@ -291,6 +291,7 @@
         color: $gray-color;
       }
       td {
+        position: relative;
         line-height: $nav-height;
         color: $black;
       }
