@@ -299,20 +299,20 @@
     padding: 0 $module-padding $module-padding;
     background-color: $section-bg-color;
     .title {
-      height: 55px;
+      height: $module-title-height;
       overflow: hidden;
     }
     .name {
       margin: 0;
       font-weight: normal;
-      height: 55px;
-      line-height: 55px;
+      height: $module-title-height;
+      line-height: $module-title-height;
       font-size: $font-size-bg;
       color: $black;
     }
     .more {
-      height: 55px;
-      line-height: 55px;
+      height: $module-title-height;
+      line-height: $module-title-height;
       text-decoration: none;
       font-size: $font-size-base;
       color: $gray-color;
