@@ -44,7 +44,13 @@
         </thead>
         <tbody>
           <tr v-for="item in list.songlist">
-            <td>{{ item.songname }}</td>
+            <td>
+              {{ item.songname }}
+              <div class="player-contro">
+                <i class="iconfont icon-i-player" title="播放"></i>
+                <i class="iconfont icon-not-collection" title="收藏"></i>
+              </div>
+            </td>
             <td>
               <span v-for="item in item.singer" class="singer-name">
                 {{ item.name }}
@@ -300,6 +306,27 @@
       }
       tbody tr:hover {
         background-color: #fff1f1;
+        .player-contro {
+          display: block;
+        }
+      }
+    }
+  }
+  .player-contro {
+    padding: 0 $module-padding;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-color: #fff1f1;
+    .iconfont {
+      margin-left: $module-sm-margin;
+      cursor: pointer;
+      color: $black;
+      font-size: $font-size-base;
+      &:hover {
+        color: $select-bg-color;
       }
     }
   }
