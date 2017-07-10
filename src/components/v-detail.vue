@@ -45,19 +45,25 @@
         <tbody>
           <tr v-for="item in list.songlist">
             <td>
-              {{ item.songname }}
+              <div class="td-wrap">
+                {{ item.songname }}
+              </div>
               <div class="player-contro">
                 <i class="iconfont icon-i-player" title="播放"></i>
                 <i class="iconfont icon-not-collection" title="收藏"></i>
               </div>
             </td>
             <td>
-              <span v-for="item in item.singer" class="singer-name">
-                {{ item.name }}
-              </span>
+              <div class="td-wrap">
+                <span v-for="item in item.singer" class="singer-name">
+                  {{ item.name }}
+                </span>
+              </div>
             </td>
             <td>
-              <span class="album-name">{{ item.albumname }}</span>
+              <div class="td-wrap">
+                <span class="album-name">{{ item.albumname }}</span>
+              </div>
             </td>
             <td class="time">{{ filterTime(item.interval) }}</td>
           </tr>
@@ -200,6 +206,7 @@
         position: absolute;
         left: -$module-margin;
         top: -($module-padding + $module-sm-margin);
+        z-index: 10;
         width: 100%;
         overflow: hidden;
         background-color: $white;
@@ -279,6 +286,10 @@
           color: $select-bg-color;
         }
       }
+      .td-wrap {
+        height: 42px;
+        overflow: hidden;
+      }
       td,
       th {
         margin: 0;
@@ -298,7 +309,7 @@
       }
       td {
         position: relative;
-        line-height: $nav-height;
+        line-height: 42px;
         color: $black;
       }
       .time {
