@@ -1,11 +1,16 @@
 <template>
   <div class="player">
-    <div class="mini-player">mini</div>
-    <div class="spread-player" :style="{height: spreadHeight}">spread</div>
+    <div class="mini-player">
+      <span @click="fullScreenUp">mini-player</span>
+    </div>
+    <div class="spread-player" :class="{'spread-player-up': fullScreen}" :style="{height: spreadHeight}">
+      <span @click="fullScreenDown">spread</span>
+    </div>
   </div>
 </template>
 
 <script>
+  import { mapMutations, mapGetters } from 'vuex'
   export default {
     name: 'player',
     data () {
@@ -13,11 +18,27 @@
         spreadHeight: 0
       }
     },
+    computed: {
+      ...mapGetters([
+        'fullScreen'
+      ])
+    },
     created () {
       this.spreadHeight = document.body.clientHeight + 'px'
       window.addEventListener('resize', () => {
         this.spreadHeight = document.body.clientHeight + 'px'
       })
+    },
+    methods: {
+      fullScreenUp () {
+        this.SET_FULL_SCREEN_STATE(true)
+      },
+      fullScreenDown () {
+        this.SET_FULL_SCREEN_STATE(false)
+      },
+      ...mapMutations([
+        'SET_FULL_SCREEN_STATE'
+      ])
     }
   }
 </script>
@@ -42,7 +63,7 @@
     width: 100%;
     height: 100%;
     border-top: 1px solid $border-color;
-    background-color: $select-bg-color;
+    background-color: $white;
   }
   .spread-player {
     position: fixed;
@@ -57,5 +78,8 @@
     transform: translateY(100%);
     background-color: $black;
     color: $white;
+    &.spread-player-up {
+      transform: translateY(0);
+    }
   }
 </style>
