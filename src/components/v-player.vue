@@ -74,7 +74,7 @@
     z-index: 8;
     width: 1200px;
     margin: 0 auto;
-    transition: all .18s ease-out;
+    transition: all .3s ease-out;
     transform: translateY(100%);
     background-color: $black;
     color: $white;

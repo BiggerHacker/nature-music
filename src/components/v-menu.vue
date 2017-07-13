@@ -3,7 +3,7 @@
     <div class="profile-wrap">
       <div class="profile">
         <div class="thrum"></div>
-        <div class="name">何遇™</div>
+        <div class="name">天璇真人™</div>
       </div>
     </div>
     <div class="nav-wrap" v-iscroll>
