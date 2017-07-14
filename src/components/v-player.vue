@@ -76,7 +76,7 @@
     margin: 0 auto;
     transition: all .3s ease-out;
     transform: translateY(100%);
-    background-color: $black;
+    background-color: #000;
     color: $white;
     &.spread-player-up {
       transform: translateY(0);
