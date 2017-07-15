@@ -1,12 +1,13 @@
 <template>
   <div class="sheet-detail" v-iscroll="getIscroll">
     <div>
-      <v-detail :list="sheetDetailList"></v-detail>
+      <v-detail @select="selectItem" :list="sheetDetailList"></v-detail>
     </div>
   </div>  
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import { getSheetList } from '@/api/sheet'
   import { ERR_OK } from '@/util/config'
   import VDetail from '@/components/v-detail'
@@ -39,7 +40,13 @@
         scroll.on('scrollStart', () => {
           scroll.refresh()
         })
-      }
+      },
+      selectItem (item, index) {
+        this.selectPlay(this.sheetDetailList, index)
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     }
   }
 </script>

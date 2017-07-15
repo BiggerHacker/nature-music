@@ -43,13 +43,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in list.songlist">
+          <tr v-for="(item, index) in list.songlist">
             <td>
               <div class="td-wrap">
                 {{ item.songname }}
               </div>
               <div class="player-contro">
-                <i class="iconfont icon-i-player" title="播放"></i>
+                <i class="iconfont icon-i-player" @click="selectItem(item, index)" title="播放"></i>
                 <i class="iconfont icon-not-collection" title="收藏"></i>
               </div>
             </td>
@@ -109,6 +109,9 @@
       },
       hideDesc () {
         this.descShow = false
+      },
+      selectItem (item, index) {
+        this.$emit('select', item, index)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {

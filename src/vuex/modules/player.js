@@ -4,8 +4,8 @@ import * as types from '../types'
 const state = {
   playing: false,
   fullScreen: false,
-  playList: [],
   sequenceList: [],
+  playList: [],
   mode: mode.sequence,
   currentIndex: -1
 }
@@ -13,8 +13,8 @@ const state = {
 const getters = {
   playing: state => state.playing,
   fullScreen: state => state.fullScreen,
-  playList: state => state.playList,
   sequenceList: state => state.sequenceList,
+  playList: state => state.playList,
   mode: state => state.mode,
   currentIndex: state => state.currentIndex,
   currentSong: (state) => {
@@ -29,11 +29,11 @@ const mutations = {
   [types.SET_FULL_SCREEN_STATE] (state, flag) {
     state.fullScreen = flag
   },
-  [types.SET_PLAY_LIST] (state, list) {
-    state.playList = list
-  },
   [types.SET_SEQUENCE_LIST] (state, list) {
     state.sequenceList = list
+  },
+  [types.SET_PLAY_LIST] (state, list) {
+    state.playList = list
   },
   [types.SET_MODE] (state, mode) {
     state.mode = mode
@@ -43,8 +43,18 @@ const mutations = {
   }
 }
 
+const actions = {
+  selectPlay ({commit}, {list, index}) {
+    commit(types.SET_PLAYING_STATE, true)
+    commit(types.SET_SEQUENCE_LIST, list)
+    commit(types.SET_PLAY_LIST, list)
+    commit(types.SET_CURRENT_INDEX, index)
+  }
+}
+
 export default {
   state,
   getters,
-  mutations
+  mutations,
+  actions
 }
