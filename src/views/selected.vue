@@ -11,7 +11,7 @@
             <li class="pull-left" v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
               <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}" @click="selectSheet(item.dissid)">
                 <div class="player">
-                  <i class="iconfont icon-player"></i>
+                  <i class="iconfont icon-player" @click.stop="playerHotlist(item.dissid)"></i>
                 </div>
               </div>
               <div class="name" @click="selectSheet(item.dissid)">{{ item.dissname }}</div>
@@ -56,10 +56,12 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import VSlide from '@/components/v-slide'
   import VAlbum from '@/components/v-album'
   import { getSelected, getAlbum } from '@/api/selected'
   import { getSingers } from '@/api/singer'
+  import { getSheetList } from '@/api/sheet'
   import { ERR_OK } from '@/util/config'
   export default {
     name: 'selected',
@@ -140,6 +142,16 @@
           scroll.refresh()
         })
       },
+      playerHotlist (id) {
+        getSheetList(id).then(res => {
+          if (res.code === ERR_OK) {
+            this.selectPlay({
+              list: res.cdlist[0].songlist,
+              index: 0
+            })
+          }
+        })
+      },
       _filterAlbums (list) {
         let albums = list.albumlist
         let result = [[], [], [], []]
@@ -165,7 +177,10 @@
           }
         })
         return result
-      }
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     },
     watch: {
       albumIndex (newIndex) {

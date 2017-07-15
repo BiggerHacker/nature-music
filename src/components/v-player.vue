@@ -20,7 +20,8 @@
     },
     computed: {
       ...mapGetters([
-        'fullScreen'
+        'fullScreen',
+        'sequenceList'
       ])
     },
     created () {
@@ -31,10 +32,10 @@
     },
     methods: {
       fullScreenUp () {
-        this.SET_FULL_SCREEN_STATE(true)
+        this.sequenceList.length > 0 ? this.SET_FULL_SCREEN_STATE(true) : ''
       },
       fullScreenDown () {
-        this.SET_FULL_SCREEN_STATE(false)
+        this.sequenceList.length > 0 ? this.SET_FULL_SCREEN_STATE(false) : ''
       },
       ...mapMutations([
         'SET_FULL_SCREEN_STATE'

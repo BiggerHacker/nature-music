@@ -42,7 +42,10 @@
         })
       },
       selectItem (item, index) {
-        this.selectPlay(this.sheetDetailList, index)
+        this.selectPlay({
+          list: this.sheetDetailList.songlist,
+          index: index
+        })
       },
       ...mapActions([
         'selectPlay'
