@@ -11,7 +11,9 @@
             <li class="pull-left" v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
               <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}" @click="selectSheet(item.dissid)">
                 <div class="player">
-                  <i class="iconfont icon-player" @click.stop="playerHotlist(item.dissid)"></i>
+                  <div class="player-icon" @click.stop="playerHotlist(item.dissid)">
+                    <i class="iconfont icon-player"></i>
+                  </div>
                 </div>
               </div>
               <div class="name" @click="selectSheet(item.dissid)">{{ item.dissname }}</div>
@@ -248,14 +250,26 @@
         transition: opacity .18s ease-out;
         background-color: rgba(0, 0, 0, .6);
       }
-      .iconfont {
+      .player-icon {
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        width: 44px;
+        height: 44px;
+        text-align: center;
+        line-height: 44px;
+        border-radius: 50%;
+        transition: all .18s ease-out;
+        background-color: $select-bg-color;
+        &:hover {
+          background-color: $select-depth-color;
+        }
+      }
+      .iconfont {
         transition: color .18s ease-out;
-        font-size: 48px;
-        color: $select-bg-color;
+        font-size: 24px;
+        color: $white;
         &:hover {
           color: $white;
         }

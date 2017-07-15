@@ -15,7 +15,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-player:before { content: "\e601"; }
+.icon-player:before { content: "\e674"; }
 
 .icon-singer:before { content: "\e600"; }
 
@@ -36,3 +36,7 @@
 .icon-next:before { content: "\e62a"; }
 
 .icon-prev:before { content: "\e62b"; }
+
+.icon-prev-song:before { content: "\e61a"; }
+
+.icon-next-song:before { content: "\e61f"; }
