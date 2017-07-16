@@ -45,13 +45,13 @@
         <tbody>
           <tr v-for="(item, index) in list.songlist">
             <td>
-              <div class="td-wrap">
-                {{ item.songname }}
-              </div>
+              <div class="td-wrap">{{ item.songname }}</div>
               <div class="player-contro">
                 <i 
                   class="iconfont icon-i-player"
-                  @click="selectItem(item, index)" 
+                  ref="playicon"
+                  @click="selectItem(item, index), togglePlay(index)" 
+                  :data-isplayer="'false'"
                   title="播放"
                 ></i>
                 <i class="iconfont icon-not-collection" title="收藏"></i>
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex'
   export default {
     name: 'detail',
     props: {
@@ -93,6 +94,12 @@
     },
     activated () {
       this.descShow = false
+    },
+    computed: {
+      ...mapGetters([
+        'playing',
+        'currentIndex'
+      ])
     },
     methods: {
       format (time) {
@@ -117,11 +124,29 @@
       selectItem (item, index) {
         this.$emit('select', item, index)
       },
+      togglePlay (index) {
+        this.$refs.playicon.forEach((k, i) => {
+          k.className = 'iconfont icon-i-player'
+        })
+        this.SET_PLAYING_STATE(!this.playing)
+      },
       _getzero (time) {
         if (parseInt(time) < 10) {
           time = `0${time}`
         }
         return time
+      },
+      ...mapMutations([
+        'SET_PLAYING_STATE'
+      ])
+    },
+    watch: {
+      playing (newPlaying) {
+        if (newPlaying) {
+          this.$refs.playicon[this.currentIndex].className = 'iconfont icon-pause'
+        } else {
+          this.$refs.playicon[this.currentIndex].className = 'iconfont icon-i-player'
+        }
       }
     }
   }
