@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="play-intro clearfix">
-        <div class="pull-left thrum" :style="{'background-image': thrumUrl}" @click="fullScreenUp"></div>
+        <div class="pull-left thrum" :style="{'background-image': 'url('+ thrumUrl +')'}" @click="fullScreenUp"></div>
       </div>
     </div>
     <div 
@@ -22,14 +22,14 @@
       :class="{'spread-player-up': fullScreen}"
       :style="{height: spreadHeight}"
     >
-      <div class="background" :style="{'background-image': thrumUrl}"></div>
+      <div class="background" :style="{'background-image': 'url('+ thrumUrl +')'}"></div>
       <div class="back" @click="fullScreenDown">
         <i class="iconfont icon-prev"></i>
       </div>
       <div class="player-content">
         <div class="player-bd">
           <div class="player-mod">
-            <div class="mod-thrum" :style="{'background-image': thrumUrl}"></div>
+            <div class="mod-thrum" :style="{'background-image': 'url('+ thrumUrl +')'}"></div>
             <div class="name">{{ currentSong.songname }}</div>
             <div class="info">
               <span>歌手: {{ currentSong.singer[0].name }}</span>
@@ -61,7 +61,7 @@
       ])
     },
     created () {
-      this.thrumUrl = `url(${defaultThrum})`
+      this.thrumUrl = defaultThrum
       this.spreadHeight = document.body.clientHeight + 'px'
       window.addEventListener('resize', () => {
         this.spreadHeight = document.body.clientHeight + 'px'
@@ -80,7 +80,7 @@
     },
     watch: {
       currentSong (song) {
-        this.thrumUrl = `url(https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000)`
+        this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000`
       }
     }
   }
