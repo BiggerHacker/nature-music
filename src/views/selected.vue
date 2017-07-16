@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapMutations } from 'vuex'
   import VSlide from '@/components/v-slide'
   import VAlbum from '@/components/v-album'
   import { getSelected, getAlbum } from '@/api/selected'
@@ -151,6 +151,7 @@
               list: res.cdlist[0].songlist,
               index: 0
             })
+            this.SET_PLAYING_STATE(true)
           }
         })
       },
@@ -182,6 +183,9 @@
       },
       ...mapActions([
         'selectPlay'
+      ]),
+      ...mapMutations([
+        'SET_PLAYING_STATE'
       ])
     },
     watch: {

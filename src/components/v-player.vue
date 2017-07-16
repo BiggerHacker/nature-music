@@ -108,7 +108,7 @@
         this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000`
         this.audioSrc = `http://ws.stream.qqmusic.qq.com/${song.songid}.m4a?formtag=46`
         this.$nextTick(() => {
-          // this.$refs.audio.play()
+          this.$refs.audio.play()
           this.SET_ISNULL_STATE(false)
         })
       },

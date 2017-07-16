@@ -45,16 +45,9 @@
         <tbody>
           <tr v-for="(item, index) in list.songlist">
             <td>
-              <div class="td-wrap">{{ item.songname }}</div>
-              <div class="player-contro">
-                <i 
-                  class="iconfont icon-i-player"
-                  ref="playicon"
-                  @click="selectItem(item, index), togglePlay(index)" 
-                  :data-isplayer="'false'"
-                  title="播放"
-                ></i>
-                <i class="iconfont icon-not-collection" title="收藏"></i>
+              <div class="td-wrap" ref="songname">{{ item.songname }}</div>
+              <div class="player-contro" @click="selectItem(item, index)">
+                播放歌曲
               </div>
             </td>
             <td>
@@ -78,7 +71,6 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex'
   export default {
     name: 'detail',
     props: {
@@ -94,12 +86,6 @@
     },
     activated () {
       this.descShow = false
-    },
-    computed: {
-      ...mapGetters([
-        'playing',
-        'currentIndex'
-      ])
     },
     methods: {
       format (time) {
@@ -124,29 +110,11 @@
       selectItem (item, index) {
         this.$emit('select', item, index)
       },
-      togglePlay (index) {
-        this.$refs.playicon.forEach((k, i) => {
-          k.className = 'iconfont icon-i-player'
-        })
-        this.SET_PLAYING_STATE(!this.playing)
-      },
       _getzero (time) {
         if (parseInt(time) < 10) {
           time = `0${time}`
         }
         return time
-      },
-      ...mapMutations([
-        'SET_PLAYING_STATE'
-      ])
-    },
-    watch: {
-      playing (newPlaying) {
-        if (newPlaying) {
-          this.$refs.playicon[this.currentIndex].className = 'iconfont icon-pause'
-        } else {
-          this.$refs.playicon[this.currentIndex].className = 'iconfont icon-i-player'
-        }
       }
     }
   }
@@ -356,21 +324,33 @@
     }
   }
   .player-contro {
+    display: inline-block;
     padding: 0 $module-padding;
     display: none;
     position: absolute;
     right: 0;
     top: 50%;
     transform: translate(0, -50%);
-    background-color: #fff1f1;
-    .iconfont {
-      margin-left: $module-sm-margin;
-      cursor: pointer;
-      color: $black;
-      font-size: $font-size-base;
-      &:hover {
-        color: $select-bg-color;
-      }
+    height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    border-radius: $border-radius-base;
+    background-color: $select-bg-color;
+    font-size: $font-size-base;
+    color: $white;
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -20px;
+      top: 0;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      background-color: #fff1f1;
+    }
+    &:hover {
+      background-color: $select-depth-color;
     }
   }
 </style>
