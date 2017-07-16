@@ -50,8 +50,7 @@
               </div>
               <div class="player-contro">
                 <i 
-                  class="iconfont icon-i-player" 
-                  ref="playicon"
+                  class="iconfont icon-i-player"
                   @click="selectItem(item, index)" 
                   title="播放"
                 ></i>
