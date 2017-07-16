@@ -5,8 +5,8 @@
         <div class="pull-left prev-song">
           <i class="iconfont icon-prev-song"></i>
         </div>
-        <div class="pull-left play-song">
-          <i class="iconfont icon-player"></i>
+        <div @click="togglePlay" class="pull-left play-song">
+          <i class="iconfont" :class="playIcon"></i>
         </div>
         <div class="pull-left next-song">
           <i class="iconfont icon-next-song"></i>
@@ -14,11 +14,22 @@
       </div>
       <div class="play-intro clearfix">
         <div class="pull-left thrum" :style="{'background-image': 'url('+ thrumUrl +')'}" @click="fullScreenUp"></div>
+        <div class="pull-left play-music">
+          <div class="play-music-intro" v-if="!isNull">
+            <span @click="fullScreenUp">
+              <router-link to="selected">{{ currentSong.songname }}</router-link>
+            </span>
+            <router-link class="singer-name" to="selected">--{{ currentSong.singer[0].name }}</router-link>
+          </div>
+          <div class="play-music-intro" v-else>聆听你的心动</div>
+          <div class="play-music-time" v-if="!isNull">00:00 / 04:21</div>
+          <div class="play-music-time" v-else>00:00 / 00:00</div>
+        </div>
       </div>
     </div>
     <div 
       class="spread-player"
-      v-if="currentSong.songname"
+      v-if="!isNull"
       :class="{'spread-player-up': fullScreen}"
       :style="{height: spreadHeight}"
     >
@@ -39,6 +50,7 @@
         </div>
       </div>
     </div>
+    <audio ref="audio" :src="audioSrc"></audio>
   </div>
 </template>
 
@@ -50,11 +62,17 @@
     data () {
       return {
         spreadHeight: 0,
-        thrumUrl: ''
+        thrumUrl: '',
+        audioSrc: ''
       }
     },
     computed: {
+      playIcon () {
+        return this.playing ? 'icon-pause' : 'icon-player'
+      },
       ...mapGetters([
+        'isNull',
+        'playing',
         'fullScreen',
         'sequenceList',
         'currentSong'
@@ -69,18 +87,36 @@
     },
     methods: {
       fullScreenUp () {
-        this.sequenceList.length > 0 ? this.SET_FULL_SCREEN_STATE(true) : ''
+        !this.isNull ? this.SET_FULL_SCREEN_STATE(true) : ''
       },
       fullScreenDown () {
-        this.sequenceList.length > 0 ? this.SET_FULL_SCREEN_STATE(false) : ''
+        !this.isNull ? this.SET_FULL_SCREEN_STATE(false) : ''
+      },
+      togglePlay () {
+        if (!this.isNull) {
+          this.SET_PLAYING_STATE(!this.playing)
+        }
       },
       ...mapMutations([
-        'SET_FULL_SCREEN_STATE'
+        'SET_ISNULL_STATE',
+        'SET_FULL_SCREEN_STATE',
+        'SET_PLAYING_STATE'
       ])
     },
     watch: {
       currentSong (song) {
         this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000`
+        this.audioSrc = `http://ws.stream.qqmusic.qq.com/${song.songid}.m4a?formtag=46`
+        this.$nextTick(() => {
+          this.$refs.audio.play()
+          this.SET_ISNULL_STATE(false)
+        })
+      },
+      playing (newPlaying) {
+        this.$nextTick(() => {
+          let audio = this.$refs.audio
+          newPlaying ? audio.play() : audio.pause()
+        })
       }
     }
   }
@@ -114,6 +150,17 @@
       }
       .play-intro {
         border-top: 0;
+      }
+      .play-music-intro {
+        a {
+          color: $white;
+        }
+        .singer-name {
+          color: $gray-color;
+          &:hover {
+            color: $select-bg-color;
+          }
+        }
       }
     }
     .play-config {
@@ -156,6 +203,38 @@
         height: 100%;
         background-size: cover;
       }
+    }
+    .play-music {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      margin: 0 $module-margin;
+    }
+    .play-music-intro {
+      padding-right: 85px;
+      height: 14px;
+      @include text-overflow;
+      font-size: $font-size-base;
+      color: $black;
+      a {
+        text-decoration: none;
+        transition: all .18s ease-out;
+        color: $black;
+        &:hover {
+          color: $select-bg-color;
+        }
+      }
+      .singer-name {
+        margin-left: $module-margin;
+        color: $gray-color;
+      }
+    }
+    .play-music-time {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: $font-size-base;
+      color: $gray-color;
     }
   }
   .spread-player {

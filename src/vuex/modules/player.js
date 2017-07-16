@@ -2,6 +2,7 @@ import { mode } from '@/util/config'
 import * as types from '../types'
 
 const state = {
+  isNull: true,
   playing: false,
   fullScreen: false,
   sequenceList: [],
@@ -11,6 +12,7 @@ const state = {
 }
 
 const getters = {
+  isNull: state => state.isNull,
   playing: state => state.playing,
   fullScreen: state => state.fullScreen,
   sequenceList: state => state.sequenceList,
@@ -23,6 +25,9 @@ const getters = {
 }
 
 const mutations = {
+  [types.SET_ISNULL_STATE] (state, flag) {
+    state.isNull = flag
+  },
   [types.SET_PLAYING_STATE] (state, flag) {
     state.playing = flag
   },
