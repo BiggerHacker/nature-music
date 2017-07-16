@@ -55,8 +55,8 @@
             </td>
             <td>
               <div class="td-wrap">
-                <span v-for="item in item.singer" class="singer-name">
-                  {{ item.name }}
+                <span v-for="(item, index) in item.singer" class="singer-name">
+                  <span v-if="index !== 0">/</span> {{ item.name }}
                 </span>
               </div>
             </td>

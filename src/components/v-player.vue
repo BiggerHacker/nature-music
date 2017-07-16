@@ -16,7 +16,12 @@
         <div class="pull-left thrum" :style="{'background-image': thrumUrl}" @click="fullScreenUp"></div>
       </div>
     </div>
-    <div class="spread-player" :class="{'spread-player-up': fullScreen}" :style="{height: spreadHeight}">
+    <div 
+      class="spread-player"
+      v-if="currentSong.songname"
+      :class="{'spread-player-up': fullScreen}"
+      :style="{height: spreadHeight}"
+    >
       <div class="background" :style="{'background-image': thrumUrl}"></div>
       <div class="back" @click="fullScreenDown">
         <i class="iconfont icon-prev"></i>
