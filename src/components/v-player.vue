@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <div class="mini-player clearfix">
+    <div class="mini-player clearfix" :class="{'mini-opacity': fullScreen}">
       <div class="play-config pull-left clearfix">
         <div class="pull-left prev-song">
           <i class="iconfont icon-prev-song"></i>
@@ -17,8 +17,21 @@
       </div>
     </div>
     <div class="spread-player" :class="{'spread-player-up': fullScreen}" :style="{height: spreadHeight}">
+      <div class="background" :style="{'background-image': thrumUrl}"></div>
       <div class="back" @click="fullScreenDown">
         <i class="iconfont icon-prev"></i>
+      </div>
+      <div class="player-content">
+        <div class="player-bd">
+          <div class="player-mod">
+            <div class="mod-thrum" :style="{'background-image': thrumUrl}"></div>
+            <div class="name">{{ currentSong.songname }}</div>
+            <div class="info">
+              <span>歌手: {{ currentSong.singer[0].name }}</span>
+              <span>专辑: {{ currentSong.albumname }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +83,7 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
+  @import '~@/assets/scss/mixin';
   .player {
     position: absolute;
     left: 0;
@@ -88,6 +102,15 @@
     width: 100%;
     height: 100%;
     background-color: $white;
+    &.mini-opacity {
+      background-color: rgba(0, 0, 0, 0);
+      .play-config {
+        background-color: rgba(0, 0, 0, 0);
+      }
+      .play-intro {
+        border-top: 0;
+      }
+    }
     .play-config {
       padding: $module-padding;
       width: $menu-width;
@@ -150,12 +173,80 @@
       position: absolute;
       left: 0;
       top: 0;
+      z-index: 50;
       padding: $module-padding;
       transform: rotate(-90deg);
       cursor: pointer;
       color: $white;
       &:hover {
         color: $select-bg-color;
+      }
+    }
+    .background {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 50%;
+      filter: blur(65px);
+      opacity: .6;
+    }
+    .player-content {
+      position: relative;
+      z-index: 3;
+      height: 100%;
+      margin: 0 13%;
+    }
+    .player-bd {
+      position: absolute;
+      top: 18%;
+      bottom: 18%;
+      width: 100%;
+      min-height: 408px;
+    }
+    .player-mod {
+      margin-left: 374px;
+      height: 100%;
+      color: rgba(255, 255, 255, .4);
+      .mod-thrum {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 260px;
+        height: 260px;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .name {
+        height: 24px;
+        @include text-overflow;
+        font-size: 24px;
+        color: $white;
+      }
+      .info {
+        margin-top: $module-margin;
+        span {
+          display: inline-block;
+          margin-left: $module-margin*2;
+          max-width: 40%;
+          height: 20px;
+          @include text-overflow;
+          cursor: pointer;
+          transition: all .18s ease-out;
+          font-size: 20px;
+          &:first-child {
+            margin-left: 0;
+          }
+          &:hover {
+            color: $white;
+          }
+        }
       }
     }
   }
