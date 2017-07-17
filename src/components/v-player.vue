@@ -50,7 +50,13 @@
         </div>
       </div>
     </div>
-    <audio ref="audio" :src="audioSrc" @canplay="ready" @error="error" @timeupdate="timeupdate"></audio>
+    <audio 
+      ref="audio" 
+      :src="audioSrc" 
+      @canplay="ready" 
+      @error="error" 
+      @timeupdate="timeupdate"
+    ></audio>
   </div>
 </template>
 
