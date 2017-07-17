@@ -17,9 +17,9 @@
         <div class="pull-left play-music">
           <div class="play-music-intro" v-if="!isNull">
             <span @click="fullScreenUp">
-              <router-link to="selected">{{ currentSong.songname }}</router-link>
+              {{ currentSong.songname }}
             </span>
-            <router-link class="singer-name" to="selected">--{{ currentSong.singer[0].name }}</router-link>
+            <router-link class="singer-name" to="/selected">--{{ currentSong.singer[0].name }}</router-link>
           </div>
           <div class="play-music-intro" v-else>聆听你的心动</div>
           <div class="play-music-time" v-if="!isNull">{{ filterTime(currentTime) }} / {{ filterTime(currentSong.interval) }}</div>
@@ -214,9 +214,7 @@
         border-top: 0;
       }
       .play-music-intro {
-        a {
-          color: $white;
-        }
+        color: $white;
         .singer-name {
           color: $gray-color;
           &:hover {
@@ -280,19 +278,20 @@
       padding-right: 85px;
       height: 14px;
       @include text-overflow;
+      transition: all .18s ease-out;
+      cursor: pointer;
       font-size: $font-size-base;
       color: $black;
-      a {
+      &:hover {
+        color: $select-bg-color;
+      }
+      .singer-name {
         text-decoration: none;
-        transition: all .18s ease-out;
-        color: $black;
+        margin-left: $module-sm-margin;
+        color: $gray-color;
         &:hover {
           color: $select-bg-color;
         }
-      }
-      .singer-name {
-        margin-left: $module-sm-margin;
-        color: $gray-color;
       }
     }
     .play-music-time {
