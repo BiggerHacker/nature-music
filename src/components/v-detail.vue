@@ -24,10 +24,6 @@
             <i class="iconfont icon-i-player"></i>
             播放全部
           </span>
-          <span class="config-btn">
-            <i class="iconfont icon-not-collection"></i>
-            收藏
-          </span>
         </div>
       </div>
     </div>
