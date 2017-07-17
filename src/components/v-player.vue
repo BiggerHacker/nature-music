@@ -16,7 +16,7 @@
         <div class="pull-left thrum" :style="{'background-image': 'url('+ thrumUrl +')'}" @click="fullScreenUp"></div>
         <div class="pull-left play-music">
           <div class="play-music-intro" v-if="!isNull">
-            <span @click="fullScreenUp">
+            <span @click="fullScreenUp" class="song-name">
               {{ currentSong.songname }}
             </span>
             <router-link class="singer-name" to="/selected">--{{ currentSong.singer[0].name }}</router-link>
@@ -285,11 +285,13 @@
       height: 14px;
       @include text-overflow;
       transition: all .18s ease-out;
-      cursor: pointer;
       font-size: $font-size-base;
       color: $black;
-      &:hover {
-        color: $select-bg-color;
+      .song-name {
+        cursor: pointer;
+        &:hover {
+          color: $select-bg-color;
+        }
       }
       .singer-name {
         text-decoration: none;
