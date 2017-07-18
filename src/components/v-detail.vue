@@ -41,7 +41,7 @@
         <tbody>
           <tr v-for="(item, index) in list.songlist">
             <td>
-              <div class="td-wrap" ref="songname">{{ item.songname }} <span ref="isplay" style="display: none;">正在播放</span></div>
+              <div class="td-wrap">{{ item.songname }}</div>
               <div class="player-contro" @click="selectItem(item, index)">
                 播放歌曲
               </div>
@@ -67,7 +67,6 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   export default {
     name: 'detail',
     props: {
@@ -83,17 +82,6 @@
     },
     activated () {
       this.descShow = false
-      if (!this.isNull) {
-        this.$refs.isplay.forEach((k, i) => {
-          k.className = 'isplay'
-        })
-      }
-    },
-    computed: {
-      ...mapGetters([
-        'isNull',
-        'currentIndex'
-      ])
     },
     methods: {
       format (time) {
@@ -123,14 +111,6 @@
           time = `0${time}`
         }
         return time
-      }
-    },
-    watch: {
-      currentIndex (newIndex) {
-        this.$refs.isplay.forEach((k, i) => {
-          k.className = 'isplay'
-        })
-        this.$refs.isplay[newIndex].className = 'isplay on'
       }
     }
   }
