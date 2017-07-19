@@ -41,9 +41,14 @@
         <tbody>
           <tr v-for="(item, index) in list.songlist">
             <td>
-              <div class="td-wrap">{{ item.songname }}</div>
+              <div class="td-wrap">
+                {{ item.songname }}
+              </div>
               <div class="player-contro" @click="selectItem(item, index)">
                 播放歌曲
+              </div>
+              <div class="player-on" v-if="item.songname === currentSong.songname">
+                -正在播放-
               </div>
             </td>
             <td>
@@ -67,6 +72,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'detail',
     props: {
@@ -82,6 +88,11 @@
     },
     activated () {
       this.descShow = false
+    },
+    computed: {
+      ...mapGetters([
+        'currentSong'
+      ])
     },
     methods: {
       format (time) {
@@ -313,13 +324,18 @@
       }
       tbody tr:hover {
         background-color: #fff1f1;
-        .player-contro {
+        .player-contro,
+        .player-on {
           display: block;
+          &:before {
+            background-color: #fff1f1;
+          }
         }
       }
     }
   }
-  .player-contro {
+  .player-contro,
+  .player-on {
     display: inline-block;
     padding: 0 $module-padding;
     display: none;
@@ -343,10 +359,15 @@
       bottom: 0;
       width: 20px;
       height: 20px;
-      background-color: #fff1f1;
+      background-color: #fff;
     }
+  }
+  .player-contro {
     &:hover {
       background-color: $select-depth-color;
     }
+  }
+  .player-on {
+    display: block;
   }
 </style>
