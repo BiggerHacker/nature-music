@@ -30,20 +30,14 @@
         this.move.init = true
         this.move.pageX = e.pageX
         this.move.innerWidth = this.$refs.progressInner.clientWidth
-        document.onmousemove = (e) => {
-          e.preventDefault()
-          this.progressMove(e)
-        }
-        document.onmouseup = (e) => {
-          this.progressUp()
-          document.onmousemove = null
-          document.onmouseup = null
-        }
+        document.addEventListener('mousemove', this.progressMove)
+        document.addEventListener('mouseup', this.progressUp)
       },
       progressMove (e) {
         if (!this.move.init) {
           return
         }
+        e.preventDefault()
         let progressWidth = this.$refs.progressBar.clientWidth
         let deltaX = e.pageX - this.move.pageX
         let offsetX = Math.min(progressWidth, Math.max(0, this.move.innerWidth + deltaX))
@@ -54,6 +48,8 @@
       progressUp () {
         this.move.init = false
         this._upPlay()
+        document.removeEventListener('mousemove', this.progressMove)
+        document.removeEventListener('mouseup', this.progressUp)
       },
       skipPlay (e) {
         if (!this.isNull) {
