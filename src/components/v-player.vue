@@ -24,6 +24,9 @@
           <div class="play-music-intro" v-else>聆听你的心动</div>
           <div class="play-music-time" v-if="!isNull">{{ filterTime(currentTime) }} / {{ filterTime(currentSong.interval) }}</div>
           <div class="play-music-time" v-else>00:00 / 00:00</div>
+          <div class="progress-wrap">
+            <v-progress-bar :percent="percent" @upPlay="onupplay"></v-progress-bar>
+          </div>
         </div>
       </div>
     </div>
@@ -63,8 +66,12 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex'
   import defaultThrum from './../assets/images/player_cover.png'
+  import VProgressBar from '@/components/v-progress-bar'
   export default {
     name: 'player',
+    components: {
+      VProgressBar
+    },
     data () {
       return {
         spreadHeight: 0,
@@ -83,6 +90,9 @@
       },
       background () {
         return this.fullScreen ? 'spread-bg' : ''
+      },
+      percent () {
+        return this.currentTime / this.currentSong.interval
       },
       ...mapGetters([
         'isNull',
@@ -157,6 +167,12 @@
         let minute = this._getzero(time / 60 | 0)
         let second = this._getzero(time % 60)
         return `${minute}:${second}`
+      },
+      onupplay (percent) {
+        this.$refs.audio.currentTime = percent * this.currentSong.interval
+        if (!this.playing) {
+          this.togglePlay()
+        }
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
@@ -308,6 +324,9 @@
       top: 0;
       font-size: $font-size-base;
       color: $gray-color;
+    }
+    .progress-wrap {
+      padding-top: $module-padding;
     }
   }
   .spread-player {
