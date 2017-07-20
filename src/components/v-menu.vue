@@ -2,7 +2,9 @@
   <div class="menu">
     <div class="profile-wrap">
       <div class="profile">
-        <div class="thrum"></div>
+        <div class="thrum">
+          <img src="../assets/images/thrum.jpg" alt="">
+        </div>
         <div class="name">天璇真人™</div>
       </div>
     </div>
@@ -77,8 +79,7 @@
       height: 48px;
       margin: 0 auto;
       border-radius: 50%;
-      background: url(~@/assets/images/thrum.jpg) no-repeat center center;
-      background-size: cover;
+      overflow: hidden;
     }
     .name {
       height: 34px;
@@ -86,6 +87,10 @@
       text-align: center;
       font-size: $font-size-base;
       color: $black;
+    }
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 </style>
