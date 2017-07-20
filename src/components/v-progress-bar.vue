@@ -100,10 +100,10 @@
   }
   .progress-btn {
     position: absolute;
-    left: -2px;
-    top: -2px;
-    width: 6px;
-    height: 6px;
+    left: -3px;
+    top: -3px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: $select-bg-color;
   }

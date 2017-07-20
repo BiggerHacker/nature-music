@@ -11,6 +11,9 @@
         <div @click="next" class="pull-left next-song" :class="disableCls">
           <i class="iconfont icon-next-song"></i>
         </div>
+        <div class="pull-right play-mode" @click="changeMode">
+          <i class="iconfont" :class="playMode"></i>
+        </div>
       </div>
       <div class="play-intro clearfix">
         <div class="pull-left thrum" :style="{'background-image': 'url('+ thrumUrl +')'}" @click="fullScreenUp"></div>
@@ -65,6 +68,7 @@
 
 <script>
   import { mapMutations, mapGetters } from 'vuex'
+  import { mode } from '@/util/config'
   import defaultThrum from './../assets/images/player_cover.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
@@ -94,13 +98,16 @@
       percent () {
         return this.currentTime / this.currentSong.interval
       },
+      playMode () {
+        return this.mode === mode.sequence ? 'icon-sequence' : this.mode === mode.loop ? 'icon-loop' : 'icon-random'
+      },
       ...mapGetters([
         'isNull',
         'playing',
         'playList',
         'fullScreen',
-        'sequenceList',
         'currentIndex',
+        'mode',
         'currentSong'
       ])
     },
@@ -174,6 +181,10 @@
           this.togglePlay()
         }
       },
+      changeMode () {
+        let mode = (this.mode + 1) % 3
+        this.SET_MODE(mode)
+      },
       _getzero (time) {
         if (parseInt(time) < 10) {
           time = `0${time}`
@@ -184,16 +195,20 @@
         'SET_ISNULL_STATE',
         'SET_FULL_SCREEN_STATE',
         'SET_PLAYING_STATE',
-        'SET_CURRENT_INDEX'
+        'SET_CURRENT_INDEX',
+        'SET_MODE'
       ])
     },
     watch: {
-      currentSong (song) {
-        this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${song.albummid}.jpg?max_age=2592000`
-        this.audioSrc = `http://ws.stream.qqmusic.qq.com/${song.songid}.m4a?fromtag=46`
+      currentSong (newSong, oldSong) {
+        this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${newSong.albummid}.jpg?max_age=2592000`
+        this.audioSrc = `http://ws.stream.qqmusic.qq.com/${newSong.songid}.m4a?fromtag=46`
         this.$nextTick(() => {
-          this.$refs.audio.play()
           this.SET_ISNULL_STATE(false)
+          if (newSong.songid === oldSong.songid) {
+            return
+          }
+          this.$refs.audio.play()
         })
       },
       playing (newPlaying) {
@@ -276,6 +291,14 @@
     .play-song {
       margin: 4px $module-margin 0;
       transform: scale(1.2);
+    }
+    .play-mode {
+      margin-top: 6px;
+      cursor: pointer;
+      .iconfont {
+        color: $black;
+        font-size: 24px;
+      }
     }
     .play-intro {
       padding-left: $menu-width + $module-padding;
