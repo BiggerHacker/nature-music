@@ -1,7 +1,7 @@
 <template>
   <div class="sheet-detail" v-iscroll="getIscroll">
     <div>
-      <v-detail @select="selectItem" :list="sheetDetailList" :siblingSong="siblingSong"></v-detail>
+      <v-detail @select="selectItem" :list="sheetDetailList"></v-detail>
     </div>
   </div>  
 </template>
@@ -21,8 +21,7 @@
     },
     data () {
       return {
-        sheetDetailList: {},
-        siblingSong: ''
+        sheetDetailList: {}
       }
     },
     methods: {

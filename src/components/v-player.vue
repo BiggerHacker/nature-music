@@ -62,6 +62,7 @@
       @canplay="ready" 
       @error="error" 
       @timeupdate="timeupdate"
+      @ended="end"
     ></audio>
   </div>
 </template>
@@ -69,6 +70,7 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex'
   import { mode } from '@/util/config'
+  import { random } from '@/util/util'
   import defaultThrum from './../assets/images/player_cover.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
@@ -108,7 +110,8 @@
         'fullScreen',
         'currentIndex',
         'mode',
-        'currentSong'
+        'currentSong',
+        'sequenceList'
       ])
     },
     created () {
@@ -130,15 +133,39 @@
           this.SET_PLAYING_STATE(!this.playing)
         }
       },
+      end () {
+        if (this.mode === mode.loop) {
+          this.loop()
+        } else if (this.mode === mode.random) {
+          this.random()
+        } else {
+          this.next()
+        }
+      },
+      loop () {
+        this.$refs.audio.currentTime = 0
+        this.$refs.audio.play()
+      },
+      random () {
+        let length = this.playList.length
+        let index = random(0, length)
+        this.SET_CURRENT_INDEX(index)
+      },
       next () {
         if (!this.songReady) {
           return
         }
-        let index = this.currentIndex + 1
-        if (index === this.playList.length) {
-          index = 0
+        if (this.mode === mode.loop) {
+          this.loop()
+        } else if (this.mode === mode.random) {
+          this.random()
+        } else {
+          let index = this.currentIndex + 1
+          if (index === this.playList.length) {
+            index = 0
+          }
+          this.SET_CURRENT_INDEX(index)
         }
-        this.SET_CURRENT_INDEX(index)
         if (!this.playing) {
           this.togglePlay()
         }
@@ -148,11 +175,17 @@
         if (!this.songReady) {
           return
         }
-        let index = this.currentIndex - 1
-        if (index === -1) {
-          index = this.playList.length - 1
+        if (this.mode === mode.loop) {
+          this.loop()
+        } else if (this.mode === mode.random) {
+          this.random()
+        } else {
+          let index = this.currentIndex - 1
+          if (index === -1) {
+            index = this.playList.length - 1
+          }
+          this.SET_CURRENT_INDEX(index)
         }
-        this.SET_CURRENT_INDEX(index)
         if (!this.playing) {
           this.togglePlay()
         }
@@ -182,8 +215,8 @@
         }
       },
       changeMode () {
-        let mode = (this.mode + 1) % 3
-        this.SET_MODE(mode)
+        let playmode = (this.mode + 1) % 3
+        this.SET_MODE(playmode)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
@@ -196,7 +229,8 @@
         'SET_FULL_SCREEN_STATE',
         'SET_PLAYING_STATE',
         'SET_CURRENT_INDEX',
-        'SET_MODE'
+        'SET_MODE',
+        'SET_PLAY_LIST'
       ])
     },
     watch: {

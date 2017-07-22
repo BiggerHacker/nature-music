@@ -53,7 +53,9 @@
       },
       skipPlay (e) {
         if (!this.isNull) {
-          this._calcOffset(e.offsetX)
+          let rect = this.$refs.progressBar.getBoundingClientRect()
+          let offsetWidth = e.pageX - rect.left
+          this._calcOffset(offsetWidth)
           this._upPlay()
         }
       },
