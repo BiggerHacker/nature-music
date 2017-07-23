@@ -185,7 +185,7 @@
           this.currentLyric.stop()
           return
         }
-        if (this.mode === mode.loop) {
+        if (this.mode === mode.loop || this.playList.length === 1) {
           this.loop()
           if (!this.playing) {
             this.togglePlay()
@@ -207,7 +207,7 @@
           this.currentLyric.stop()
           return
         }
-        if (this.mode === mode.loop) {
+        if (this.mode === mode.loop || this.playList.length === 1) {
           this.loop()
           if (!this.playing) {
             this.togglePlay()
@@ -338,6 +338,10 @@
             if (this.playing) {
               this.currentLyric.play()
             }
+          }).catch(() => {
+            this.currentLyric = ''
+            this.currentLineNum = 0
+            this.currentLineOffsetY = 0
           })
         })
       },
