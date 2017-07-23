@@ -1,4 +1,5 @@
 import { mode } from '@/util/config'
+import { shuffle } from '@/util/util'
 import * as types from '../types'
 
 const state = {
@@ -49,10 +50,18 @@ const mutations = {
 }
 
 const actions = {
-  selectPlay ({commit}, {list, index}) {
+  selectPlay ({commit, state}, {list, index}) {
     commit(types.SET_PLAYING_STATE, true)
     commit(types.SET_SEQUENCE_LIST, list)
-    commit(types.SET_PLAY_LIST, list)
+    if (state.mode === mode.random) {
+      let randomList = shuffle(list)
+      commit(types.SET_PLAY_LIST, randomList)
+      index = randomList.findIndex((item) => {
+        return item.songid === list[index].songid
+      })
+    } else {
+      commit(types.SET_PLAY_LIST, list)
+    }
     commit(types.SET_CURRENT_INDEX, index)
   }
 }

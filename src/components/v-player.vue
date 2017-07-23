@@ -70,7 +70,7 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex'
   import { mode } from '@/util/config'
-  import { random } from '@/util/util'
+  import { shuffle } from '@/util/util'
   import defaultThrum from './../assets/images/player_cover.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
@@ -136,8 +136,6 @@
       end () {
         if (this.mode === mode.loop) {
           this.loop()
-        } else if (this.mode === mode.random) {
-          this.random()
         } else {
           this.next()
         }
@@ -146,26 +144,22 @@
         this.$refs.audio.currentTime = 0
         this.$refs.audio.play()
       },
-      random () {
-        let length = this.playList.length
-        let index = random(0, length)
-        this.SET_CURRENT_INDEX(index)
-      },
       next () {
         if (!this.songReady) {
           return
         }
         if (this.mode === mode.loop) {
           this.loop()
-        } else if (this.mode === mode.random) {
-          this.random()
-        } else {
-          let index = this.currentIndex + 1
-          if (index === this.playList.length) {
-            index = 0
+          if (!this.playing) {
+            this.togglePlay()
           }
-          this.SET_CURRENT_INDEX(index)
+          return
         }
+        let index = this.currentIndex + 1
+        if (index === this.playList.length) {
+          index = 0
+        }
+        this.SET_CURRENT_INDEX(index)
         if (!this.playing) {
           this.togglePlay()
         }
@@ -177,15 +171,16 @@
         }
         if (this.mode === mode.loop) {
           this.loop()
-        } else if (this.mode === mode.random) {
-          this.random()
-        } else {
-          let index = this.currentIndex - 1
-          if (index === -1) {
-            index = this.playList.length - 1
+          if (!this.playing) {
+            this.togglePlay()
           }
-          this.SET_CURRENT_INDEX(index)
+          return
         }
+        let index = this.currentIndex - 1
+        if (index === -1) {
+          index = this.playList.length - 1
+        }
+        this.SET_CURRENT_INDEX(index)
         if (!this.playing) {
           this.togglePlay()
         }
@@ -215,8 +210,25 @@
         }
       },
       changeMode () {
+        if (this.isNull) {
+          return
+        }
         let playmode = (this.mode + 1) % 3
         this.SET_MODE(playmode)
+        let list = []
+        if (playmode === mode.random) {
+          list = shuffle(this.sequenceList)
+        } else {
+          list = this.sequenceList
+        }
+        this._setCurrentIndex(list)
+        this.SET_PLAY_LIST(list)
+      },
+      _setCurrentIndex (list) {
+        let index = list.findIndex((item) => {
+          return item.songid === this.currentSong.songid
+        })
+        this.SET_CURRENT_INDEX(index)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
