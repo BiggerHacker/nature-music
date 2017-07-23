@@ -182,6 +182,7 @@
       },
       next () {
         if (!this.songReady) {
+          this.currentLyric.stop()
           return
         }
         if (this.mode === mode.loop) {
@@ -203,6 +204,7 @@
       },
       prev () {
         if (!this.songReady) {
+          this.currentLyric.stop()
           return
         }
         if (this.mode === mode.loop) {
