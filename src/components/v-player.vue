@@ -69,8 +69,9 @@
 
 <script>
   import { mapMutations, mapGetters } from 'vuex'
-  import { mode } from '@/util/config'
+  import { mode, ERR_OK } from '@/util/config'
   import { shuffle } from '@/util/util'
+  import { getLyric } from '@/api/song'
   import defaultThrum from './../assets/images/player_cover.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
@@ -255,6 +256,11 @@
             return
           }
           this.$refs.audio.play()
+          getLyric(newSong.songmid).then(res => {
+            if (res.retcode === ERR_OK) {
+              console.log(res.lyric)
+            }
+          })
         })
       },
       playing (newPlaying) {
