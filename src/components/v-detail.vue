@@ -20,7 +20,7 @@
           <div class="up" v-show="!descShow" @click="showDesc">[展开]</div>
         </div>
         <div class="config">
-          <span class="config-btn config-play-all">
+          <span class="config-btn config-play-all" @click="playAll">
             <i class="iconfont icon-i-player"></i>
             播放全部
           </span>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   export default {
     name: 'detail',
     props: {
@@ -91,6 +91,7 @@
     },
     computed: {
       ...mapGetters([
+        'playing',
         'currentSong'
       ])
     },
@@ -117,12 +118,21 @@
       selectItem (item, index) {
         this.$emit('select', item, index)
       },
+      playAll () {
+        this.selectPlay({
+          list: this.list.songlist,
+          index: 0
+        })
+      },
       _getzero (time) {
         if (parseInt(time) < 10) {
           time = `0${time}`
         }
         return time
-      }
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     }
   }
 </script>
