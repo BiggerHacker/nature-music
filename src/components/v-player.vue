@@ -59,11 +59,11 @@
                     v-for="(item, index) in currentLyric.lines"
                     ref="line" 
                     :class="{on: currentLineNum === index}"
+                    v-html="item.txt"
                   >
-                    {{ item.txt }}
                   </p>
                 </div>
-                <div class="lyric-info" v-else>
+                <div class="lyric-info lyric-default" ref="lyricInfo" v-else>
                   此歌曲为没有填词的纯音乐
                 </div>
               </div>
@@ -613,6 +613,10 @@
           color: $select-bg-color;
         }
       }
+    }
+    .lyric-default {
+      position: relative;
+      top: 150px;
     }
   }
 </style>
