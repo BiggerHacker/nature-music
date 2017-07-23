@@ -13,7 +13,9 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-runtime": "^6.23.0",
+    "js-base64": "^2.1.9",
     "jsonp": "^0.2.1",
+    "lyric-parser": "^1.0.1",
     "viscroll": "^1.1.0",
     "vue": "^2.3.3",
     "vue-router": "^2.3.1",

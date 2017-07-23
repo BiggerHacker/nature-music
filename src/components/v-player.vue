@@ -52,6 +52,18 @@
               <span>歌手: {{ currentSong.singer[0].name }}</span>
               <span>专辑: {{ currentSong.albumname }}</span>
             </div>
+            <div class="lyric-wrap" v-if="currentLyric">
+              <div class="lyric-box" v-iscroll="getIscroll">
+                <div class="lyric-info" v-if="currentLyric.lines.length > 0">
+                  <p v-for="(item, index) in currentLyric.lines" :class="{on: currentLineNum === index}">
+                    {{ item.txt }}
+                  </p>
+                </div>
+                <div class="lyric-info" v-else>
+                  此歌曲为没有填词的纯音乐
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -69,6 +81,8 @@
 
 <script>
   import { mapMutations, mapGetters } from 'vuex'
+  import Base64 from 'js-base64'
+  import Lyric from 'lyric-parser'
   import { mode, ERR_OK } from '@/util/config'
   import { shuffle } from '@/util/util'
   import { getLyric } from '@/api/song'
@@ -85,7 +99,9 @@
         thrumUrl: '',
         audioSrc: '',
         songReady: false,
-        currentTime: 0
+        currentTime: 0,
+        currentLyric: '',
+        currentLineNum: 0
       }
     },
     computed: {
@@ -123,6 +139,12 @@
       })
     },
     methods: {
+      getIscroll (iscroll) {
+        console.log(iscroll)
+        iscroll.on('scrollStart', () => {
+          // iscroll.y = -500
+        })
+      },
       fullScreenUp () {
         !this.isNull ? this.SET_FULL_SCREEN_STATE(true) : ''
       },
@@ -237,6 +259,25 @@
         }
         return time
       },
+      _getLyric (id) {
+        let lyric
+        if (lyric) {
+          return Promise.resolve(lyric)
+        }
+        return new Promise((resolve, reject) => {
+          getLyric(id).then(res => {
+            if (res.retcode === ERR_OK) {
+              lyric = Base64.Base64.decode(res.lyric)
+              resolve(lyric)
+            } else {
+              reject('no lyric')
+            }
+          })
+        })
+      },
+      _lyricPlay ({lineNum, text}) {
+        this.currentLineNum = lineNum
+      },
       ...mapMutations([
         'SET_ISNULL_STATE',
         'SET_FULL_SCREEN_STATE',
@@ -256,9 +297,10 @@
             return
           }
           this.$refs.audio.play()
-          getLyric(newSong.songmid).then(res => {
-            if (res.retcode === ERR_OK) {
-              console.log(res.lyric)
+          this._getLyric(newSong.songmid).then(res => {
+            this.currentLyric = new Lyric(res, this._lyricPlay)
+            if (this.playing) {
+              this.currentLyric.play()
             }
           })
         })
@@ -310,6 +352,9 @@
             color: $select-bg-color;
           }
         }
+      }
+      .play-mode .iconfont {
+        color: $white;
       }
     }
     .play-config {
@@ -499,6 +544,38 @@
           &:hover {
             color: $white;
           }
+        }
+      }
+    }
+    .lyric-wrap {
+      position: absolute;
+      left: 0;
+      top: 65px;
+      bottom: 60px;
+      padding-left: 374px;
+      width: 100%;
+      overflow: hidden;
+      mask-image: linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.6) 15%,rgba(255,255,255,1) 25%,rgba(255,255,255,1) 75%,rgba(255,255,255,1) 85%,rgba(255,255,255,0) 100%);
+    }
+    .lyric-box {
+      position: absolute;
+      left: 374px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      .lyric-info {
+        padding-top: 50px;
+        padding-bottom: 50px;
+        color: $white;
+      }
+      p {
+        margin: 0;
+        line-height: 34px;
+        color: $white;
+        &.on {
+          transition: all .18s ease-out;
+          color: $select-bg-color;
         }
       }
     }
