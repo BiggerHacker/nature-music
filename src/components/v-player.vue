@@ -54,8 +54,12 @@
             </div>
             <div class="lyric-wrap" v-if="currentLyric">
               <div class="lyric-box" v-iscroll="getIscroll">
-                <div class="lyric-info" v-if="currentLyric.lines.length > 0">
-                  <p v-for="(item, index) in currentLyric.lines" :class="{on: currentLineNum === index}">
+                <div class="lyric-info" ref="lyricInfo" v-if="currentLyric.lines.length > 0">
+                  <p 
+                    v-for="(item, index) in currentLyric.lines"
+                    ref="line" 
+                    :class="{on: currentLineNum === index}"
+                  >
                     {{ item.txt }}
                   </p>
                 </div>
@@ -86,6 +90,7 @@
   import { mode, ERR_OK } from '@/util/config'
   import { shuffle } from '@/util/util'
   import { getLyric } from '@/api/song'
+  import { prefix } from '@/util/dom'
   import defaultThrum from './../assets/images/player_cover.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
@@ -101,7 +106,8 @@
         songReady: false,
         currentTime: 0,
         currentLyric: '',
-        currentLineNum: 0
+        currentLineNum: 0,
+        currentLineOffsetY: 0
       }
     },
     computed: {
@@ -140,9 +146,10 @@
     },
     methods: {
       getIscroll (iscroll) {
-        console.log(iscroll)
+        this._resetLyricOffset()
+        prefix(this.$refs.lyricInfo, `translate(0px, -100px`)
         iscroll.on('scrollStart', () => {
-          // iscroll.y = -500
+          iscroll.y = -this.currentLineOffsetY
         })
       },
       fullScreenUp () {
@@ -155,6 +162,9 @@
         if (!this.isNull) {
           this.SET_PLAYING_STATE(!this.playing)
         }
+        if (this.currentLyric) {
+          this.currentLyric.togglePlay()
+        }
       },
       end () {
         if (this.mode === mode.loop) {
@@ -166,6 +176,9 @@
       loop () {
         this.$refs.audio.currentTime = 0
         this.$refs.audio.play()
+        if (this.currentLyric) {
+          this.currentLyric.seek(0)
+        }
       },
       next () {
         if (!this.songReady) {
@@ -227,9 +240,13 @@
         return `${minute}:${second}`
       },
       onupplay (percent) {
-        this.$refs.audio.currentTime = percent * this.currentSong.interval
+        let currentTime = percent * this.currentSong.interval
+        this.$refs.audio.currentTime = currentTime
         if (!this.playing) {
           this.togglePlay()
+        }
+        if (this.currentLyric) {
+          this.currentLyric.seek(currentTime * 1000)
         }
       },
       changeMode () {
@@ -246,6 +263,9 @@
         }
         this._setCurrentIndex(list)
         this.SET_PLAY_LIST(list)
+      },
+      _resetLyricOffset () {
+        prefix(this.$refs.lyricInfo, '0.68s', 'TransitionDuration')
       },
       _setCurrentIndex (list) {
         let index = list.findIndex((item) => {
@@ -277,6 +297,17 @@
       },
       _lyricPlay ({lineNum, text}) {
         this.currentLineNum = lineNum
+        if (lineNum > 5) {
+          let lineEl = this.$refs.line[lineNum - 5]
+          this.currentLineOffsetY = lineEl.offsetTop
+          prefix(this.$refs.lyricInfo, `translate(0px, ${-this.currentLineOffsetY}px)`)
+          this._resetLyricOffset()
+        } else if (lineNum < 1) {
+          prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
+        } else {
+          this._resetLyricOffset()
+          prefix(this.$refs.lyricInfo, 'translate(0px, 0px)')
+        }
       },
       ...mapMutations([
         'SET_ISNULL_STATE',
@@ -291,6 +322,9 @@
       currentSong (newSong, oldSong) {
         this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${newSong.albummid}.jpg?max_age=2592000`
         this.audioSrc = `http://ws.stream.qqmusic.qq.com/${newSong.songid}.m4a?fromtag=46`
+        if (this.currentLyric) {
+          this.currentLyric.stop()
+        }
         this.$nextTick(() => {
           this.SET_ISNULL_STATE(false)
           if (newSong.songid === oldSong.songid) {
@@ -550,7 +584,7 @@
     .lyric-wrap {
       position: absolute;
       left: 0;
-      top: 65px;
+      top: 75px;
       bottom: 60px;
       padding-left: 374px;
       width: 100%;
@@ -565,7 +599,6 @@
       bottom: 0;
       overflow: hidden;
       .lyric-info {
-        padding-top: 50px;
         padding-bottom: 50px;
         color: $white;
       }
