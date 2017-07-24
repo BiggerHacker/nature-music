@@ -87,6 +87,7 @@
       }
     },
     activated () {
+      this.loading = true
       this.descShow = false
     },
     computed: {

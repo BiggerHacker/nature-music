@@ -1,9 +1,12 @@
 <template>
-  <div class="sheet-detail" v-iscroll="getIscroll">
-    <div>
-      <v-detail @select="selectItem" :list="sheetDetailList"></v-detail>
+  <div class="sheet-detail">
+    <div class="sheet-detail" v-iscroll="getIscroll" v-if="!loading">
+      <div>
+        <v-detail @select="selectItem" :list="sheetDetailList"></v-detail>
+      </div>
     </div>
-  </div>  
+    <v-loading v-if="loading"></v-loading>
+  </div>
 </template>
 
 <script>
@@ -11,17 +14,21 @@
   import { getSheetList } from '@/api/sheet'
   import { ERR_OK } from '@/util/config'
   import VDetail from '@/components/v-detail'
+  import VLoading from '@/components/v-loading'
   export default {
     name: 'sheet-detail',
     components: {
-      VDetail
+      VDetail,
+      VLoading
     },
     activated () {
+      this.loading = true
       this.getSheetDetail(this.$route.params.id)
     },
     data () {
       return {
-        sheetDetailList: {}
+        sheetDetailList: {},
+        loading: true
       }
     },
     methods: {
@@ -29,6 +36,7 @@
         getSheetList(disstid).then(res => {
           if (res.code === ERR_OK) {
             this.sheetDetailList = res.cdlist[0]
+            this.loading = false
           } else {
             this.$router.push({
               path: '/notfound'

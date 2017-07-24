@@ -27,9 +27,7 @@
           <div class="play-music-intro" v-else>聆听你的心动</div>
           <div class="play-music-time" v-if="!isNull">{{ filterTime(currentTime) }} / {{ filterTime(currentSong.interval) }}</div>
           <div class="play-music-time" v-else>00:00 / 00:00</div>
-          <div class="progress-wrap">
-            <v-progress-bar :percent="percent" @upPlay="onupplay"></v-progress-bar>
-          </div>
+          <v-progress-bar :percent="percent" @upPlay="onupplay"></v-progress-bar>
         </div>
       </div>
     </div>
@@ -243,7 +241,7 @@
       },
       onupplay (percent) {
         let currentTime = percent * this.currentSong.interval
-        this.$refs.audio.currentTime = currentTime
+        this.currentTime = this.$refs.audio.currentTime = currentTime
         if (!this.playing) {
           this.togglePlay()
         }
@@ -299,12 +297,12 @@
       },
       _lyricPlay ({lineNum, text}) {
         this.currentLineNum = lineNum
-        if (lineNum > 5) {
-          let lineEl = this.$refs.line[lineNum - 5]
+        if (lineNum > 6) {
+          let lineEl = this.$refs.line[lineNum - 6]
           this.currentLineOffsetY = lineEl.offsetTop
           prefix(this.$refs.lyricInfo, `translate(0px, ${-this.currentLineOffsetY}px)`)
           this._resetLyricOffset()
-        } else if (lineNum < 1) {
+        } else if (lineNum < 3) {
           prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
         } else {
           this._resetLyricOffset()
@@ -484,9 +482,6 @@
       top: 0;
       font-size: $font-size-base;
       color: $gray-color;
-    }
-    .progress-wrap {
-      // padding-top: $module-padding;
     }
   }
   .spread-player {
