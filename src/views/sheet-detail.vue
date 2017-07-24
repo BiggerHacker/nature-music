@@ -1,5 +1,5 @@
 <template>
-  <div class="sheet-detail">
+  <div class="sheet-detail-wrap">
     <div class="sheet-detail" v-iscroll="getIscroll" v-if="!loading">
       <div>
         <v-detail @select="selectItem" :list="sheetDetailList"></v-detail>
