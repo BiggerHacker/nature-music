@@ -486,7 +486,7 @@
       color: $gray-color;
     }
     .progress-wrap {
-      padding-top: $module-padding;
+      // padding-top: $module-padding;
     }
   }
   .spread-player {

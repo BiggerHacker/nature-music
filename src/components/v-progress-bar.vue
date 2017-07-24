@@ -1,8 +1,15 @@
 <template>
-  <div class="progress-bar" ref="progressBar" @click="skipPlay">
-    <div class="progress-inner" ref="progressInner"></div>
-    <div class="progress-btn" ref="progressBtn" v-if="!isNull" @mousedown="progressBtnDown"
-    ></div>
+  <div class="progress-bar-wrap" @click="skipPlay">
+    <div class="progress-bar" ref="progressBar">
+      <div class="progress-inner" ref="progressInner"></div>
+      <div 
+        class="progress-btn" 
+        ref="progressBtn" 
+        v-if="!isNull" 
+        @mousedown="progressBtnDown"
+      >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -85,6 +92,10 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
+  .progress-bar-wrap {
+    padding: $module-padding 0;
+    width: 100%;
+  }
   .progress-bar {
     position: relative;
     width: 100%;
