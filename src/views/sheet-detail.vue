@@ -64,6 +64,7 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
+  .sheet-detail-wrap,
   .sheet-detail {
     position: absolute;
     left: 0;
@@ -72,5 +73,8 @@
     bottom: 0;
     overflow: hidden;
     background-color: $white;
+  }
+  .sheet-detail {
+    top: 0;
   }
 </style>
