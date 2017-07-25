@@ -151,7 +151,6 @@
               list: res.cdlist[0].songlist,
               index: 0
             })
-            this.SET_PLAYING_STATE(true)
           }
         })
       },
