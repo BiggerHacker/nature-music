@@ -22,9 +22,11 @@
                 <div class="name">{{ albums.album_name }}</div>
                 <div class="singer" v-for="item in albums.singers">
                   <span>{{ albums.singer_name }}</span>
-                  <div class="player-contro">
-                    <i class="iconfont icon-i-player" title="播放" @click="selectItem(albums, index)"></i>
-                    <i class="iconfont icon-not-collection" title="收藏"></i>
+                  <div class="player-contro" @click="selectItem(albums, index)">
+                    播放
+                  </div>
+                  <div class="player-on" v-if="currentSong.albummid === albums.album_mid">
+                    - 正在播放 -
                   </div>
                 </div>
               </div>
@@ -37,6 +39,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import { prefix } from '@/util/dom'
   export default {
     name: 'album',
@@ -60,7 +63,10 @@
     computed: {
       count () {
         return this.albumList.length
-      }
+      },
+      ...mapGetters([
+        'currentSong'
+      ])
     },
     methods: {
       next () {
@@ -81,8 +87,8 @@
         }
         this._slideAlbums(this.n)
       },
-      selectItem (item, index) {
-        this.$emit('select', item, index)
+      selectItem (albums, index) {
+        this.$emit('select', albums, index)
       },
       _slideAlbums (n) {
         let albums = this.$refs.albums
@@ -217,23 +223,24 @@
           color: $select-bg-color;
         }
       }
-      .player-contro {
+      .player-contro,
+      .player-on {
         display: none;
         position: absolute;
         right: 0;
         top: 0;
         bottom: 0;
-        background-color: $section-bg-color;
-      }
-      .iconfont {
-        margin-left: $module-sm-margin;
+        padding: 0 $module-padding;
+        height: 18px;
+        line-height: 18px;
         cursor: pointer;
-        font-weight: bold;
+        border-radius: $border-radius-base;
+        background-color: $select-bg-color;
         font-size: $font-size-base;
-        color: $black;
-        &:hover {
-          color: $select-bg-color;
-        }
+        color: $white;
+      }
+      .player-on {
+        display: block;
       }
     }
   }
