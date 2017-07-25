@@ -180,13 +180,15 @@
       },
       next () {
         if (!this.songReady) {
-          this.currentLyric.stop()
           return
         }
         if (this.mode === mode.loop || this.playList.length === 1) {
           this.loop()
           if (!this.playing) {
             this.togglePlay()
+          }
+          if (this.currentLyric) {
+            this.currentLyric.seek(0)
           }
           return
         }
@@ -202,13 +204,15 @@
       },
       prev () {
         if (!this.songReady) {
-          this.currentLyric.stop()
           return
         }
         if (this.mode === mode.loop || this.playList.length === 1) {
           this.loop()
           if (!this.playing) {
             this.togglePlay()
+          }
+          if (this.currentLyric) {
+            this.currentLyric.seek(0)
           }
           return
         }

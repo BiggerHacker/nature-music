@@ -34,7 +34,7 @@
               </li>
             </ul>
           </div>
-          <v-album :albumList="albums" :refresh="albumIndex"></v-album>
+          <v-album :albumList="albums" :refresh="albumIndex" @select="selectItem"></v-album>
         </div>
         <div class="singer-wrap" v-if="hotSingers.length">
           <div class="title">
@@ -61,7 +61,7 @@
   import { mapActions, mapMutations } from 'vuex'
   import VSlide from '@/components/v-slide'
   import VAlbum from '@/components/v-album'
-  import { getSelected, getAlbum } from '@/api/selected'
+  import { getSelected, getAlbum, getAlbumSing } from '@/api/selected'
   import { getSingers } from '@/api/singer'
   import { getSheetList } from '@/api/sheet'
   import { ERR_OK } from '@/util/config'
@@ -152,6 +152,16 @@
               index: 0
             })
             this.SET_PLAYING_STATE(true)
+          }
+        })
+      },
+      selectItem (albums, index) {
+        getAlbumSing(albums.album_mid).then(res => {
+          if (res.code === ERR_OK) {
+            this.selectPlay({
+              list: res.data.list,
+              index: 0
+            })
           }
         })
       },

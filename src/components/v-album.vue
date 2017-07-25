@@ -14,16 +14,16 @@
       <div class="panel">
         <ul class="album-list" :style="{width: (count * 100) + '%'}" ref="albums">
           <li :style="{width: (100 / count) + '%'}" v-for="item in albumList">
-            <div class="item" v-for="item in item">
-              <div class="thumb" :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T002R300x300M000'+ item.album_mid +'.jpg?max_age=2592000)'}">
+            <div class="item" v-for="(albums, index) in item">
+              <div class="thumb" :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T002R300x300M000'+ albums.album_mid +'.jpg?max_age=2592000)'}">
                 <div class="cover"></div>
               </div>
               <div class="intro">
-                <div class="name">{{ item.album_name }}</div>
-                <div class="singer" v-for="item in item.singers">
-                  <span>{{ item.singer_name }}</span>
+                <div class="name">{{ albums.album_name }}</div>
+                <div class="singer" v-for="item in albums.singers">
+                  <span>{{ albums.singer_name }}</span>
                   <div class="player-contro">
-                    <i class="iconfont icon-i-player" title="播放"></i>
+                    <i class="iconfont icon-i-player" title="播放" @click="selectItem(albums, index)"></i>
                     <i class="iconfont icon-not-collection" title="收藏"></i>
                   </div>
                 </div>
@@ -80,6 +80,9 @@
           this.n = 0
         }
         this._slideAlbums(this.n)
+      },
+      selectItem (item, index) {
+        this.$emit('select', item, index)
       },
       _slideAlbums (n) {
         let albums = this.$refs.albums

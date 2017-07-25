@@ -32,3 +32,14 @@ export function getAlbum (page, pageSize, language) {
   })
   return jsonp(url, data, options)
 }
+
+export function getAlbumSing (mid) {
+  let url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_album_info_cp.fcg'
+  let data = Object.assign({}, commonParams, {
+    albummid: mid,
+    loginUin: 0,
+    hostUin: 0,
+    outCharset: 'utf-8'
+  })
+  return jsonp(url, data, options)
+}
