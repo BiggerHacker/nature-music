@@ -157,6 +157,9 @@
         !this.isNull ? this.SET_FULL_SCREEN_STATE(false) : ''
       },
       togglePlay () {
+        if (!this.songReady) {
+          return
+        }
         if (!this.isNull) {
           this.SET_PLAYING_STATE(!this.playing)
         }
@@ -231,7 +234,7 @@
       },
       error () {
         if (!this.isNull) {
-          this.songReady = true
+          this.SET_CURRENT_INDEX(this.currentIndex + 1)
         }
       },
       timeupdate (e) {
