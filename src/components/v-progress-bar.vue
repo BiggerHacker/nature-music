@@ -95,6 +95,11 @@
   .progress-bar-wrap {
     padding: $module-padding 0;
     width: 100%;
+    &:hover {
+      .progress-btn {
+        display: block;
+      }
+    }
   }
   .progress-bar {
     position: relative;
@@ -112,6 +117,7 @@
     background-color: $select-bg-color;
   }
   .progress-btn {
+    display: none;
     position: absolute;
     left: -3px;
     top: -3px;
