@@ -11,7 +11,7 @@
         <div @click="next" class="pull-left next-song" :class="disableCls">
           <i class="iconfont icon-next-song"></i>
         </div>
-        <div class="pull-right play-mode" @click="changeMode">
+        <div @click="changeMode" class="pull-right play-mode">
           <i class="iconfont" :class="playMode"></i>
         </div>
       </div>
@@ -440,6 +440,10 @@
       .iconfont {
         color: $black;
         font-size: 24px;
+      }
+      .disable {
+        border: 0;
+        color: #ccc;
       }
     }
     .play-intro {
