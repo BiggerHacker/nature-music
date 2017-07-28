@@ -103,7 +103,7 @@
         audioSrc: '',
         songReady: false,
         currentTime: 0,
-        currentLyric: '',
+        currentLyric: null,
         currentLineNum: 0,
         currentLineOffsetY: 0
       }
@@ -327,16 +327,24 @@
     },
     watch: {
       currentSong (newSong, oldSong) {
+        if (!newSong.songid) {
+          return
+        }
+        if (newSong.songid === oldSong.songid) {
+          return
+        }
+        this.songReady = true
         this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${newSong.albummid}.jpg?max_age=2592000`
         this.audioSrc = `http://ws.stream.qqmusic.qq.com/${newSong.songid}.m4a?fromtag=46`
         if (this.currentLyric) {
           this.currentLyric.stop()
+          this.currentLyric = null
+          this.currentTime = 0
+          this.currentLineNum = 0
         }
-        this.$nextTick(() => {
+        clearTimeout(this.time)
+        this.time = setTimeout(() => {
           this.SET_ISNULL_STATE(false)
-          if (newSong.songid === oldSong.songid) {
-            return
-          }
           this.$refs.audio.play()
           this._getLyric(newSong.songmid).then(res => {
             this.currentLyric = new Lyric(res, this._lyricPlay)
@@ -344,13 +352,16 @@
               this.currentLyric.play()
             }
           }).catch(() => {
-            this.currentLyric = ''
+            this.currentLyric = null
             this.currentLineNum = 0
             this.currentLineOffsetY = 0
           })
-        })
+        }, 1000)
       },
       playing (newPlaying) {
+        if (!this.songReady) {
+          return
+        }
         let audio = this.$refs.audio
         this.$nextTick(() => {
           newPlaying ? audio.play() : audio.pause()
