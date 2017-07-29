@@ -4,6 +4,7 @@ import router from './router'
 import store from '@/vuex/store'
 
 import VIscroll from 'viscroll'
+import Lazyload from 'vue-lazyload'
 
 import '@/assets/scss/index.scss'
 
@@ -16,6 +17,10 @@ Vue.use(VIscroll, {
   tap: false,
   bounce: false,
   disableTouch: false
+})
+
+Vue.use(Lazyload, {
+  loading: require('./assets/images/loading.png')
 })
 
 Vue.config.productionTip = false

@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="play-intro clearfix">
-        <div class="pull-left thrum" :style="{'background-image': 'url('+ thrumUrl +')'}" @click="fullScreenUp"></div>
+        <div class="pull-left thrum" v-lazy:background-image="thrumUrl" @click="fullScreenUp"></div>
         <div class="pull-left play-music">
           <div class="play-music-intro" v-if="!isNull">
             <span @click="fullScreenUp" class="song-name">
@@ -89,7 +89,7 @@
   import { shuffle } from '@/util/util'
   import { getLyric } from '@/api/song'
   import { prefix } from '@/util/dom'
-  import defaultThrum from './../assets/images/player_cover.png'
+  import defaultThrum from './../assets/images/loading.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
     name: 'player',
@@ -233,9 +233,7 @@
         this.songReady = true
       },
       error () {
-        if (!this.isNull) {
-          this.SET_CURRENT_INDEX(this.currentIndex + 1)
-        }
+        this.songReady = true
       },
       timeupdate (e) {
         this.currentTime = e.target.currentTime

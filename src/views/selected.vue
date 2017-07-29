@@ -9,7 +9,7 @@
           <h2 class="title">热门推荐</h2>
           <ul class="hot-list">
             <li class="pull-left" v-for="(item, index) in selectedList.hotdiss.list" v-if="index < 5">
-              <div class="pic" :style="{'background-image': 'url(' + item.imgurl + ')'}" @click="selectSheet(item.dissid)">
+              <div class="pic" v-lazy:background-image="item.imgurl" @click="selectSheet(item.dissid)">
                 <div class="player">
                   <div class="player-icon" @click.stop="playerHotlist(item.dissid)">
                     <i class="iconfont icon-player"></i>
@@ -46,7 +46,7 @@
               <router-link 
                 to="selected" 
                 class="thrum" 
-                :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ item.Fsinger_mid +'.jpg?max_age=2592000)'}"
+                v-lazy:background-image="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ item.Fsinger_mid +'.jpg?max_age=2592000'"
               ></router-link>
               <router-link to="selected" class="singer-name">{{ item.Fsinger_name }}</router-link>
             </li>

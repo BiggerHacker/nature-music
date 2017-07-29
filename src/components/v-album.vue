@@ -15,7 +15,7 @@
         <ul class="album-list" :style="{width: (count * 100) + '%'}" ref="albums">
           <li :style="{width: (100 / count) + '%'}" v-for="item in albumList">
             <div class="item" v-for="(albums, index) in item">
-              <div class="thumb" :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T002R300x300M000'+ albums.album_mid +'.jpg?max_age=2592000)'}">
+              <div class="thumb" v-lazy:background-image="'https://y.gtimg.cn/music/photo_new/T002R300x300M000'+ albums.album_mid +'.jpg?max_age=2592000'">
                 <div class="cover"></div>
               </div>
               <div class="intro">
