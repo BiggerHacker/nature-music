@@ -20,7 +20,7 @@ Vue.use(VIscroll, {
 })
 
 Vue.use(Lazyload, {
-  loading: require('./assets/images/loading.png')
+  loading: require('./assets/images/lazyloading.png')
 })
 
 Vue.config.productionTip = false

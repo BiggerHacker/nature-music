@@ -1,6 +1,7 @@
 <template>
   <div class="singer">
     歌手
+    <router-view></router-view>
   </div>
 </template>
 

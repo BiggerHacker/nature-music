@@ -6,6 +6,7 @@ import Rank from '@/views/rank'
 import Sheet from '@/views/sheet'
 import SheetDetail from '@/views/sheet-detail'
 import Singer from '@/views/singer'
+import SingerDetail from '@/views/singer-detail'
 import Notfound from '@/views/notfound'
 
 Vue.use(Router)
@@ -41,7 +42,14 @@ export default new Router({
     {
       path: '/singer',
       name: 'singer',
-      component: Singer
+      component: Singer,
+      children: [
+        {
+          path: ':id',
+          name: 'singer-detail',
+          component: SingerDetail
+        }
+      ]
     },
     {
       path: '*',

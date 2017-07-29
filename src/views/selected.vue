@@ -39,12 +39,12 @@
         <div class="singer-wrap" v-if="hotSingers.length">
           <div class="title">
             <h2 class="name pull-left">热门歌手</h2>
-            <router-link to="selected" class="more pull-right">更多 &gt;</router-link>
+            <router-link to="singer" class="more pull-right">更多 &gt;</router-link>
           </div>
           <ul class="singer-hot">
             <li class="pull-left" v-for="item in hotSingers">
               <router-link 
-                to="selected" 
+                to="singer/1" 
                 class="thrum" 
                 v-lazy:background-image="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ item.Fsinger_mid +'.jpg?max_age=2592000'"
               ></router-link>

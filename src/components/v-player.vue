@@ -89,7 +89,7 @@
   import { shuffle } from '@/util/util'
   import { getLyric } from '@/api/song'
   import { prefix } from '@/util/dom'
-  import defaultThrum from './../assets/images/loading.png'
+  import defaultThrum from './../assets/images/lazyloading.png'
   import VProgressBar from '@/components/v-progress-bar'
   export default {
     name: 'player',
@@ -113,7 +113,7 @@
         return this.playing ? 'icon-pause' : 'icon-player'
       },
       disableCls () {
-        return !this.songReady ? 'disable' : ''
+        return this.songReady && !this.isNull ? '' : 'disable'
       },
       background () {
         return this.fullScreen ? 'spread-bg' : ''
