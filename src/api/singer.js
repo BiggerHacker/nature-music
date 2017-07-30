@@ -15,3 +15,18 @@ export function getSingers (pagenum, pagesize) {
   })
   return jsonp(url, data, options)
 }
+
+export function getSingerDetail (mid, begin, num) {
+  let url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
+  let data = Object.assign({}, commonParams, {
+    loginUin: 0,
+    hostUin: 0,
+    outCharset: 'utf-8',
+    singermid: mid,
+    order: 'listen',
+    begin: begin,
+    num: num,
+    songstatus: 1
+  })
+  return jsonp(url, data, options)
+}

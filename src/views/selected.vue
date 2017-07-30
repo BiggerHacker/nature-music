@@ -44,7 +44,7 @@
           <ul class="singer-hot">
             <li class="pull-left" v-for="item in hotSingers">
               <router-link 
-                to="singer/1" 
+                :to="{path: 'singer/'+ item.Fsinger_mid}" 
                 class="thrum" 
                 v-lazy:background-image="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ item.Fsinger_mid +'.jpg?max_age=2592000'"
               ></router-link>
@@ -104,7 +104,7 @@
       ]
       this.getSelected()
       this.getAlbum()
-      this.getSingers(1, 50)
+      this.getSingers()
     },
     methods: {
       getAlbum (language = 0) {
