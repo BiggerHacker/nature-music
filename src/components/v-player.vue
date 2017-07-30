@@ -346,8 +346,9 @@
           this.$refs.audio.play()
           this._getLyric(newSong.songmid).then(res => {
             this.currentLyric = new Lyric(res, this._lyricPlay)
-            if (this.playing) {
+            if (this.playing && this.songReady) {
               this.currentLyric.play()
+              this.currentLyric.seek(this.currentTime * 1000)
             }
           }).catch(() => {
             this.currentLyric = null
