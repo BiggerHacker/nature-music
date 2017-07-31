@@ -52,7 +52,7 @@
             </div>
             <div class="lyric-wrap" v-if="currentLyric">
               <div class="lyric-box" v-iscroll="getIscroll">
-                <div class="lyric-info" ref="lyricInfo" v-if="currentLyric.lines.length > 0">
+                <div class="lyric-info" ref="lyricInfo"  v-if="currentLyric.lines.length > 0">
                   <p 
                     v-for="(item, index) in currentLyric.lines"
                     ref="line" 
@@ -113,7 +113,7 @@
         return this.playing ? 'icon-pause' : 'icon-player'
       },
       disableCls () {
-        return this.songReady && !this.isNull ? '' : 'disable'
+        return this.songReady ? '' : 'disable'
       },
       background () {
         return this.fullScreen ? 'spread-bg' : ''
@@ -233,7 +233,9 @@
         this.songReady = true
       },
       error () {
-        this.songReady = true
+        if (this.playing) {
+          this.songReady = true
+        }
       },
       timeupdate (e) {
         this.currentTime = e.target.currentTime
@@ -301,6 +303,9 @@
         })
       },
       _lyricPlay ({lineNum, text}) {
+        if (!this.$refs.line) {
+          return
+        }
         this.currentLineNum = lineNum
         if (lineNum > 6) {
           let lineEl = this.$refs.line[lineNum - 6]
@@ -331,7 +336,7 @@
         if (newSong.songid === oldSong.songid) {
           return
         }
-        this.songReady = true
+        this.songReady = false
         this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${newSong.albummid}.jpg?max_age=2592000`
         this.audioSrc = `http://ws.stream.qqmusic.qq.com/${newSong.songid}.m4a?fromtag=46`
         if (this.currentLyric) {
@@ -340,8 +345,7 @@
           this.currentTime = 0
           this.currentLineNum = 0
         }
-        clearTimeout(this.time)
-        this.time = setTimeout(() => {
+        this.$nextTick(() => {
           this.SET_ISNULL_STATE(false)
           this.$refs.audio.play()
           this._getLyric(newSong.songmid).then(res => {
@@ -355,7 +359,7 @@
             this.currentLineNum = 0
             this.currentLineOffsetY = 0
           })
-        }, 1000)
+        })
       },
       playing (newPlaying) {
         if (!this.songReady) {
