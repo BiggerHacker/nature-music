@@ -52,7 +52,10 @@
             </div>
             <div class="lyric-wrap" v-if="currentLyric">
               <div class="lyric-box" v-iscroll="getIscroll">
-                <div class="lyric-info" ref="lyricInfo"  v-if="currentLyric.lines.length > 0">
+                <div 
+                  class="lyric-info" 
+                  ref="lyricInfo" 
+                  v-if="currentLyric.lines.length > 0">
                   <p 
                     v-for="(item, index) in currentLyric.lines"
                     ref="line" 
@@ -145,7 +148,6 @@
     methods: {
       getIscroll (iscroll) {
         this._resetLyricOffset()
-        prefix(this.$refs.lyricInfo, `translate(0px, -100px`)
         iscroll.on('scrollStart', () => {
           iscroll.y = -this.currentLineOffsetY
         })
@@ -303,16 +305,13 @@
         })
       },
       _lyricPlay ({lineNum, text}) {
-        if (!this.$refs.line) {
-          return
-        }
         this.currentLineNum = lineNum
         if (lineNum > 6) {
           let lineEl = this.$refs.line[lineNum - 6]
           this.currentLineOffsetY = lineEl.offsetTop
           prefix(this.$refs.lyricInfo, `translate(0px, ${-this.currentLineOffsetY}px)`)
           this._resetLyricOffset()
-        } else if (lineNum < 3) {
+        } else if (lineNum < 6) {
           prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
         } else {
           this._resetLyricOffset()
@@ -350,9 +349,8 @@
           this.$refs.audio.play()
           this._getLyric(newSong.songmid).then(res => {
             this.currentLyric = new Lyric(res, this._lyricPlay)
-            if (this.playing && this.songReady) {
+            if (this.playing) {
               this.currentLyric.play()
-              this.currentLyric.seek(this.currentTime * 1000)
             }
           }).catch(() => {
             this.currentLyric = null
