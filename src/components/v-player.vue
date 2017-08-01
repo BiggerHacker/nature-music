@@ -305,6 +305,9 @@
         })
       },
       _lyricPlay ({lineNum, text}) {
+        if (!this.$refs.lyricInfo) {
+          return
+        }
         this.currentLineNum = lineNum
         if (lineNum > 6) {
           let lineEl = this.$refs.line[lineNum - 6]
@@ -351,6 +354,9 @@
             this.currentLyric = new Lyric(res, this._lyricPlay)
             if (this.playing) {
               this.currentLyric.play()
+            }
+            if (this.songReady) {
+              this.currentLyric.seek(this.currentTime * 1000)
             }
           }).catch(() => {
             this.currentLyric = null
