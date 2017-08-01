@@ -1,14 +1,45 @@
 <template>
   <div class="singer-detail-wrap">
     <div class="singer-detail" v-iscroll="getIscroll">
-      <div>
-        
+      <div class="detail-body">
+        <div class="song-count">热门歌曲</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>歌曲名</th>
+              <th>专辑</th>
+              <th>时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in singerDetailList.list" v-if="index < 10">
+              <td>
+                <div class="td-wrap">
+                  {{ item.musicData.songname }}
+                </div>
+                <div class="player-contro" @click="selectItem(item, index)">
+                  播放歌曲
+                </div>
+                <div class="player-on" v-if="item.musicData.songname === currentSong.songname">
+                  -正在播放-
+                </div>
+              </td>
+              <td>
+                <div class="td-wrap">
+                  <span class="album-name">{{ item.musicData.albumname }}</span>
+                </div>
+              </td>
+              <td class="time">{{ filterTime(item.musicData.interval) }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
   import { getSingerDetail } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   export default {
@@ -24,26 +55,52 @@
       this.mid = this.$route.params.id
       this._getSingerList(this.mid, this.begin, this.num)
     },
+    computed: {
+      ...mapGetters([
+        'currentSong'
+      ])
+    },
     methods: {
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
           scroll.refresh()
         })
       },
+      selectItem (item, index) {
+        this.selectPlay({
+          list: [item.musicData],
+          index: 0
+        })
+      },
+      filterTime (time) {
+        time = time | 0
+        let minute = time / 60 | 0
+        let second = this._getzero(time % 60)
+        return `${minute}:${second}`
+      },
+      _getzero (time) {
+        if (parseInt(time) < 10) {
+          time = `0${time}`
+        }
+        return time
+      },
       _getSingerList (mid, begin, num) {
         getSingerDetail(mid, begin, num).then(res => {
           if (res.code === ERR_OK) {
             this.singerDetailList = res.data
-            console.log(this.singerDetailList)
           }
         })
-      }
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     }
   }
 </script>
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
+  @import '~@/assets/scss/mixin';
   .singer-detail-wrap,
   .singer-detail {
     position: absolute;
@@ -56,5 +113,101 @@
   }
   .singer-detail {
     top: 0;
+  }
+  .detail-body {
+    padding: 0 $module-padding $module-padding;
+    .song-count {
+      height: $module-title-height;
+      line-height: $module-title-height;
+      font-family: "Microsoft YaHei";
+      font-weight: 100;
+    }
+    .table {
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;
+      .singer-name,
+      .album-name {
+        cursor: pointer;
+        &:hover {
+          color: $select-bg-color;
+        }
+      }
+      .td-wrap {
+        height: 42px;
+        overflow: hidden;
+      }
+      td,
+      th {
+        margin: 0;
+        padding: 0 0 0 $module-padding;
+        height: 42px;
+        border-bottom: 1px solid $border-color;
+        font-size: $font-size-base;
+      }
+      td:last-child,
+      th:last-child {
+        padding-right: $module-padding;
+      }
+      th {
+        font-weight: normal;
+        background-color: $section-bg-color;
+        color: $gray-color;
+      }
+      td {
+        position: relative;
+        line-height: 42px;
+        color: $black;
+      }
+      .time {
+        color: $gray-color;
+      }
+      tbody tr:hover {
+        background-color: #fff1f1;
+        .player-contro,
+        .player-on {
+          display: block;
+          &:before {
+            background-color: #fff1f1;
+          }
+        }
+      }
+    }
+  }
+  .player-contro,
+  .player-on {
+    display: inline-block;
+    padding: 0 $module-padding;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    border-radius: $border-radius-base;
+    background-color: $select-bg-color;
+    font-size: $font-size-base;
+    color: $white;
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -20px;
+      top: 0;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+      background-color: #fff;
+    }
+  }
+  .player-contro {
+    &:hover {
+      background-color: $select-depth-color;
+    }
+  }
+  .player-on {
+    display: block;
   }
 </style>

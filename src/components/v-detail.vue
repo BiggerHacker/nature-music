@@ -92,7 +92,6 @@
     },
     computed: {
       ...mapGetters([
-        'playing',
         'currentSong'
       ])
     },
