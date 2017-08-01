@@ -1,6 +1,6 @@
 <template>
   <div class="singer-detail-wrap">
-    <div class="singer-detail" v-iscroll="getIscroll">
+    <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
       <div class="detail-body">
         <div class="song-count">热门歌曲</div>
         <table class="table">
@@ -35,6 +35,7 @@
         </table>
       </div>
     </div>
+    <v-loading v-if="loading"></v-loading>
   </div>
 </template>
 
@@ -42,16 +43,22 @@
   import { mapGetters, mapActions } from 'vuex'
   import { getSingerDetail } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
+  import VLoading from '@/components/v-loading'
   export default {
     name: 'singer-detail',
+    components: {
+      VLoading
+    },
     data () {
       return {
+        loading: true,
         begin: 0,
         num: 30,
         singerDetailList: {}
       }
     },
     activated () {
+      this.loading = true
       this.mid = this.$route.params.id
       this._getSingerList(this.mid, this.begin, this.num)
     },
@@ -88,6 +95,7 @@
         getSingerDetail(mid, begin, num).then(res => {
           if (res.code === ERR_OK) {
             this.singerDetailList = res.data
+            this.loading = false
           }
         })
       },
