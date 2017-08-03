@@ -2,7 +2,10 @@
   <div class="singer-detail-wrap">
     <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
       <div class="detail-body">
-        <div class="song-count">热门歌曲</div>
+        <div class="song-count">
+          热门歌曲
+          <span class="more">更多</span>
+        </div>
         <table class="table">
           <thead>
             <tr>
@@ -125,10 +128,21 @@
   .detail-body {
     padding: 0 $module-padding $module-padding;
     .song-count {
+      position: relative;
       height: $module-title-height;
       line-height: $module-title-height;
       font-family: "Microsoft YaHei";
       font-weight: 100;
+      .more {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: $module-title-height;
+        cursor: pointer;
+        &:hover {
+          color: $select-bg-color;
+        }
+      }
     }
     .table {
       width: 100%;
