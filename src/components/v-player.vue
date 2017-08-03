@@ -101,6 +101,7 @@
     },
     data () {
       return {
+        isFull: true,
         spreadHeight: 0,
         thrumUrl: '',
         audioSrc: '',
@@ -153,10 +154,20 @@
         })
       },
       fullScreenUp () {
-        !this.isNull ? this.SET_FULL_SCREEN_STATE(true) : ''
+        if (!this.isNull) {
+          if (this.isFull) {
+            this.SET_FULL_SCREEN_STATE(true)
+          } else {
+            this.SET_FULL_SCREEN_STATE(false)
+          }
+          this.isFull = !this.isFull
+        }
       },
       fullScreenDown () {
-        !this.isNull ? this.SET_FULL_SCREEN_STATE(false) : ''
+        if (!this.isNull) {
+          this.SET_FULL_SCREEN_STATE(false)
+          this.isFull = true
+        }
       },
       togglePlay () {
         if (!this.songReady) {
