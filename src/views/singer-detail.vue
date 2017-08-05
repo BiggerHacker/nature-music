@@ -15,7 +15,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in singerDetailList.list" v-if="index < 10">
+            <tr v-for="(item, index) in singerDetailList.list" v-if="index < 10" @dblclick="selectItem(item, index)">
               <td>
                 <div class="td-wrap">
                   {{ item.musicData.songname }}

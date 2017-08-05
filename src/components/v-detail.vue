@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in list.songlist">
+          <tr v-for="(item, index) in list.songlist" @dblclick="selectItem(item, index)">
             <td>
               <div class="td-wrap">
                 {{ item.songname }}
