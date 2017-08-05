@@ -20,8 +20,8 @@
               </div>
               <div class="intro">
                 <div class="name">{{ albums.album_name }}</div>
-                <div class="singer" v-for="item in albums.singers">
-                  <span>{{ albums.singer_name }}</span>
+                <div class="singer">
+                  <span @click="toSinger(albums, index)">{{ albums.singer_name }}</span>
                   <div class="player-contro" @click="selectItem(albums, index)">
                     播放
                   </div>
@@ -89,6 +89,9 @@
       },
       selectItem (albums, index) {
         this.$emit('select', albums, index)
+      },
+      toSinger (albums, index) {
+        this.$emit('tosinger', albums, index)
       },
       _slideAlbums (n) {
         let albums = this.$refs.albums

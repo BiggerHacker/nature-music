@@ -34,7 +34,7 @@
               </li>
             </ul>
           </div>
-          <v-album :albumList="albums" :refresh="albumIndex" @select="selectItem"></v-album>
+          <v-album :albumList="albums" :refresh="albumIndex" @select="selectItem" @tosinger="tosinger"></v-album>
         </div>
         <div class="singer-wrap" v-if="hotSingers.length">
           <div class="title">
@@ -162,6 +162,11 @@
               index: 0
             })
           }
+        })
+      },
+      tosinger (albums, index) {
+        this.$router.push({
+          path: `/singer/${albums.singer_mid}`
         })
       },
       _filterAlbums (list) {
