@@ -155,11 +155,7 @@
       },
       fullScreenUp () {
         if (!this.isNull) {
-          if (this.isFull) {
-            this.SET_FULL_SCREEN_STATE(true)
-          } else {
-            this.SET_FULL_SCREEN_STATE(false)
-          }
+          this.SET_FULL_SCREEN_STATE(this.isFull)
           this.isFull = !this.isFull
         }
       },
