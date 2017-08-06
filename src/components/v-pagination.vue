@@ -82,6 +82,11 @@
         }
         return result
       }
+    },
+    watch: {
+      current (newCurrent) {
+        this.$emit('update', newCurrent)
+      }
     }
   }
 </script>

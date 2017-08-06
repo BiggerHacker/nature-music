@@ -1,7 +1,7 @@
 <template>
   <div class="singer-detail-wrap">
     <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
-      <div>
+      <div ref="scrollBox">
         <div class="detail-head">
           <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
         </div>
@@ -42,10 +42,7 @@
             </tbody>
           </table>
           <div class="pagination-wrap" v-if="!ismore">
-            <v-pagination 
-              :currentPage="currentPage" 
-              :allPage="allPage" 
-            ></v-pagination>
+            <v-pagination :allPage="allPage" @update="update"></v-pagination>
           </div>
         </div>
       </div>
@@ -58,6 +55,7 @@
   import { mapGetters, mapActions } from 'vuex'
   import { getSingerDetail } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
+  import { prefix } from '@/util/dom'
   import VLoading from '@/components/v-loading'
   import VPagination from '@/components/v-pagination'
   export default {
@@ -71,7 +69,6 @@
         ismore: true,
         loading: true,
         singerDetailList: {},
-        currentPage: 1,
         allPage: 1
       }
     },
@@ -89,8 +86,6 @@
       init () {
         this.ismore = true
         this.loading = true
-        this.currentPage = 1
-        this.allPage = 1
       },
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
@@ -119,6 +114,12 @@
         this.ismore = false
         this._getSingerList(this.mid, 0, 30)
         this.allPage = Math.ceil(this.singerDetailList.total / 30)
+      },
+      update (current) {
+        let begin = (current - 1) * 30
+        let num = current * 30
+        prefix(this.$refs.scrollBox, 'translate(0, 0)')
+        this._getSingerList(this.mid, begin, num)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
