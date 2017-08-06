@@ -41,6 +41,12 @@
               </tr>
             </tbody>
           </table>
+          <div class="pagination-wrap" v-if="!ismore">
+            <v-pagination 
+              :currentPage="currentPage" 
+              :allPage="allPage" 
+            ></v-pagination>
+          </div>
         </div>
       </div>
     </div>
@@ -53,21 +59,24 @@
   import { getSingerDetail } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   import VLoading from '@/components/v-loading'
+  import VPagination from '@/components/v-pagination'
   export default {
     name: 'singer-detail',
     components: {
-      VLoading
+      VLoading,
+      VPagination
     },
     data () {
       return {
         ismore: true,
         loading: true,
-        singerDetailList: {}
+        singerDetailList: {},
+        currentPage: 1,
+        allPage: 1
       }
     },
     activated () {
-      this.ismore = true
-      this.loading = true
+      this.init()
       this.mid = this.$route.params.id
       this._getSingerList(this.mid, 0, 10)
     },
@@ -77,6 +86,12 @@
       ])
     },
     methods: {
+      init () {
+        this.ismore = true
+        this.loading = true
+        this.currentPage = 1
+        this.allPage = 1
+      },
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
           scroll.refresh()
@@ -103,6 +118,7 @@
         this.loading = true
         this.ismore = false
         this._getSingerList(this.mid, 0, 30)
+        this.allPage = Math.ceil(this.singerDetailList.total / 30)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
@@ -255,5 +271,9 @@
   }
   .player-on {
     display: block;
+  }
+  .pagination-wrap {
+    padding: $module-padding;
+    text-align: center;
   }
 </style>
