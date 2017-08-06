@@ -220,9 +220,13 @@
         padding-right: $module-padding;
       }
       th {
+        width: 33.3333%;
         font-weight: normal;
         background-color: $section-bg-color;
         color: $gray-color;
+        &:last-child {
+          width: 10%;
+        }
       }
       td {
         position: relative;
