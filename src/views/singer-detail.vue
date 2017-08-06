@@ -28,7 +28,7 @@
                   <div class="player-contro" @click="selectItem(item, index)">
                     播放歌曲
                   </div>
-                  <div class="player-on" v-if="item.musicData.songname === currentSong.songname">
+                  <div class="player-on" v-if="item.musicData.songid === currentSong.songid">
                     -正在播放-
                   </div>
                 </td>

@@ -16,7 +16,9 @@ Vue.use(VIscroll, {
   preventDefault: true,
   tap: false,
   bounce: false,
-  disableTouch: false
+  disableTouch: true,
+  disableMouse: true,
+  disablePointer: true
 })
 
 Vue.use(Lazyload, {
