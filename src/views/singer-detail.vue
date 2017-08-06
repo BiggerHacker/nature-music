@@ -23,7 +23,7 @@
               <tr v-for="(item, index) in singerDetailList.list" @dblclick="selectItem(item, index)">
                 <td>
                   <div class="td-wrap">
-                    {{ index+1 }}{{ item.musicData.songname }}
+                    {{ item.musicData.songname }}
                   </div>
                   <div class="player-contro" @click="selectItem(item, index)">
                     播放歌曲
