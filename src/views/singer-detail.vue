@@ -23,7 +23,7 @@
               <tr v-for="(item, index) in singerDetailList.list" @dblclick="selectItem(item, index)">
                 <td>
                   <div class="td-wrap">
-                    {{ item.musicData.songname }}
+                    {{ index+1 }}{{ item.musicData.songname }}
                   </div>
                   <div class="player-contro" @click="selectItem(item, index)">
                     播放歌曲
@@ -90,6 +90,7 @@
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
           scroll.refresh()
+          scroll.y = 0
         })
       },
       selectItem (item, index) {
@@ -117,9 +118,8 @@
       },
       update (current) {
         let begin = (current - 1) * 30
-        let num = current * 30
         prefix(this.$refs.scrollBox, 'translate(0, 0)')
-        this._getSingerList(this.mid, begin, num)
+        this._getSingerList(this.mid, begin, 30)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
