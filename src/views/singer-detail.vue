@@ -66,6 +66,7 @@
     },
     data () {
       return {
+        scrollY: true,
         ismore: true,
         loading: true,
         singerDetailList: {},
@@ -90,7 +91,12 @@
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
           scroll.refresh()
-          scroll.y = 0
+          if (this.scrollY) {
+            scroll.y = 0
+          }
+        })
+        scroll.on('scrollEnd', () => {
+          this.scrollY = false
         })
       },
       selectItem (item, index) {
@@ -117,6 +123,7 @@
         this.allPage = Math.ceil(this.singerDetailList.total / 30)
       },
       update (current) {
+        this.scrollY = true
         let begin = (current - 1) * 30
         prefix(this.$refs.scrollBox, 'translate(0, 0)')
         this._getSingerList(this.mid, begin, 30)
