@@ -1,41 +1,47 @@
 <template>
   <div class="singer-detail-wrap">
     <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
-      <div class="detail-body">
-        <div class="song-count">
-          热门歌曲
-          <span class="more">更多</span>
+      <div>
+        <div class="detail-head">
+          <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
         </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>歌曲名</th>
-              <th>专辑</th>
-              <th>时间</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in singerDetailList.list" v-if="index < 10" @dblclick="selectItem(item, index)">
-              <td>
-                <div class="td-wrap">
-                  {{ item.musicData.songname }}
-                </div>
-                <div class="player-contro" @click="selectItem(item, index)">
-                  播放歌曲
-                </div>
-                <div class="player-on" v-if="item.musicData.songname === currentSong.songname">
-                  -正在播放-
-                </div>
-              </td>
-              <td>
-                <div class="td-wrap">
-                  <span class="album-name">{{ item.musicData.albumname }}</span>
-                </div>
-              </td>
-              <td class="time">{{ filterTime(item.musicData.interval) }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="detail-body">
+          <div class="song-count">
+            热门歌曲
+            <span class="count-btn" @click="allSongs" v-if="ismore">全部</span>
+            <span class="count-btn" @click="hotSongs" v-if="!ismore">热门</span>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>歌曲名</th>
+                <th>专辑</th>
+                <th>时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in singerDetailList.list" @dblclick="selectItem(item, index)">
+                <td>
+                  <div class="td-wrap">
+                    {{ item.musicData.songname }}
+                  </div>
+                  <div class="player-contro" @click="selectItem(item, index)">
+                    播放歌曲
+                  </div>
+                  <div class="player-on" v-if="item.musicData.songname === currentSong.songname">
+                    -正在播放-
+                  </div>
+                </td>
+                <td>
+                  <div class="td-wrap">
+                    <span class="album-name">{{ item.musicData.albumname }}</span>
+                  </div>
+                </td>
+                <td class="time">{{ filterTime(item.musicData.interval) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <v-loading v-if="loading"></v-loading>
@@ -54,16 +60,16 @@
     },
     data () {
       return {
+        ismore: true,
         loading: true,
-        begin: 0,
-        num: 30,
         singerDetailList: {}
       }
     },
     activated () {
+      this.ismore = true
       this.loading = true
       this.mid = this.$route.params.id
-      this._getSingerList(this.mid, this.begin, this.num)
+      this._getSingerList(this.mid, 0, 10)
     },
     computed: {
       ...mapGetters([
@@ -87,6 +93,16 @@
         let minute = time / 60 | 0
         let second = this._getzero(time % 60)
         return `${minute}:${second}`
+      },
+      hotSongs () {
+        this.loading = true
+        this.ismore = true
+        this._getSingerList(this.mid, 0, 10)
+      },
+      allSongs () {
+        this.loading = true
+        this.ismore = false
+        this._getSingerList(this.mid, 0, 30)
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
@@ -125,6 +141,14 @@
   .singer-detail {
     top: 0;
   }
+  .detail-head {
+    padding: $module-padding;
+    .title {
+      margin: 0;
+      font-weight: normal;
+      font-size: $font-size-bg;
+    }
+  }
   .detail-body {
     padding: 0 $module-padding $module-padding;
     .song-count {
@@ -133,7 +157,7 @@
       line-height: $module-title-height;
       font-family: "Microsoft YaHei";
       font-weight: 100;
-      .more {
+      .count-btn {
         position: absolute;
         right: 0;
         top: 0;
