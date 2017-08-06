@@ -16,10 +16,10 @@
         </div>
       </div>
       <div class="play-intro clearfix">
-        <div class="pull-left thrum" v-lazy:background-image="thrumUrl" @click="fullScreenUp"></div>
+        <div class="pull-left thrum" v-lazy:background-image="thrumUrl" @click="fullScreenToggle"></div>
         <div class="pull-left play-music">
           <div class="play-music-intro" v-if="!isNull">
-            <span @click="fullScreenUp" class="song-name">
+            <span @click="fullScreenToggle" class="song-name">
               {{ currentSong.songname }}
             </span>
             <router-link class="singer-name" to="/selected">--{{ currentSong.singer[0].name }}</router-link>
@@ -38,7 +38,7 @@
       :style="{height: spreadHeight}"
     >
       <div class="background" :class="background" :style="{'background-image': 'url('+ thrumUrl +')'}"></div>
-      <div class="back" @click="fullScreenDown">
+      <div class="back" @click="fullScreenToggle">
         <i class="iconfont icon-prev"></i>
       </div>
       <div class="player-content">
@@ -101,7 +101,6 @@
     },
     data () {
       return {
-        isFull: true,
         spreadHeight: 0,
         thrumUrl: '',
         audioSrc: '',
@@ -153,16 +152,9 @@
           iscroll.y = -this.currentLineOffsetY
         })
       },
-      fullScreenUp () {
+      fullScreenToggle () {
         if (!this.isNull) {
-          this.SET_FULL_SCREEN_STATE(this.isFull)
-          this.isFull = !this.isFull
-        }
-      },
-      fullScreenDown () {
-        if (!this.isNull) {
-          this.SET_FULL_SCREEN_STATE(false)
-          this.isFull = true
+          this.SET_FULL_SCREEN_STATE(!this.fullScreen)
         }
       },
       togglePlay () {

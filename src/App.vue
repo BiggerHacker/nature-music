@@ -7,6 +7,7 @@
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
   import VMenu from '@/components/v-menu'
   import VSection from '@/components/v-section'
   import VPlayer from '@/components/v-player'
@@ -16,6 +17,16 @@
       VMenu,
       VSection,
       VPlayer
+    },
+    methods: {
+      ...mapMutations([
+        'SET_FULL_SCREEN_STATE'
+      ])
+    },
+    watch: {
+      '$route' () {
+        this.SET_FULL_SCREEN_STATE(false)
+      }
     }
   }
 </script>
