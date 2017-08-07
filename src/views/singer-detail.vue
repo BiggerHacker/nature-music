@@ -2,8 +2,12 @@
   <div class="singer-detail-wrap">
     <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
       <div ref="scrollBox">
-        <div class="detail-head">
-          <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
+        <div class="detail-head clearfix">
+          <div class="thumb pull-left" :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ singerDetailList.singer_mid +'.jpg?max_age=2592000)'}"></div>
+          <div class="thumb-state">
+            <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
+            <p class="desc">单曲: {{ singerDetailList.total }}</p>
+          </div>
         </div>
         <div class="detail-body">
           <div class="song-count">
@@ -167,10 +171,26 @@
   }
   .detail-head {
     padding: $module-padding;
+    .thumb {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .thumb-state {
+      padding-left: 50px + $module-padding;
+    }
     .title {
       margin: 0;
       font-weight: normal;
-      font-size: $font-size-bg;
+      font-size: $font-size-large;
+    }
+    .desc {
+      margin: $module-margin 0 0;
+      font-size: $font-size-base;
+      color: $select-bg-color;
     }
   }
   .detail-body {

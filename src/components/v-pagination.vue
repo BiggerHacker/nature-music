@@ -122,6 +122,11 @@
         color: $white;
       }
     }
+    .clip {
+      &:hover {
+        cursor: auto;
+      }
+    }
     .pages.active {
       background-color: $select-bg-color;
       border: 1px solid $select-bg-color;
