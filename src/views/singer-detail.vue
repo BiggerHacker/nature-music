@@ -6,7 +6,11 @@
           <div class="thumb pull-left" :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ singerDetailList.singer_mid +'.jpg?max_age=2592000)'}"></div>
           <div class="thumb-state">
             <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
-            <p class="desc">单曲: {{ singerDetailList.total }}</p>
+            <p class="desc">
+              <span>单曲: {{ singerDetailList.total }}</span>
+              |
+              <span>专辑: {{ singerAlbums.total }}</span>
+            </p>
           </div>
         </div>
         <div class="detail-body">
@@ -48,6 +52,10 @@
           <div class="pagination-wrap" v-if="!ismore">
             <v-pagination :allPage="allPage" @update="update"></v-pagination>
           </div>
+          <div class="song-count" v-if="ismore">
+            专辑
+            <span class="count-btn" v-if="ismore">全部</span>
+          </div>
         </div>
       </div>
     </div>
@@ -57,7 +65,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import { getSingerDetail } from '@/api/singer'
+  import { getSingerDetail, getSingerAlbums } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   import { prefix } from '@/util/dom'
   import VLoading from '@/components/v-loading'
@@ -74,6 +82,7 @@
         ismore: true,
         loading: true,
         singerDetailList: {},
+        singerAlbums: {},
         allPage: 1
       }
     },
@@ -81,6 +90,7 @@
       this.init()
       this.mid = this.$route.params.id
       this._getSingerList(this.mid, 0, 10)
+      this._getSingerAlbums(this.mid, 0, 5)
     },
     computed: {
       ...mapGetters([
@@ -146,6 +156,13 @@
           }
         })
       },
+      _getSingerAlbums (mid, begin, num) {
+        getSingerAlbums(mid, begin, num).then(res => {
+          if (res.code === ERR_OK) {
+            this.singerAlbums = res.data
+          }
+        })
+      },
       ...mapActions([
         'selectPlay'
       ])
@@ -183,12 +200,12 @@
       padding-left: 50px + $module-padding;
     }
     .title {
-      margin: 0;
+      margin: $module-sm-margin 0 0;
       font-weight: normal;
       font-size: $font-size-large;
     }
     .desc {
-      margin: $module-margin 0 0;
+      margin: $module-sm-margin * 2 0 0;
       font-size: $font-size-base;
       color: $select-bg-color;
     }
