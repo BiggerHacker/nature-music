@@ -7,7 +7,7 @@
         </div>
         <div class="hot-wrap">
           <h2 class="title">热门推荐</h2>
-          <v-list :list="hotList" @selectSheet="selectSheet" @playerHotlist="playerHotlist"></v-list>
+          <v-list :list="hotList" @selectList="selectSheet" @playList="playerHotlist"></v-list>
         </div>
         <div class="album-wrap" v-if="albums[0]">
           <div class="title">

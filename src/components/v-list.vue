@@ -1,5 +1,5 @@
 <template>
-  <ul class="hot-list">
+  <ul class="com-list">
     <li class="pull-left" v-for="(item, index) in list" v-if="index < 5">
       <div class="pic" v-lazy:background-image="item.url" @click="select(item.id)">
         <div class="player">
@@ -25,10 +25,10 @@
     },
     methods: {
       select (id) {
-        this.$emit('selectSheet', id)
+        this.$emit('selectList', id)
       },
       player (id) {
-        this.$emit('playerHotlist', id)
+        this.$emit('playList', id)
       }
     }
   }
@@ -36,7 +36,7 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
-  .hot-list {
+  .com-list {
     margin: 0;
     margin-left: -$module-margin;
     padding: 0;
