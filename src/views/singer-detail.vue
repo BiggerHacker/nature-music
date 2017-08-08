@@ -166,7 +166,6 @@
           if (res.code === ERR_OK) {
             this.singerAlbumsLength = res.data.total
             this.singerAlbums = this._createSingerAlbums(res.data.list)
-            console.log(this.singerAlbums)
           }
         })
       },
