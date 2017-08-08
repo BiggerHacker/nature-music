@@ -9,7 +9,7 @@
             <p class="desc">
               <span>单曲: {{ singerDetailList.total }}</span>
               |
-              <span>专辑: {{ singerAlbums.total }}</span>
+              <span>专辑: {{ singerAlbumsLength }}</span>
             </p>
           </div>
         </div>
@@ -56,6 +56,7 @@
             专辑
             <span class="count-btn" v-if="ismore">全部</span>
           </div>
+          <v-list v-if="ismore" :list="singerAlbums"></v-list>
         </div>
       </div>
     </div>
@@ -64,25 +65,29 @@
 </template>
 
 <script>
+  import VLoading from '@/components/v-loading'
+  import VPagination from '@/components/v-pagination'
+  import VList from '@/components/v-list'
   import { mapGetters, mapActions } from 'vuex'
   import { getSingerDetail, getSingerAlbums } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   import { prefix } from '@/util/dom'
-  import VLoading from '@/components/v-loading'
-  import VPagination from '@/components/v-pagination'
+  import List from '@/util/list'
   export default {
     name: 'singer-detail',
     components: {
       VLoading,
-      VPagination
+      VPagination,
+      VList
     },
     data () {
       return {
         scrollY: true,
         ismore: true,
         loading: true,
-        singerDetailList: {},
-        singerAlbums: {},
+        singerDetailList: [],
+        singerAlbumsLength: 0,
+        singerAlbums: [],
         allPage: 1
       }
     },
@@ -159,9 +164,24 @@
       _getSingerAlbums (mid, begin, num) {
         getSingerAlbums(mid, begin, num).then(res => {
           if (res.code === ERR_OK) {
-            this.singerAlbums = res.data
+            this.singerAlbumsLength = res.data.total
+            this.singerAlbums = this._createSingerAlbums(res.data.list)
+            console.log(this.singerAlbums)
           }
         })
+      },
+      _createSingerAlbums (list) {
+        let result = []
+        list.forEach(item => {
+          result.push(new List({
+            id: item.albumID,
+            mid: item.albumMID,
+            name: item.albumName,
+            url: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.albumMID}.jpg?max_age=2592000`,
+            time: item.pubTime
+          }))
+        })
+        return result
       },
       ...mapActions([
         'selectPlay'

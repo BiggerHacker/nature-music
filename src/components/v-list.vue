@@ -9,6 +9,7 @@
         </div>
       </div>
       <div class="name" @click="select(item.id)">{{ item.name }}</div>
+      <div class="time" v-if="item.time">{{ item.time }}</div>
     </li>
   </ul>
 </template>
@@ -91,6 +92,7 @@
         }
       }
     }
+    .time,
     .name {
       margin-top: $module-sm-margin;
       max-height: 38px;
@@ -101,6 +103,13 @@
       font-size: $font-size-base;
       &:hover {
         color: $select-bg-color;
+      }
+    }
+    .time {
+      cursor: auto;
+      color: $gray-color;
+      &:hover {
+        color: $gray-color;
       }
     }
   }

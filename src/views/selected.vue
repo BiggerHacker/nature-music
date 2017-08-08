@@ -118,7 +118,6 @@
           if (res.code === ERR_OK) {
             this.selectedList = res.data
             this.hotList = this._createHotlist(res.data.hotdiss.list)
-            console.log(this.hotList)
           }
         })
       },
