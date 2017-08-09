@@ -15,16 +15,17 @@
         </div>
         <div class="detail-body">
           <div class="song-count">
-            热门歌曲
-            <span class="count-btn" @click="allSongs" v-if="ismore">全部</span>
-            <span class="count-btn" @click="hotSongs" v-if="!ismore">热门</span>
+            <span v-if="ismore">热门歌曲</span>
+            <span v-if="!ismore">全部歌曲</span>
+            <span class="count-btn" @click="allSongs" v-if="ismore">查看全部</span>
+            <span class="count-btn" @click="hotSongs" v-if="!ismore">返回热门</span>
           </div>
           <table class="table">
             <thead>
               <tr>
-                <th>歌曲名</th>
-                <th>专辑</th>
-                <th>时间</th>
+                <th width="33%">歌曲名</th>
+                <th width="33%">专辑</th>
+                <th width="10%">时间</th>
               </tr>
             </thead>
             <tbody>
@@ -276,13 +277,9 @@
         padding-right: $module-padding;
       }
       th {
-        width: 33.3333%;
         font-weight: normal;
         background-color: $section-bg-color;
         color: $gray-color;
-        &:last-child {
-          width: 10%;
-        }
       }
       td {
         position: relative;

@@ -32,10 +32,10 @@
       <table class="table">
         <thead>
           <tr>
-            <th>歌曲名</th>
-            <th>歌手</th>
-            <th>专辑</th>
-            <th>时间</th>
+            <th width="25%">歌曲名</th>
+            <th width="25%">歌手</th>
+            <th width="25%">专辑</th>
+            <th width="10%">时间</th>
           </tr>
         </thead>
         <tbody>
@@ -54,13 +54,14 @@
             <td>
               <div class="td-wrap">
                 <span v-for="(item, index) in item.singer" class="singer-name">
-                  <span v-if="index !== 0">/</span> {{ item.name }}
+                  <span v-if="index !== 0">/</span>
+                  <router-link :to="{path: '/singer/' + item.mid}">{{ item.name }}</router-link>
                 </span>
               </div>
             </td>
             <td>
-              <div class="td-wrap">
-                <span class="album-name">{{ item.albumname }}</span>
+              <div class="td-wrap album-name">
+                <router-link to="/selected">{{ item.albumname }}</router-link>
               </div>
             </td>
             <td class="time">{{ filterTime(item.interval) }}</td>
@@ -293,14 +294,18 @@
       font-weight: 100;
     }
     .table {
+      display: block;
       width: 100%;
       text-align: left;
       border-collapse: collapse;
       .singer-name,
       .album-name {
-        cursor: pointer;
-        &:hover {
-          color: $select-bg-color;
+        a {
+          text-decoration: none;
+          color: $black;
+          &:hover {
+            color: $select-bg-color;
+          }
         }
       }
       .td-wrap {
@@ -320,13 +325,9 @@
         padding-right: $module-padding;
       }
       th {
-        width: 25%;
         font-weight: normal;
         background-color: $section-bg-color;
         color: $gray-color;
-        &:last-child {
-          width: 10%;
-        }
       }
       td {
         position: relative;

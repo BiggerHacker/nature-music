@@ -22,7 +22,12 @@
             <span @click="fullScreenToggle" class="song-name">
               {{ currentSong.songname }}
             </span>
-            <router-link class="singer-name" to="/selected">--{{ currentSong.singer[0].name }}</router-link>
+            <router-link 
+              class="singer-name" 
+              :to="{path: '/singer/' + currentSong.singer[0].mid}"
+            >
+                --{{ currentSong.singer[0].name }}
+            </router-link>
           </div>
           <div class="play-music-intro" v-else>聆听你的心动</div>
           <div class="play-music-time" v-if="!isNull">{{ filterTime(currentTime) }} / {{ filterTime(currentSong.interval) }}</div>
@@ -47,8 +52,12 @@
             <div class="mod-thrum" :style="{'background-image': 'url('+ thrumUrl +')'}"></div>
             <div class="name">{{ currentSong.songname }}</div>
             <div class="info">
-              <span>歌手: {{ currentSong.singer[0].name }}</span>
-              <span>专辑: {{ currentSong.albumname }}</span>
+              <router-link 
+                :to="{path: '/singer/' + currentSong.singer[0].mid}"
+              >
+                歌手: {{ currentSong.singer[0].name }}
+              </router-link>
+              <router-link to="/selected">专辑: {{ currentSong.albumname }}</router-link>
             </div>
             <div class="lyric-wrap" v-if="currentLyric">
               <div class="lyric-box" v-iscroll="getIscroll">
@@ -589,15 +598,16 @@
       }
       .info {
         margin-top: $module-margin;
-        span {
+        a {
           display: inline-block;
           margin-left: $module-margin*2;
           max-width: 40%;
           height: 20px;
           @include text-overflow;
-          cursor: pointer;
+          text-decoration: none;
           transition: all .18s ease-out;
           font-size: 20px;
+          color: rgba(255, 255, 255, .4);
           &:first-child {
             margin-left: 0;
           }
