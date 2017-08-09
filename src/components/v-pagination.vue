@@ -34,7 +34,7 @@
       return {
         current: 1,
         prevClip: false,
-        nextClip: true
+        nextClip: false
       }
     },
     methods: {

@@ -50,7 +50,7 @@
             </tbody>
           </table>
           <div class="pagination-wrap" v-if="!ismore">
-            <v-pagination :allPage="allPage" @update="update"></v-pagination>
+            <v-pagination v-if="allPage !== 1" :allPage="allPage" @update="update"></v-pagination>
           </div>
           <div class="song-count" v-if="ismore">
             专辑

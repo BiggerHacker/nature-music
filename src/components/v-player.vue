@@ -148,6 +148,7 @@
     methods: {
       getIscroll (iscroll) {
         this._resetLyricOffset()
+        prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
         iscroll.on('scrollStart', () => {
           iscroll.y = -this.currentLineOffsetY
         })
@@ -309,16 +310,11 @@
           return
         }
         this.currentLineNum = lineNum
-        if (lineNum > 6) {
-          let lineEl = this.$refs.line[lineNum - 6]
-          this.currentLineOffsetY = lineEl.offsetTop
+        if (lineNum > 0) {
+          let lineEl = this.$refs.line[lineNum]
+          this.currentLineOffsetY = lineEl.offsetTop - 200
           prefix(this.$refs.lyricInfo, `translate(0px, ${-this.currentLineOffsetY}px)`)
           this._resetLyricOffset()
-        } else if (lineNum < 6) {
-          prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
-        } else {
-          this._resetLyricOffset()
-          prefix(this.$refs.lyricInfo, 'translate(0px, 0px)')
         }
       },
       ...mapMutations([
