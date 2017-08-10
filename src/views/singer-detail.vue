@@ -58,6 +58,10 @@
             <span class="count-btn" v-if="ismore">全部</span>
           </div>
           <v-list v-if="ismore" :list="singerAlbums"></v-list>
+          <div class="song-count" v-if="ismore">
+            相似歌手
+            <span class="count-btn" v-if="ismore">全部</span>
+          </div>
         </div>
       </div>
     </div>
@@ -159,6 +163,10 @@
           if (res.code === ERR_OK) {
             this.singerDetailList = res.data
             this.loading = false
+          } else {
+            this.$router.push({
+              path: '/notfound'
+            })
           }
         })
       },
