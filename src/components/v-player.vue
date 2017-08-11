@@ -157,7 +157,11 @@
     methods: {
       getIscroll (iscroll) {
         this._resetLyricOffset()
-        prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
+        if (this.currentLyric.lines.length === 0) {
+          prefix(this.$refs.lyricInfo, 'translate(0px, 0px)')
+        } else {
+          prefix(this.$refs.lyricInfo, 'translate(0px, 200px)')
+        }
         iscroll.on('scrollStart', () => {
           iscroll.y = -this.currentLineOffsetY
         })
