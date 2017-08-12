@@ -53,11 +53,11 @@
           <div class="pagination-wrap" v-if="!ismore">
             <v-pagination v-if="allPage !== 1" :allPage="allPage" @update="update"></v-pagination>
           </div>
-          <div class="song-count" v-if="ismore">
+          <div class="song-count" v-if="ismore && singerAlbums.length !== 0">
             专辑
             <span class="count-btn">全部</span>
           </div>
-          <v-list v-if="ismore && singerAlbums.length !== 0" :list="singerAlbums"></v-list>
+          <v-list v-if="ismore" :list="singerAlbums"></v-list>
           <div class="song-count" v-if="ismore && simSinger.length !== 0">
             相似歌手
           </div>
