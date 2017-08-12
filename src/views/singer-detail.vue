@@ -3,7 +3,7 @@
     <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
       <div ref="scrollBox">
         <div class="detail-head clearfix">
-          <div class="thumb pull-left" :style="{'background-image': 'url(https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ singerDetailList.singer_mid +'.jpg?max_age=2592000)'}"></div>
+          <img class="thumb pull-left" :src="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ singerDetailList.singer_mid +'.jpg?max_age=2592000'" :onerror="errImg">
           <div class="thumb-state">
             <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
             <p class="desc">
@@ -57,8 +57,8 @@
             专辑
             <span class="count-btn">全部</span>
           </div>
-          <v-list v-if="ismore" :list="singerAlbums"></v-list>
-          <div class="song-count" v-if="ismore">
+          <v-list v-if="ismore && singerAlbums.length !== 0" :list="singerAlbums"></v-list>
+          <div class="song-count" v-if="ismore && simSinger.length !== 0">
             相似歌手
           </div>
           <v-singer-list v-if="ismore" :list="simSinger"></v-singer-list>
@@ -89,6 +89,7 @@
     },
     data () {
       return {
+        errImg: 'this.src="' + require('@/assets/images/error_singer.png') + '"',
         scrollY: true,
         ismore: true,
         loading: true,
@@ -239,9 +240,6 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: cover;
     }
     .thumb-state {
       padding-left: 50px + $module-padding;
