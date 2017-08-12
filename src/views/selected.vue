@@ -34,10 +34,15 @@
             <li class="pull-left" v-for="item in hotSingers">
               <router-link 
                 :to="{path: 'singer/'+ item.Fsinger_mid}" 
-                class="thrum" 
+                class="thumb" 
                 v-lazy:background-image="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ item.Fsinger_mid +'.jpg?max_age=2592000'"
               ></router-link>
-              <router-link to="selected" class="singer-name">{{ item.Fsinger_name }}</router-link>
+              <router-link 
+                :to="{path: 'singer/'+ item.Fsinger_mid}"  
+                class="singer-name"
+              >
+                {{ item.Fsinger_name }}
+              </router-link>
             </li>
           </ul>
         </div>
@@ -315,7 +320,7 @@
       width: 20%;
       text-align: center;
     }
-    .thrum {
+    .thumb {
       display: block;
       width: 100%;
       padding-top: 100%;

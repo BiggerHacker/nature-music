@@ -60,8 +60,8 @@
           <v-list v-if="ismore" :list="singerAlbums"></v-list>
           <div class="song-count" v-if="ismore">
             相似歌手
-            <span class="count-btn" v-if="ismore">全部</span>
           </div>
+          <v-singer-list v-if="ismore" :list="simSinger"></v-singer-list>
         </div>
       </div>
     </div>
@@ -73,8 +73,9 @@
   import VLoading from '@/components/v-loading'
   import VPagination from '@/components/v-pagination'
   import VList from '@/components/v-list'
+  import VSingerList from '@/components/v-singer-list'
   import { mapGetters, mapActions } from 'vuex'
-  import { getSingerDetail, getSingerAlbums } from '@/api/singer'
+  import { getSimSingers, getSingerDetail, getSingerAlbums } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   import { prefix } from '@/util/dom'
   import List from '@/util/list'
@@ -83,13 +84,15 @@
     components: {
       VLoading,
       VPagination,
-      VList
+      VList,
+      VSingerList
     },
     data () {
       return {
         scrollY: true,
         ismore: true,
         loading: true,
+        simSinger: [],
         singerDetailList: [],
         singerAlbumsLength: 0,
         singerAlbums: [],
@@ -99,13 +102,18 @@
     activated () {
       this.init()
       this.mid = this.$route.params.id
-      this._getSingerList(this.mid, 0, 10)
-      this._getSingerAlbums(this.mid, 0, 5)
+      this._getData(this.mid)
     },
     computed: {
       ...mapGetters([
         'currentSong'
       ])
+    },
+    beforeRouteUpdate (to, from, next) {
+      this.init()
+      this.mid = to.params.id
+      this._getData(this.mid)
+      next()
     },
     methods: {
       init () {
@@ -152,11 +160,22 @@
         prefix(this.$refs.scrollBox, 'translate(0, 0)')
         this._getSingerList(this.mid, begin, 30)
       },
+      _getData (mid) {
+        this._getSimSinger(this.mid, 0, 5)
+        this._getSingerList(this.mid, 0, 10)
+        this._getSingerAlbums(this.mid, 0, 5)
+      },
       _getzero (time) {
         if (parseInt(time) < 10) {
           time = `0${time}`
         }
         return time
+      },
+      _getSimSinger (mid, start, num) {
+        getSimSingers(mid, start, num).then(res => {
+          this.simSinger = res.singers.items
+          this.loading = false
+        })
       },
       _getSingerList (mid, begin, num) {
         getSingerDetail(mid, begin, num).then(res => {

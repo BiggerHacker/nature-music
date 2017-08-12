@@ -22,6 +22,7 @@ Vue.use(VIscroll, {
 })
 
 Vue.use(Lazyload, {
+  error: require('./assets/images/lazyloading.png'),
   loading: require('./assets/images/lazyloading.png')
 })
 

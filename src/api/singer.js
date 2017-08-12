@@ -16,6 +16,20 @@ export function getSingers (pagenum, pagesize) {
   return jsonp(url, data, options)
 }
 
+export function getSimSingers (mid, start, num) {
+  let url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_simsinger.fcg'
+  let data = Object.assign({}, commonParams, {
+    utf8: 1,
+    singer_mid: mid,
+    start: start,
+    num: num,
+    loginUin: 0,
+    hostUin: 0,
+    outCharset: 'utf-8'
+  })
+  return jsonp(url, data, options)
+}
+
 export function getSingerDetail (mid, begin, num) {
   let url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
   let data = Object.assign({}, commonParams, {
