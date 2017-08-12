@@ -30,18 +30,16 @@
   @import '~@/assets/scss/variable';
   .singer-list {
     margin: 0;
+    margin-right: -$module-margin;
     padding: 0;
     list-style: none;
     li {
       float: left;
-      padding: 0 $module-padding;
       width: 20%;
-      &:first-child {
-        margin-left: -$module-margin;
-      }
     }
     a {
       display: block;
+      margin-right: $module-margin;
       padding: $module-padding;
       text-decoration: none;
       text-align: center;
