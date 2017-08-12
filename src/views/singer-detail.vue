@@ -55,7 +55,7 @@
           </div>
           <div class="song-count" v-if="ismore">
             专辑
-            <span class="count-btn" v-if="ismore">全部</span>
+            <span class="count-btn">全部</span>
           </div>
           <v-list v-if="ismore" :list="singerAlbums"></v-list>
           <div class="song-count" v-if="ismore">
