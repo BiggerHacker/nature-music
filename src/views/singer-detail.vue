@@ -20,36 +20,28 @@
             <span class="count-btn" @click="allSongs" v-if="ismore">查看全部</span>
             <span class="count-btn" @click="hotSongs" v-if="!ismore">返回热门</span>
           </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th width="33%">歌曲名</th>
-                <th width="33%">专辑</th>
-                <th width="10%">时间</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in singerDetailList.list" @dblclick="selectItem(item, index)">
-                <td>
-                  <div class="td-wrap">
-                    {{ item.musicData.songname }}
-                  </div>
-                  <div class="player-contro" @click="selectItem(item, index)">
-                    播放歌曲
-                  </div>
-                  <div class="player-on" v-if="item.musicData.songid === currentSong.songid">
-                    -正在播放-
-                  </div>
-                </td>
-                <td>
-                  <div class="td-wrap">
-                    <span class="album-name">{{ item.musicData.albumname }}</span>
-                  </div>
-                </td>
-                <td class="time">{{ filterTime(item.musicData.interval) }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="song-list">
+            <ul class="song-list-head clearfix">
+              <li>歌曲</li>
+              <li>专辑</li>
+              <li>时间</li>
+            </ul>
+            <ul class="song-list-body">
+              <li class="clearfix" v-for="(item, index) in singerDetailList.list" @dblclick="selectItem(item, index)">
+                <div class="item pull-left">
+                  {{ item.musicData.songname }}
+                  <div class="play-contro" @click="selectItem(item, index)">播放歌曲</div>
+                  <div class="play-on" v-if="item.musicData.songid === currentSong.songid">-正在播放-</div>
+                </div>
+                <div class="item pull-left">
+                  <router-link to="/selected">{{ item.musicData.albumname }}</router-link>
+                </div>
+                <div class="item time pull-left">
+                  {{ filterTime(item.musicData.interval) }}
+                </div>
+              </li>
+            </ul>
+          </div>
           <div class="pagination-wrap" v-if="!ismore">
             <v-pagination v-if="allPage !== 1" :allPage="allPage" @update="update"></v-pagination>
           </div>
@@ -120,6 +112,8 @@
       init () {
         this.ismore = true
         this.loading = true
+        this.simSinger = []
+        this.singerAlbums = []
       },
       getIscroll (scroll) {
         scroll.on('scrollStart', () => {
@@ -274,60 +268,72 @@
         }
       }
     }
-    .table {
-      width: 100%;
-      text-align: left;
-      border-collapse: collapse;
-      .singer-name,
-      .album-name {
-        cursor: pointer;
-        &:hover {
-          color: $select-bg-color;
+    .song-list {
+      font-size: $font-size-base;
+      overflow: hidden;
+    }
+    .song-list-head,
+    .song-list-body {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .song-list-head {
+      background-color: $section-bg-color;
+      height: 42px;
+      line-height: 42px;
+      border-bottom: 1px solid $border-color;
+      color: $gray-color;
+      li {
+        float: left;
+        padding-left: $module-padding;
+        width: 33%;
+        white-space: normal;
+        &:last-child {
+          text-align: center;
         }
       }
-      .td-wrap {
+    }
+    .song-list-body {
+      width: 100%;
+      color: $black;
+      li {
         height: 42px;
-        overflow: hidden;
-      }
-      td,
-      th {
-        margin: 0;
-        padding: 0 0 0 $module-padding;
-        height: 42px;
-        border-bottom: 1px solid $border-color;
-        font-size: $font-size-base;
-      }
-      td:last-child,
-      th:last-child {
-        padding-right: $module-padding;
-      }
-      th {
-        font-weight: normal;
-        background-color: $section-bg-color;
-        color: $gray-color;
-      }
-      td {
-        position: relative;
         line-height: 42px;
-        color: $black;
-      }
-      .time {
-        color: $gray-color;
-      }
-      tbody tr:hover {
-        background-color: #fff1f1;
-        .player-contro,
-        .player-on {
-          display: block;
-          &:before {
-            background-color: #fff1f1;
+        background-color: $white;
+        border-bottom: 1px solid $border-color;
+        &:hover {
+          background-color: #fff1f1;
+          .play-contro,
+          .play-on {
+            display: block;
+            &:before {
+              background-color: #fff1f1;
+            }
           }
+        }
+        .item {
+          position: relative;
+          width: 33%;
+          padding-left: $module-padding;
+          @include text-overflow;
+        }
+        a {
+          text-decoration: none;
+          color: $black;
+          &:hover {
+            color: $select-bg-color;
+          }
+        }
+        .time {
+          text-align: center;
+          color: $gray-color;
         }
       }
     }
   }
-  .player-contro,
-  .player-on {
+  .play-contro,
+  .play-on {
     display: inline-block;
     padding: 0 $module-padding;
     display: none;
@@ -354,12 +360,12 @@
       background-color: #fff;
     }
   }
-  .player-contro {
+  .play-contro {
     &:hover {
       background-color: $select-depth-color;
     }
   }
-  .player-on {
+  .play-on {
     display: block;
   }
   .pagination-wrap {
