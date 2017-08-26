@@ -113,6 +113,7 @@
         this.ismore = true
         this.loading = true
         this.simSinger = []
+        this.singerDetailList = []
         this.singerAlbums = []
       },
       getIscroll (scroll) {
