@@ -7,10 +7,17 @@
       <ul class="top-list clearfix">
         <li v-for="item in toplist" v-if="item.id !== 201">
           <div class="item clearfix">
-            <div class="pic pull-left" v-lazy:background-image="item.picUrl"></div>
+            <div class="pic pull-left" v-lazy:background-image="item.picUrl">
+              <div class="player">
+                <div class="player-icon">
+                  <i class="iconfont icon-player"></i>
+                </div>
+              </div>
+              <div class="num">{{ item.listenCount }}</div>
+            </div>
             <div class="list">
               <div class="songname" v-for="(item, index) in item.songList">
-                <span class="count">{{ index }}</span> {{ item.songname }} - {{ item.singername }}
+                <span class="count">{{ index + 1 }}</span> {{ item.songname }} - {{ item.singername }}
               </div>
             </div>
           </div>
@@ -96,6 +103,55 @@
       background-repeat: no-repeat;
       background-position: center center;
       background-size: cover;
+      &:hover {
+        .player {
+          opacity: 1;
+        }
+      }
+      .num {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        left: 0;
+        text-align: right;
+        font-size: $font-size-base;
+        color: $white;
+      }
+      .player {
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        transition: opacity .18s ease-out;
+        background-color: rgba(0, 0, 0, .6);
+      }
+      .player-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 44px;
+        height: 44px;
+        text-align: center;
+        line-height: 44px;
+        border-radius: 50%;
+        transition: all .18s ease-out;
+        background-color: $select-bg-color;
+        &:hover {
+          background-color: $select-depth-color;
+        }
+      }
+      .iconfont {
+        transition: color .18s ease-out;
+        font-size: 24px;
+        color: $white;
+        &:hover {
+          color: $white;
+        }
+      }
     }
     .list {
       padding: $module-padding;
@@ -108,6 +164,7 @@
         line-height: $nav-height;
         @include text-overflow;
         font-size: $font-size-base;
+        color: $black;
       }
       .count {
         margin-right: 5px;
