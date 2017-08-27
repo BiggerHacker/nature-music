@@ -51,6 +51,8 @@
       position: relative;
       padding-top: 100%;
       cursor: pointer;
+      background-repeat: no-repeat;
+      background-position: center center;
       background-size: cover;
       &:hover {
         .player {
