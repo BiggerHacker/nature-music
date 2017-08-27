@@ -13,7 +13,7 @@
                   <i class="iconfont icon-player"></i>
                 </div>
               </div>
-              <div class="num">{{ item.listenCount }}</div>
+              <div class="num">{{ filterCount(item.listenCount) }}</div>
             </div>
             <div class="list">
               <div class="songname" v-for="(item, index) in item.songList">
@@ -45,6 +45,17 @@
         scroll.on('scrollStart', () => {
           scroll.refresh()
         })
+      },
+      filterCount (n) {
+        if (n > 9999) {
+          let decimal = n / 10000
+          return this._cutDecimal(decimal, 1) + '万'
+        } else {
+          return n
+        }
+      },
+      _cutDecimal (n, num) {
+        return parseInt(n * Math.pow(10, num) + 0.5, 10) / Math.pow(10, num)
       },
       _getToplist () {
         getToplist().then(res => {
