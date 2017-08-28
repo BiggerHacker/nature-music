@@ -404,7 +404,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 10;
+    z-index: 20;
     width: 100%;
     height: 100%;
     background-color: $white;
@@ -528,7 +528,7 @@
     top: 0;
     right: 0;
     bottom: 0;
-    z-index: 8;
+    z-index: 18;
     width: 1200px;
     margin: 0 auto;
     transition: all .3s ease-out;

@@ -24,5 +24,6 @@
     height: 44px;
     line-height: 44px;
     border-bottom: 1px solid #d5d3d2;
+    background-color: #fff;
   }
 </style>

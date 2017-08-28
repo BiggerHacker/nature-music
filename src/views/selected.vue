@@ -231,6 +231,7 @@
     bottom: 0;
     width: 100%;
     overflow: hidden;
+    background-color: $white;
   }
   .slide-wrap {
     padding: $module-padding;

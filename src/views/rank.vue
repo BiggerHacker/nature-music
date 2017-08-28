@@ -80,6 +80,7 @@
     padding: 0 $module-padding;
     width: 100%;
     overflow: hidden;
+    background-color: $white;
     .title {
       height: $module-title-height;
       line-height: $module-title-height;
