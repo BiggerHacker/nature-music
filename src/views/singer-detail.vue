@@ -128,9 +128,13 @@
         })
       },
       selectItem (item, index) {
+        let musicData = []
+        for (let i = 0; i < this.singerDetailList.list.length; i++) {
+          musicData.push(this.singerDetailList.list[i].musicData)
+        }
         this.selectPlay({
-          list: [item.musicData],
-          index: 0
+          list: musicData,
+          index: index
         })
       },
       filterTime (time) {
