@@ -13,7 +13,14 @@
           </div>
         </div>
       </div>
-      <div class="name" :class="{'spread-name': !isBreviary}" @click="select(item.id)">{{ item.name }}</div>
+      <div 
+        class="name" 
+        :class="{'spread-name': !isBreviary}" 
+        :title="item.name"
+        @click="select(item.id)"
+      >
+        {{ item.name }}
+      </div>
       <div class="time" v-if="item.time">{{ item.time }}</div>
     </li>
   </ul>
