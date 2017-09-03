@@ -179,7 +179,6 @@
       _getSimSinger (mid, start, num) {
         getSimSingers(mid, start, num).then(res => {
           this.simSinger = res.singers.items
-          this.loading = false
         })
       },
       _getSingerList (mid, begin, num) {
@@ -187,10 +186,6 @@
           if (res.code === ERR_OK) {
             this.singerDetailList = res.data
             this.loading = false
-          } else {
-            this.$router.push({
-              path: '/notfound'
-            })
           }
         })
       },

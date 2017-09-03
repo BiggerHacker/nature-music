@@ -1,6 +1,6 @@
 <template>
   <div class="loading">
-    正在加载数据...
+    <img src="../assets/images/loading.gif" alt="">
   </div>
 </template>
 
@@ -13,9 +13,14 @@
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
   .loading {
-    padding: $module-padding;
-    text-align: center;
-    color: $black;
-    font-size: $font-size-base;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 </style>
