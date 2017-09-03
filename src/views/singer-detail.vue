@@ -34,7 +34,7 @@
                   <div class="play-on" v-if="item.musicData.songid === currentSong.songid">-正在播放-</div>
                 </div>
                 <div class="item pull-left">
-                  <router-link to="/selected">{{ item.musicData.albumname }}</router-link>
+                  <span class="album-name">{{ item.musicData.albumname }}</span>
                 </div>
                 <div class="item time pull-left">
                   {{ filterTime(item.musicData.interval) }}
@@ -328,8 +328,8 @@
           padding-left: $module-padding;
           @include text-overflow;
         }
-        a {
-          text-decoration: none;
+        .album-name {
+          cursor: pointer;
           color: $black;
           &:hover {
             color: $select-bg-color;
