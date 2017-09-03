@@ -1,6 +1,11 @@
 <template>
   <ul class="com-list">
-    <li class="pull-left" v-for="(item, index) in list" v-if="index < 5">
+    <li 
+      class="pull-left" 
+      :class="{'spread-list': !isBreviary}" 
+      v-for="(item, index) in list" 
+      v-if="isBreviary ? index < 5 : index >= 0"
+    >
       <div class="pic" v-lazy:background-image="item.url" @click="select(item.id)">
         <div class="player">
           <div class="player-icon" @click.stop="player(item.id)">
@@ -8,7 +13,7 @@
           </div>
         </div>
       </div>
-      <div class="name" @click="select(item.id)">{{ item.name }}</div>
+      <div class="name" :class="{'spread-name': !isBreviary}" @click="select(item.id)">{{ item.name }}</div>
       <div class="time" v-if="item.time">{{ item.time }}</div>
     </li>
   </ul>
@@ -21,6 +26,10 @@
       list: {
         type: Array,
         default: []
+      },
+      isBreviary: {
+        type: Boolean,
+        default: true
       }
     },
     methods: {
@@ -36,6 +45,7 @@
 
 <style lang="scss" scoped>
   @import '~@/assets/scss/variable';
+  @import '~@/assets/scss/mixin';
   .com-list {
     margin: 0;
     margin-left: -$module-margin;
@@ -46,6 +56,9 @@
       width: 182px;
       overflow: hidden;
       margin-left: $module-margin;
+      &.spread-list {
+        margin-bottom: $module-margin;
+      }
     }
     .pic {
       position: relative;
@@ -106,6 +119,10 @@
       &:hover {
         color: $select-bg-color;
       }
+    }
+    .spread-name {
+      max-height: 18px;
+      @include text-overflow;
     }
     .time {
       cursor: auto;

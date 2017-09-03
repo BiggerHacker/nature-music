@@ -47,7 +47,7 @@
           </div>
           <div class="song-count" v-if="ismore && singerAlbums.length !== 0">
             专辑
-            <span class="count-btn">查看全部</span>
+            <span class="count-btn" @click="toAlbum">查看全部</span>
           </div>
           <v-list v-if="ismore" :list="singerAlbums"></v-list>
           <div class="song-count" v-if="ismore && simSinger.length !== 0">
@@ -159,6 +159,11 @@
         let begin = (current - 1) * 30
         prefix(this.$refs.scrollBox, 'translate(0, 0)')
         this._getSingerList(this.mid, begin, 30)
+      },
+      toAlbum () {
+        this.$router.push({
+          path: `/album/${this.singerDetailList.singer_mid}`
+        })
       },
       _getData (mid) {
         this._getSimSinger(this.mid, 0, 5)

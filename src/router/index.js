@@ -7,6 +7,8 @@ import Sheet from '@/views/sheet'
 import SheetDetail from '@/views/sheet-detail'
 import Singer from '@/views/singer'
 import SingerDetail from '@/views/singer-detail'
+import Album from '@/views/album'
+import AlbumSinger from '@/views/album-singer'
 import Notfound from '@/views/notfound'
 
 Vue.use(Router)
@@ -48,6 +50,18 @@ export default new Router({
           path: ':id',
           name: 'singer-detail',
           component: SingerDetail
+        }
+      ]
+    },
+    {
+      path: '/album',
+      name: 'album',
+      component: Album,
+      children: [
+        {
+          path: ':id',
+          name: 'album-singer',
+          component: AlbumSinger
         }
       ]
     },
