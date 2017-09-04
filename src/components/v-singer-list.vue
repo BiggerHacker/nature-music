@@ -2,7 +2,7 @@
   <ul class="singer-list clearfix">
     <li v-for="item in list">
       <router-link :to="{path: '/singer/' + item.mid}">
-        <img class="thumb" :src="item.pic" :onerror="errImg">
+        <img class="thumb" v-lazy="item.pic" :onerror="errImg">
         <p class="name">{{ item.name }}</p>
       </router-link>
     </li>

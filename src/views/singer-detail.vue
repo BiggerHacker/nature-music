@@ -3,7 +3,7 @@
     <div class="singer-detail" v-iscroll="getIscroll" v-if="!loading">
       <div ref="scrollBox">
         <div class="detail-head clearfix">
-          <img class="thumb pull-left" :src="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ singerDetailList.singer_mid +'.jpg?max_age=2592000'" :onerror="errImg">
+          <img class="thumb pull-left" v-lazy="'https://y.gtimg.cn/music/photo_new/T001R300x300M000'+ singerDetailList.singer_mid +'.jpg?max_age=2592000'" :onerror="errImg">
           <div class="thumb-state">
             <h2 class="title">{{ singerDetailList.singer_name }}的歌曲</h2>
             <p class="desc">
