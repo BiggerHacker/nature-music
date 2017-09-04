@@ -60,7 +60,7 @@
   import { getSingers } from '@/api/singer'
   import { getSheetList } from '@/api/sheet'
   import { ERR_OK } from '@/util/config'
-  import List from '@/util/list'
+  import List from '@/class/list'
   export default {
     name: 'selected',
     components: {

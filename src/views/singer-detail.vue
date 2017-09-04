@@ -20,28 +20,7 @@
             <span class="count-btn" @click="allSongs" v-if="ismore">查看全部</span>
             <span class="count-btn" @click="hotSongs" v-if="!ismore">返回热门</span>
           </div>
-          <div class="song-list">
-            <ul class="song-list-head clearfix">
-              <li>歌曲</li>
-              <li>专辑</li>
-              <li>时间</li>
-            </ul>
-            <ul class="song-list-body">
-              <li class="clearfix" v-for="(item, index) in singerDetailList.list" @dblclick="selectItem(item, index)">
-                <div class="item pull-left">
-                  {{ item.musicData.songname }}
-                  <div class="play-contro" @click="selectItem(item, index)">播放歌曲</div>
-                  <div class="play-on" v-if="item.musicData.songid === currentSong.songid">-正在播放-</div>
-                </div>
-                <div class="item pull-left">
-                  <span class="album-name">{{ item.musicData.albumname }}</span>
-                </div>
-                <div class="item time pull-left">
-                  {{ filterTime(item.musicData.interval) }}
-                </div>
-              </li>
-            </ul>
-          </div>
+          <v-song-list :list="songList" @select="selectItem" :isSingerName="false"></v-song-list>
           <div class="pagination-wrap" v-if="!ismore">
             <v-pagination v-if="allPage !== 1" :allPage="allPage" @update="update"></v-pagination>
           </div>
@@ -66,18 +45,21 @@
   import VPagination from '@/components/v-pagination'
   import VList from '@/components/v-list'
   import VSingerList from '@/components/v-singer-list'
+  import VSongList from '@/components/v-song-list'
   import { mapGetters, mapActions } from 'vuex'
   import { getSimSingers, getSingerDetail, getSingerAlbums } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
   import { prefix } from '@/util/dom'
-  import List from '@/util/list'
+  import List from '@/class/list'
+  import Song from '@/class/song'
   export default {
     name: 'singer-detail',
     components: {
       VLoading,
       VPagination,
       VList,
-      VSingerList
+      VSingerList,
+      VSongList
     },
     data () {
       return {
@@ -87,6 +69,7 @@
         loading: true,
         simSinger: [],
         singerDetailList: [],
+        songList: [],
         singerAlbumsLength: 0,
         singerAlbums: [],
         allPage: 1
@@ -137,12 +120,6 @@
           index: index
         })
       },
-      filterTime (time) {
-        time = time | 0
-        let minute = time / 60 | 0
-        let second = this._getzero(time % 60)
-        return `${minute}:${second}`
-      },
       hotSongs () {
         this.loading = true
         this.ismore = true
@@ -170,12 +147,6 @@
         this._getSingerList(this.mid, 0, 10)
         this._getSingerAlbums(this.mid, 0, 5)
       },
-      _getzero (time) {
-        if (parseInt(time) < 10) {
-          time = `0${time}`
-        }
-        return time
-      },
       _getSimSinger (mid, start, num) {
         getSimSingers(mid, start, num).then(res => {
           this.simSinger = res.singers.items
@@ -185,6 +156,7 @@
         getSingerDetail(mid, begin, num).then(res => {
           if (res.code === ERR_OK) {
             this.singerDetailList = res.data
+            this.songList = this._createSonglist(res.data.list)
             this.loading = false
           }
         })
@@ -206,6 +178,20 @@
             name: item.albumName,
             url: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${item.albumMID}.jpg?max_age=2592000`,
             time: item.pubTime
+          }))
+        })
+        return result
+      },
+      _createSonglist (list) {
+        let result = []
+        list.forEach(item => {
+          result.push(new Song({
+            songid: item.musicData.songid,
+            mid: item.musicData.songmid,
+            songname: item.musicData.songname,
+            singername: item.musicData.singer,
+            albumname: item.musicData.albumname,
+            interval: item.musicData.interval
           }))
         })
         return result
@@ -273,105 +259,6 @@
         }
       }
     }
-    .song-list {
-      font-size: $font-size-base;
-      overflow: hidden;
-    }
-    .song-list-head,
-    .song-list-body {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .song-list-head {
-      background-color: $section-bg-color;
-      height: 42px;
-      line-height: 42px;
-      border-bottom: 1px solid $border-color;
-      color: $gray-color;
-      li {
-        float: left;
-        padding-left: $module-padding;
-        width: 33%;
-        white-space: normal;
-        &:last-child {
-          text-align: center;
-        }
-      }
-    }
-    .song-list-body {
-      width: 100%;
-      color: $black;
-      li {
-        height: 42px;
-        line-height: 42px;
-        background-color: $white;
-        border-bottom: 1px solid $border-color;
-        &:hover {
-          background-color: #fff1f1;
-          .play-contro,
-          .play-on {
-            display: block;
-            &:before {
-              background-color: #fff1f1;
-            }
-          }
-        }
-        .item {
-          position: relative;
-          width: 33%;
-          padding-left: $module-padding;
-          @include text-overflow;
-        }
-        .album-name {
-          cursor: pointer;
-          color: $black;
-          &:hover {
-            color: $select-bg-color;
-          }
-        }
-        .time {
-          text-align: center;
-          color: $gray-color;
-        }
-      }
-    }
-  }
-  .play-contro,
-  .play-on {
-    display: inline-block;
-    padding: 0 $module-padding;
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translate(0, -50%);
-    height: 20px;
-    line-height: 20px;
-    cursor: pointer;
-    border-radius: $border-radius-base;
-    background-color: $select-bg-color;
-    font-size: $font-size-base;
-    color: $white;
-    &:before {
-      content: '';
-      display: block;
-      position: absolute;
-      left: -20px;
-      top: 0;
-      bottom: 0;
-      width: 20px;
-      height: 20px;
-      background-color: #fff;
-    }
-  }
-  .play-contro {
-    &:hover {
-      background-color: $select-depth-color;
-    }
-  }
-  .play-on {
-    display: block;
   }
   .pagination-wrap {
     padding: $module-padding;

@@ -32,35 +32,7 @@
           </div>
           <div class="detail-body">
             <div class="song-count">歌 曲 ( {{ sheetDetailList.total_song_num }} )</div>
-            <div class="song-list">
-              <ul class="song-list-head clearfix">
-                <li>歌曲</li>
-                <li>歌手</li>
-                <li>专辑</li>
-                <li>时间</li>
-              </ul>
-              <ul class="song-list-body">
-                <li class="clearfix" v-for="(item, index) in sheetDetailList.songlist" @dblclick="selectItem(item, index)">
-                  <div class="item pull-left">
-                    {{ item.songname }}
-                    <div class="play-contro" @click="selectItem(item, index)">播放歌曲</div>
-                    <div class="play-on" v-if="item.songid === currentSong.songid">-正在播放-</div>
-                  </div>
-                  <div class="item pull-left">
-                    <span v-for="(item, index) in item.singer" class="singer-name">
-                      <span v-if="index !== 0">/</span>
-                      <router-link :to="{path: '/singer/' + item.mid}">{{ item.name }}</router-link>
-                    </span>
-                  </div>
-                  <div class="item pull-left">
-                    <router-link to="/selected">{{ item.albumname }}</router-link>
-                  </div>
-                  <div class="item time pull-left">
-                    {{ filterTime(item.interval) }}
-                  </div>
-                </li>
-              </ul>
-            </div>
+            <v-song-list :list="songList" @select="selectItem"></v-song-list>
           </div>
         </div>
       </div>
@@ -70,13 +42,16 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import VSongList from '@/components/v-song-list'
+  import VLoading from '@/components/v-loading'
+  import { mapActions } from 'vuex'
   import { getSheetList } from '@/api/sheet'
   import { ERR_OK } from '@/util/config'
-  import VLoading from '@/components/v-loading'
+  import Song from '@/class/song'
   export default {
     name: 'sheet-detail',
     components: {
+      VSongList,
       VLoading
     },
     activated () {
@@ -87,25 +62,18 @@
     data () {
       return {
         sheetDetailList: {},
+        songList: [],
         loading: true,
         descShow: false
       }
-    },
-    computed: {
-      ...mapGetters([
-        'currentSong'
-      ])
     },
     methods: {
       getSheetDetail (disstid) {
         getSheetList(disstid).then(res => {
           if (res.code === ERR_OK) {
             this.sheetDetailList = res.cdlist[0]
+            this.songList = this._createSonglist(res.cdlist[0].songlist)
             this.loading = false
-          } else {
-            this.$router.push({
-              path: '/notfound'
-            })
           }
         })
       },
@@ -127,12 +95,6 @@
         let day = date.getDate()
         return `${year}-${this._getzero(month)}-${this._getzero(day)}`
       },
-      filterTime (time) {
-        time = time | 0
-        let minute = time / 60 | 0
-        let second = this._getzero(time % 60)
-        return `${minute}:${second}`
-      },
       showDesc () {
         this.descShow = true
       },
@@ -141,9 +103,23 @@
       },
       playAll () {
         this.selectPlay({
-          list: this.list.songlist,
+          list: this.sheetDetailList.songlist,
           index: 0
         })
+      },
+      _createSonglist (list) {
+        let result = []
+        list.forEach(item => {
+          result.push(new Song({
+            songid: item.songid,
+            mid: item.songmid,
+            songname: item.songname,
+            singername: item.singer,
+            albumname: item.albumname,
+            interval: item.interval
+          }))
+        })
+        return result
       },
       _getzero (time) {
         if (parseInt(time) < 10) {
@@ -326,104 +302,5 @@
       font-family: "Microsoft YaHei";
       font-weight: 100;
     }
-    .song-list {
-      font-size: $font-size-base;
-      overflow: hidden;
-    }
-    .song-list-head,
-    .song-list-body {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    .song-list-head {
-      background-color: $section-bg-color;
-      height: 42px;
-      line-height: 42px;
-      border-bottom: 1px solid $border-color;
-      color: $gray-color;
-      li {
-        float: left;
-        padding-left: $module-padding;
-        width: 25%;
-        white-space: normal;
-        &:last-child {
-          text-align: center;
-        }
-      }
-    }
-    .song-list-body {
-      width: 100%;
-      color: $black;
-      li {
-        height: 42px;
-        line-height: 42px;
-        background-color: $white;
-        border-bottom: 1px solid $border-color;
-        &:hover {
-          background-color: #fff1f1;
-          .play-contro,
-          .play-on {
-            display: block;
-            &:before {
-              background-color: #fff1f1;
-            }
-          }
-        }
-        .item {
-          position: relative;
-          width: 25%;
-          padding-left: $module-padding;
-          @include text-overflow;
-        }
-        a {
-          text-decoration: none;
-          color: $black;
-          &:hover {
-            color: $select-bg-color;
-          }
-        }
-        .time {
-          text-align: center;
-          color: $gray-color;
-        }
-      }
-    }
-  }
-  .play-contro,
-  .play-on {
-    display: inline-block;
-    padding: 0 $module-padding;
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translate(0, -50%);
-    height: 20px;
-    line-height: 20px;
-    cursor: pointer;
-    border-radius: $border-radius-base;
-    background-color: $select-bg-color;
-    font-size: $font-size-base;
-    color: $white;
-    &:before {
-      content: '';
-      display: block;
-      position: absolute;
-      left: -20px;
-      top: 0;
-      bottom: 0;
-      width: 20px;
-      height: 20px;
-      background-color: #fff;
-    }
-  }
-  .play-contro {
-    &:hover {
-      background-color: $select-depth-color;
-    }
-  }
-  .play-on {
-    display: block;
   }
 </style>

@@ -19,7 +19,7 @@
   import VPagination from '@/components/v-pagination'
   import { getSingerAlbums } from '@/api/singer'
   import { ERR_OK } from '@/util/config'
-  import List from '@/util/list'
+  import List from '@/class/list'
   import { prefix } from '@/util/dom'
   export default {
     name: 'album-singer',
