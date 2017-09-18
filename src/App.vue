@@ -42,9 +42,9 @@
         'SET_FULL_SCREEN_STATE'
       ]),
       _ball (canvas, ballRadius, ballColor) {
-        var ballList = []
-        for (var i = 100 - 1; i >= 0; i--) {
-          var ball = {}
+        let ballList = []
+        for (let i = 100 - 1; i >= 0; i--) {
+          let ball = {}
           ball.x = this._getRandom(20, canvas.width - 20)
           ball.y = this._getRandom(20, canvas.height - 20)
           ball.positionX = this._getIndex()
@@ -58,12 +58,12 @@
         return ballList
       },
       _getRandom (first, last) {
-        var choice = last - first + 1
+        let choice = last - first + 1
         return Math.floor(Math.random() * choice + first)
       },
       _getIndex () {
-        var arr = [0, 1]
-        var index = Math.floor(Math.random() * arr.length)
+        let arr = [0, 1]
+        let index = Math.floor(Math.random() * arr.length)
         if (index === 0) {
           index = -1
         }
@@ -78,7 +78,7 @@
       },
       _draw (list, canvas, ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        for (var i = list.length - 1; i >= 0; i--) {
+        for (let i = list.length - 1; i >= 0; i--) {
           ctx.save()
           ctx.beginPath()
           ctx.fillStyle = list[i].color
@@ -89,11 +89,11 @@
         }
       },
       _drawLine (list, ctx, lineColor) {
-        for (var i = list.length - 1; i >= 0; i--) {
-          for (var j = list.length - 1; j >= 0; j--) {
-            var xx = Math.pow((list[i].x - list[j].x), 2)
-            var yy = Math.pow((list[i].y - list[j].y), 2)
-            var zz = Math.sqrt(xx + yy)
+        for (let i = list.length - 1; i >= 0; i--) {
+          for (let j = list.length - 1; j >= 0; j--) {
+            let xx = Math.pow((list[i].x - list[j].x), 2)
+            let yy = Math.pow((list[i].y - list[j].y), 2)
+            let zz = Math.sqrt(xx + yy)
 
             if (zz <= 100 && zz >= 20) {
               ctx.save()
@@ -110,7 +110,7 @@
         }
       },
       _moveBall (list, canvas) {
-        for (var i = list.length - 1; i >= 0; i--) {
+        for (let i = list.length - 1; i >= 0; i--) {
           list[i].x += list[i].speedX * list[i].positionX
           list[i].y += list[i].speedY * list[i].positionY
 
