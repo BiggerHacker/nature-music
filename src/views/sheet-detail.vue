@@ -113,6 +113,7 @@
           result.push(new Song({
             songid: item.songid,
             mid: item.songmid,
+            albummid: item.albumid,
             songname: item.songname,
             singername: item.singer,
             albumname: item.albumname,

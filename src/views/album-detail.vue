@@ -1,6 +1,6 @@
 <template>
   <div class="album-detail-wrap">
-    <div class="album-detail" v-iscroll="getIscroll">
+    <div class="album-detail" v-iscroll="getIscroll" v-if="!loading">
       <div>
         <div class="detail-head clearfix">
           <div class="thrum pull-left" v-if="albumDetail.headpiclist">
@@ -30,15 +30,17 @@
         </div>
         <div class="detail-body">
           <div class="song-count" v-if="albumDetail.songlist">歌 曲 ( {{ albumDetail.songlist.length }} )</div>
-          <v-song-list :list="songList" @select="selectItem"></v-song-list>
+          <v-song-list :list="songList" @select="selectItem" :isAlbumName="false"></v-song-list>
         </div>
       </div>
     </div>
+    <v-loading v-if="loading"></v-loading>
   </div>
 </template>
 
 <script>
   import VSongList from '@/components/v-song-list'
+  import VLoading from '@/components/v-loading'
   import { mapActions } from 'vuex'
   import { getAlbumDetail } from '@/api/album'
   import { ERR_OK } from '@/util/config'
@@ -46,17 +48,20 @@
   export default {
     name: 'album-detail',
     components: {
-      VSongList
+      VSongList,
+      VLoading
     },
     data () {
       return {
         descShow: false,
+        loading: true,
         albumDetail: [],
         songList: []
       }
     },
     activated () {
       this.descShow = false
+      this.loading = true
       let mid = this.$route.params.id
       this._getAlbumDetail(mid)
     },
@@ -89,6 +94,7 @@
           if (res.code === ERR_OK) {
             this.albumDetail = res.data
             this.songList = this._createSonglist(res.data.songlist)
+            this.loading = false
           }
         })
       },

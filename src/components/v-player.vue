@@ -57,7 +57,7 @@
               >
                 歌手: {{ currentSong.singer[0].name }}
               </router-link>
-              <router-link to="/selected">专辑: {{ currentSong.albumname }}</router-link>
+              <router-link :to="{path: '/album/detail/' + currentSong.albumid}">专辑: {{ currentSong.albumname }}</router-link>
             </div>
             <div class="lyric-wrap" v-if="currentLyric">
               <div class="lyric-box" v-iscroll="getIscroll">

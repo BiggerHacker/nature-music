@@ -28,7 +28,7 @@
             专辑
             <span class="count-btn" @click="toAlbum">查看全部</span>
           </div>
-          <v-list v-if="ismore" :list="singerAlbums"></v-list>
+          <v-list v-if="ismore" :list="singerAlbums" @selectList="selectAlbum"></v-list>
           <div class="song-count" v-if="ismore && simSinger.length !== 0">
             相似歌手
           </div>
@@ -143,6 +143,11 @@
           path: `/album/${this.singerDetailList.singer_mid}`
         })
       },
+      selectAlbum (id) {
+        this.$router.push({
+          path: `/album/detail/${id}`
+        })
+      },
       _getData (mid) {
         this._getSimSinger(this.mid, 0, 5)
         this._getSingerList(this.mid, 0, 10)
@@ -185,10 +190,12 @@
       },
       _createSonglist (list) {
         let result = []
+        console.log(list)
         list.forEach(item => {
           result.push(new Song({
             songid: item.musicData.songid,
             mid: item.musicData.songmid,
+            albummid: item.musicData.albumid,
             songname: item.musicData.songname,
             singername: item.musicData.singer,
             albumname: item.musicData.albumname,

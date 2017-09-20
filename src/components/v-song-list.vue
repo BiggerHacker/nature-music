@@ -3,7 +3,7 @@
     <ul class="song-list-head clearfix" :class="{'col-3': !isSingerName}">
       <li>歌曲</li>
       <li v-if="isSingerName">歌手</li>
-      <li>专辑</li>
+      <li v-if="isAlbumName">专辑</li>
       <li>时间</li>
     </ul>
     <ul class="song-list-body">
@@ -24,8 +24,8 @@
             <router-link :to="{path: '/singer/' + item.mid}">{{ item.name }}</router-link>
           </span>
         </div>
-        <div class="item pull-left">
-          <router-link to="/selected">{{ item.albumname }}</router-link>
+        <div class="item pull-left" v-if="isAlbumName">
+          <router-link :to="{path: '/album/detail/' + item.albummid}">{{ item.albumname }}</router-link>
         </div>
         <div class="item time pull-left">
           {{ filterTime(item.interval) }}
@@ -45,6 +45,10 @@
         default: []
       },
       isSingerName: {
+        type: Boolean,
+        default: true
+      },
+      isAlbumName: {
         type: Boolean,
         default: true
       }
