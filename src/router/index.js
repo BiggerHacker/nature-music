@@ -9,6 +9,7 @@ import Singer from '@/views/singer'
 import SingerDetail from '@/views/singer-detail'
 import Album from '@/views/album'
 import AlbumSinger from '@/views/album-singer'
+import AlbumDetail from '@/views/album-detail'
 import Notfound from '@/views/notfound'
 
 Vue.use(Router)
@@ -64,6 +65,11 @@ export default new Router({
           component: AlbumSinger
         }
       ]
+    },
+    {
+      path: '/album/detail/:id',
+      name: 'album-detail',
+      component: AlbumDetail
     },
     {
       path: '*',

@@ -3,7 +3,7 @@
     <div class="album-singer" v-iscroll="getIscroll" v-if="!loading">
       <div ref="scrollBox">
         <h2 class="album-title">{{ albumName }}的专辑</h2>
-        <v-list :list="albumList" :isBreviary="false"></v-list>
+        <v-list :list="albumList" :isBreviary="false" @selectList="selectAlbum"></v-list>
         <div class="pagination-wrap">
           <v-pagination v-if="allPage !== 1" :allPage="allPage" @update="update"></v-pagination>
         </div>
@@ -17,7 +17,7 @@
   import VLoading from '@/components/v-loading'
   import VList from '@/components/v-list'
   import VPagination from '@/components/v-pagination'
-  import { getSingerAlbums } from '@/api/singer'
+  import { getSingerAlbums, getAlbumDetail } from '@/api/album'
   import { ERR_OK } from '@/util/config'
   import List from '@/class/list'
   import { prefix } from '@/util/dom'
@@ -60,6 +60,11 @@
         prefix(this.$refs.scrollBox, 'translate(0, 0)')
         this._getAlbums(this.mid, begin, 20)
       },
+      selectAlbum (id) {
+        this.$router.push({
+          path: `/album/detail/${id}`
+        })
+      },
       _getAlbums (mid, begin, num) {
         getSingerAlbums(mid, begin, num).then(res => {
           if (res.code === ERR_OK) {
@@ -67,6 +72,13 @@
             this.albumList = this._createSingerAlbums(res.data.list)
             this.allPage = Math.ceil(res.data.total / 20)
             this.loading = false
+          }
+        })
+      },
+      _getAlbumDetail (mid) {
+        getAlbumDetail(mid).then(res => {
+          if (res.code === ERR_OK) {
+            console.log(res)
           }
         })
       },
