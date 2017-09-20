@@ -21,7 +21,7 @@
               <div class="up" v-show="!descShow" @click="showDesc">[展开]</div>
             </div>
             <div class="config">
-              <span class="config-btn config-play-all">
+              <span class="config-btn config-play-all" @click="playAll">
                 <i class="iconfont icon-i-player"></i>
                 播放全部
               </span>
@@ -39,6 +39,7 @@
 
 <script>
   import VSongList from '@/components/v-song-list'
+  import { mapActions } from 'vuex'
   import { getAlbumDetail } from '@/api/album'
   import { ERR_OK } from '@/util/config'
   import Song from '@/class/song'
@@ -50,7 +51,6 @@
     data () {
       return {
         descShow: false,
-        albumLength: 0,
         albumDetail: [],
         songList: []
       }
@@ -72,12 +72,22 @@
       hideDesc () {
         this.descShow = false
       },
-      selectItem () {},
+      playAll () {
+        this.selectPlay({
+          list: this.albumDetail.songlist,
+          index: 0
+        })
+      },
+      selectItem (item, index) {
+        this.selectPlay({
+          list: this.albumDetail.songlist,
+          index: index
+        })
+      },
       _getAlbumDetail (mid) {
         getAlbumDetail(mid).then(res => {
           if (res.code === ERR_OK) {
             this.albumDetail = res.data
-            // this.albumLength = res.data.songList.length
             this.songList = this._createSonglist(res.data.songlist)
           }
         })
@@ -95,7 +105,10 @@
           }))
         })
         return result
-      }
+      },
+      ...mapActions([
+        'selectPlay'
+      ])
     }
   }
 </script>
