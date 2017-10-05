@@ -60,8 +60,8 @@
       }
     },
     activated () {
-      this.descShow = false
       this.loading = true
+      this.descShow = false
       let mid = this.$route.params.id
       this._getAlbumDetail(mid)
     },
