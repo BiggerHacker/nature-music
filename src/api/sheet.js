@@ -1,8 +1,8 @@
-import jsonp from '@/util/jsonp'
-import { commonParams, options } from '@/util/config'
+import { commonParams } from '@/util/config'
+import axios from 'axios'
 
 export function getSheetList (disstid) {
-  let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  let url = '/api/getSheetList'
   let data = Object.assign({}, commonParams, {
     type: 1,
     json: 1,
@@ -13,5 +13,9 @@ export function getSheetList (disstid) {
     hostUin: 0,
     outCharset: 'utf-8'
   })
-  return jsonp(url, data, options)
+  return axios.get(url, {
+    params: data
+  }).then(res => {
+    return Promise.resolve(res.data)
+  })
 }
