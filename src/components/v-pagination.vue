@@ -11,6 +11,7 @@
       class="btn pages" 
       :class="{active: current === index}" 
       v-for="index in pages" 
+      :key="index"
       @click="goPage(index)"
     >{{ index }}</span>
     <span class="btn clip" v-if="nextClip">...</span>

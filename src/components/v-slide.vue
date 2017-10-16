@@ -1,7 +1,7 @@
 <template>
   <div class="slide" @mouseenter="clear" @mouseleave="autoPlay">
     <ul class="slide-list">
-      <li :class="slideCLS[index]" v-for="(item, index) in slideList">
+      <li :class="slideCLS[index]" v-for="(item, index) in slideList" :key="index">
         <a 
           class="item" 
           :href="item.jumpurl ? item.jumpurl : 'https://y.qq.com/n/yqq/album/'+ item.id +'.html'"
@@ -22,6 +22,7 @@
         class="item" 
         :class="{active: index === currentIndex}" 
         v-for="(item, index) in slideList"
+        :key="index"
       ></span>
     </div>
   </div>

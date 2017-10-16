@@ -67,6 +67,7 @@
                   v-if="currentLyric.lines.length > 0">
                   <p 
                     v-for="(item, index) in currentLyric.lines"
+                    :key="index"
                     ref="line" 
                     :class="{on: currentLineNum === index}"
                     v-html="item.txt"

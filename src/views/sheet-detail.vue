@@ -12,7 +12,7 @@
               <div class="intro" v-if="sheetDetailList.nickname">
                 <span class="name">{{ sheetDetailList.nickname }}</span>
                 <span class="time">{{ format(sheetDetailList.ctime) }}创建</span>
-                <span class="tag" v-for="item in sheetDetailList.tags">{{ item.name }}</span>
+                <span class="tag" v-for="(item, index) in sheetDetailList.tags" :key="index">{{ item.name }}</span>
               </div>
               <div class="desc">
                 <div class="text" v-html="sheetDetailList.desc"></div>

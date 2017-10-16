@@ -5,7 +5,7 @@
         QQ音乐巅峰榜
       </div>
       <ul class="top-list clearfix">
-        <li v-for="item in toplist" v-if="item.id !== 201">
+        <li v-for="(item, index) in toplist" v-if="item.id !== 201" :key="index">
           <div class="item clearfix">
             <div class="pic pull-left" v-lazy:background-image="item.picUrl">
               <div class="player">
@@ -16,7 +16,7 @@
               <div class="num">{{ filterCount(item.listenCount) }}</div>
             </div>
             <div class="list">
-              <div class="songname" v-for="(item, index) in item.songList">
+              <div class="songname" v-for="(item, index) in item.songList" :key="index">
                 <span class="count">{{ index + 1 }}</span> {{ item.songname }} - {{ item.singername }}
               </div>
             </div>

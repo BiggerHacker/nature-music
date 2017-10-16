@@ -11,6 +11,7 @@
         class="clearfix" 
         :class="{'col-3': !isSingerName}"
         v-for="(item, index) in list" 
+        :key="index"
         @dblclick="selectItem(item, index)"
       >
         <div class="item pull-left">
@@ -19,7 +20,7 @@
           <div class="play-on" v-if="item.songid === currentSong.songid">-正在播放-</div>
         </div>
         <div class="item pull-left" v-if="isSingerName">
-          <span v-for="(item, index) in item.singername" class="singer-name">
+          <span v-for="(item, index) in item.singername" class="singer-name" :key="index">
             <span v-if="index !== 0">/</span>
             <router-link :to="{path: '/singer/' + item.mid}">{{ item.name }}</router-link>
           </span>

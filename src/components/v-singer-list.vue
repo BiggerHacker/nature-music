@@ -1,6 +1,6 @@
 <template>
   <ul class="singer-list clearfix">
-    <li v-for="item in list">
+    <li v-for="(item, index) in list" :key="index">
       <router-link :to="{path: '/singer/' + item.mid}">
         <img class="thumb" v-lazy="item.pic" :onerror="errImg">
         <p class="name">{{ item.name }}</p>

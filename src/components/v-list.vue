@@ -4,6 +4,7 @@
       class="pull-left" 
       :class="{'spread-list': !isBreviary}" 
       v-for="(item, index) in list" 
+      :key="index"
       v-if="isBreviary ? index < 5 : index >= 0"
     >
       <div class="pic" v-lazy:background-image="item.url" @click="select(item.id)">

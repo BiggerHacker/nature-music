@@ -2,7 +2,7 @@
   <div class="nav">
     <h4 class="title">{{ typeTitle }}</h4>
     <ul class="list">
-      <li v-for="item in typeName">
+      <li v-for="(item, index) in typeName" :key="index">
         <router-link :to="item.link">
           <i class="iconfont" :class="item.iconName"></i>
           <span class="text">{{ item.name }}</span>

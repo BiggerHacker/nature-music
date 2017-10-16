@@ -15,6 +15,7 @@
             <ul class="album-title-list pull-left">
               <li 
                 v-for="(item, index) in albumTitle" 
+                :key="index"
                 class="pull-left" 
                 :class="{active: albumIndex === index}"
                 @click="setCurrent(index);"
@@ -31,7 +32,7 @@
             <router-link to="singer" class="more pull-right">更多 &gt;</router-link>
           </div>
           <ul class="singer-hot">
-            <li class="pull-left" v-for="item in hotSingers">
+            <li class="pull-left" v-for="(item, index) in hotSingers" :key="index">
               <router-link 
                 :to="{path: 'singer/'+ item.Fsinger_mid}" 
                 class="thumb" 

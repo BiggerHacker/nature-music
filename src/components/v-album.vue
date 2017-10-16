@@ -13,8 +13,13 @@
     <div class="body">
       <div class="panel">
         <ul class="album-list" :style="{width: (count * 100) + '%'}" ref="albums">
-          <li :style="{width: (100 / count) + '%'}" v-for="item in albumList">
-            <div class="item" v-for="(albums, index) in item" @dblclick="selectItem(albums, index)">
+          <li :style="{width: (100 / count) + '%'}" v-for="(item, index) in albumList" :key="index">
+            <div 
+              class="item" 
+              v-for="(albums, index) in item" 
+              :key="index"
+              @dblclick="selectItem(albums, index)"
+            >
               <div class="thumb" v-lazy:background-image="'https://y.gtimg.cn/music/photo_new/T002R300x300M000'+ albums.album_mid +'.jpg?max_age=2592000'">
                 <div class="cover"></div>
               </div>
