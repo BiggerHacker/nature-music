@@ -251,7 +251,7 @@
       error () {
         if (this.playing) {
           this.songReady = true
-          alert('抱歉，暂不提供该服务')
+          alert('抱歉，暂未提供该歌曲')
         }
       },
       timeupdate (e) {

@@ -190,7 +190,6 @@
       },
       _createSonglist (list) {
         let result = []
-        console.log(list)
         list.forEach(item => {
           result.push(new Song({
             songid: item.musicData.songid,
