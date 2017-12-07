@@ -28,7 +28,12 @@
             专辑
             <span class="count-btn" @click="toAlbum">查看全部</span>
           </div>
-          <v-list v-if="ismore" :list="singerAlbums" @selectList="selectAlbum"></v-list>
+          <v-list 
+            v-if="ismore" 
+            :list="singerAlbums" 
+            @selectList="selectAlbum"
+            @playList="playAlbumSong"
+          ></v-list>
           <div class="song-count" v-if="ismore && simSinger.length !== 0">
             相似歌手
           </div>
@@ -48,7 +53,7 @@
   import VSongList from '@/components/v-song-list'
   import { mapGetters, mapActions } from 'vuex'
   import { getSimSingers, getSingerDetail } from '@/api/singer'
-  import { getSingerAlbums } from '@/api/album'
+  import { getSingerAlbums, getAlbumDetail } from '@/api/album'
   import { ERR_OK } from '@/util/config'
   import { prefix } from '@/util/dom'
   import List from '@/class/list'
@@ -146,6 +151,16 @@
       selectAlbum (id) {
         this.$router.push({
           path: `/album/detail/${id}`
+        })
+      },
+      playAlbumSong (id) {
+        getAlbumDetail(id).then(res => {
+          if (res.code === ERR_OK) {
+            this.selectPlay({
+              list: res.data.songlist,
+              index: 0
+            })
+          }
         })
       },
       _getData (mid) {
