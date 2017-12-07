@@ -1,6 +1,8 @@
 <template>
   <div class="section">
-    <div class="search-config">控制台</div>
+    <div class="search-config">
+      <v-controller></v-controller>
+    </div>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -8,8 +10,12 @@
 </template>
 
 <script>
+  import VController from '@/components/v-controller'
   export default {
-    name: 'section'
+    name: 'section',
+    components: {
+      VController
+    }
   }
 </script>
 
@@ -21,6 +27,7 @@
     height: 100%;
   }
   .search-config {
+    padding: 0 $module-padding;
     height: 44px;
     line-height: 44px;
     border-bottom: 1px solid #d5d3d2;

@@ -134,6 +134,7 @@
       .item {
         position: relative;
         width: 25%;
+        height: 42px;
         padding-left: $module-padding;
         @include text-overflow;
       }
