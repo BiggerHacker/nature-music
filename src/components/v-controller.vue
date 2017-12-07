@@ -1,12 +1,12 @@
 <template>
   <div class="controller clearfix">
-    <div class="history-btn icon-gray pull-left">
+    <div class="history-btn pull-left" @click="back">
       <i class="iconfont icon-prev"></i>
     </div>
-    <div class="history-btn icon-gray pull-left">
+    <div class="history-btn pull-left" @click="forward">
       <i class="iconfont icon-next"></i>
     </div>
-    <div class="search-form">
+    <div class="search-form pull-left">
       <input class="search-inp" type="text" placeholder="搜索">
     </div>
   </div>
@@ -14,7 +14,26 @@
 
 <script>
   export default {
-    name: 'controller'
+    name: 'controller',
+    data () {
+      return {
+        historyLen: 0
+      }
+    },
+    created () {
+      this.historyLen = window.history.length
+      console.log(this.historyLen)
+    },
+    methods: {
+      back () {
+        console.log(this.$route.matched)
+        this.$router.go(-1)
+      },
+      forward () {
+        console.log(this.$route)
+        this.$router.go(1)
+      }
+    }
   }
 </script>
 
