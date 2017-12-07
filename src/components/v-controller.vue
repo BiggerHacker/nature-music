@@ -41,6 +41,7 @@
   @import '~@/assets/scss/variable';
   .history-btn {
     margin-right: $module-margin;
+    height: 44px;
     cursor: pointer;
     &.icon-gray {
       color: $gray-color;
