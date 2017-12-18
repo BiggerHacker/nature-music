@@ -15,22 +15,11 @@
 <script>
   export default {
     name: 'controller',
-    data () {
-      return {
-        historyLen: 0
-      }
-    },
-    created () {
-      this.historyLen = window.history.length
-      console.log(this.historyLen)
-    },
     methods: {
       back () {
-        console.log(this.$route.matched)
         this.$router.go(-1)
       },
       forward () {
-        console.log(this.$route)
         this.$router.go(1)
       }
     }
