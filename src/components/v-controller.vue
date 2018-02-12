@@ -7,7 +7,7 @@
       <i class="iconfont icon-next"></i>
     </div>
     <div class="search-form pull-left">
-      <input class="search-inp" type="text" placeholder="搜索">
+      <input class="search-inp" type="text" placeholder="搜索歌曲">
     </div>
   </div>
 </template>
