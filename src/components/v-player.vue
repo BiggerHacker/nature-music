@@ -349,13 +349,6 @@
         }
         this.songReady = false
         this.thrumUrl = `https://y.gtimg.cn/music/photo_new/T002R300x300M000${newSong.albummid}.jpg?max_age=2592000`
-        const filename = `C400${newSong.songmid}.m4a`
-        getVKey(newSong.songmid, filename).then(res => {
-          if (res.code === ERR_OK) {
-            const vkey = res.data.items[0].vkey
-            this.$refs.audio.src = `http://dl.stream.qqmusic.qq.com/${filename}?vkey=${vkey}&guid=${getUid()}&uin=0&fromtag=66`
-          }
-        })
         if (this.currentLyric) {
           this.currentLyric.stop()
           this.currentLyric = null
@@ -363,8 +356,15 @@
           this.currentLineNum = 0
         }
         this.$nextTick(() => {
+          const filename = `C400${newSong.songmid}.m4a`
+          getVKey(newSong.songmid, filename).then(res => {
+            if (res.code === ERR_OK) {
+              const vkey = res.data.items[0].vkey
+              this.$refs.audio.src = `http://dl.stream.qqmusic.qq.com/${filename}?vkey=${vkey}&guid=${getUid()}&uin=0&fromtag=66`
+              this.$refs.audio.play()
+            }
+          })
           this.SET_ISNULL_STATE(false)
-          this.$refs.audio.play()
           this._getLyric(newSong.songmid).then(res => {
             this.currentLyric = new Lyric(res, this._lyricPlay)
             if (this.playing) {
